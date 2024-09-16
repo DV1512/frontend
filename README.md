@@ -16,6 +16,24 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
+### Git submodule
+
+```sh
+git submodule update --init --recursive
+```
+
+### Compile SDK
+
+Make sure Rust and wasm-pack is installed for this step
+
+```sh
+wasm-pack build --features wasm --no-default-features
+```
+
+### Install Deps
+
+Bun needs to be installed for running this project, other package managers can be used but are not tested
+
 ```sh
 bun install
 ```
