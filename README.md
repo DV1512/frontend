@@ -24,7 +24,11 @@ git submodule update --init --recursive
 
 ### Compile SDK
 
-Make sure Rust and wasm-pack is installed for this step
+Make sure Rust and wasm-pack is installed for this step, if you don't have it, install it by running
+```sh
+cargo install wasm-pack
+```
+Then, enter the sdk diretory in the terminal and run
 
 ```sh
 wasm-pack build --features wasm --no-default-features
@@ -32,7 +36,7 @@ wasm-pack build --features wasm --no-default-features
 
 ### Install Deps
 
-Bun needs to be installed for running this project, other package managers can be used but are not tested
+Bun needs to be installed for running this project, other package managers can be used but are not tested. To do this you need to be in the frontend directory.
 
 ```sh
 bun install
