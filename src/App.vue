@@ -8,19 +8,31 @@ import HelloWorld from './components/HelloWorld.vue'
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld msg="ThreatMapper" />
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/contact">Contact</RouterLink>
+        <RouterLink to="/how-to-use">How to Use</RouterLink>
+        <RouterLink to="/documentation">Documentation</RouterLink>
       </nav>
     </div>
   </header>
 
+  <div class="divider"></div>
   <RouterView />
+
+  <footer>
+    <p>Terms of service, contact, other links?</p>
+  </footer>
 </template>
 
 <style scoped>
+.divider {
+  height: 5px; /* Du kan justera höjden */
+  background-color: white;
+  margin-bottom: 20px; /* Justera om du vill ha mer avstånd under strecket */
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
