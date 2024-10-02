@@ -1,9 +1,9 @@
 <template>
   <!-- Use props.text for dynamic text, and accept button type, style, and classes dynamically -->
-  <button 
-    :type="type" 
-    @click="handleClick" 
-    :class="['btn', customClass]" 
+  <button
+    :type="type"
+    @click="$emit('click')"
+    :class="['btn', customClass]"
     :style="customStyle"
     :disabled="disabled"
   >
@@ -34,16 +34,6 @@ export default {
     disabled: {
       type: Boolean,
       default: false // Allow button to be disabled
-    },
-    payload: {
-      type: [Object, String, Number, Boolean, Array],
-      default: null // Optional payload to emit with the click event
-    }
-  },
-  methods: {
-    handleClick() {
-      // Emit a 'click' event with an optional payload
-      this.$emit('click', this.payload);
     }
   }
 }
@@ -51,13 +41,13 @@ export default {
 
 <style scoped>
 .btn {
-  padding: 10px 20px;
-  background-color: #4CAF50;
+  padding: 0.625rem 1.25rem; /* 10px = 0.625rem, 20px = 1.25rem */
+  background-color: #4caf50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 5px; /* Keeping border-radius in px, as suggested */
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem; /* 16px = 1rem */
   transition: background-color 0.3s ease;
 }
 

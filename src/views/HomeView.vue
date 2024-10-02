@@ -9,14 +9,14 @@ export default {
   },
   methods: {
     handleGoogleLoginClick() {
-      console.log('Google login button clicked');
-      // Redirect to the Google OAuth login URL
-      window.location.href = 'http://localhost:9999/oauth/google/login';
+      console.log('Google login button clicked')
+      // Redirect to the updated Google OAuth login URL with API versioning
+      window.location.href = 'http://localhost:9999/api/v1/oauth/google/login'
     },
     handleGithubLoginClick() {
-      console.log('GitHub login button clicked');
-      // Redirect to the GitHub OAuth login URL
-      window.location.href = 'http://localhost:9999/oauth/github/login';
+      console.log('GitHub login button clicked')
+      // Redirect to the updated GitHub OAuth login URL with API versioning
+      window.location.href = 'http://localhost:9999/api/v1/oauth/github/login'
     }
   }
 }
@@ -27,23 +27,23 @@ export default {
     <TheWelcome />
 
     <section>
-    <!-- Google login button -->
-    <AButton 
-      text="Login with Google" 
-      customClass="google-login-btn" 
-      :customStyle="{ backgroundColor: '#4285F4', color: 'white' }"
-      @click="handleGoogleLoginClick" 
-    />    
+      <!-- Google login button -->
+      <AButton
+        text="Login with Google"
+        customClass="google-login-btn"
+        :customStyle="{ backgroundColor: '#4285F4', color: 'white' }"
+        @click="handleGoogleLoginClick"
+      />
     </section>
 
     <section>
-    <!-- GitHub login button -->
-    <AButton 
-      text="Login with GitHub" 
-      customClass="github-login-btn" 
-      :customStyle="{ backgroundColor: '#333', color: 'white' }"
-      @click="handleGithubLoginClick" 
-    />
+      <!-- GitHub login button -->
+      <AButton
+        text="Login with GitHub"
+        customClass="github-login-btn"
+        :customStyle="{ backgroundColor: '#333', color: 'white' }"
+        @click="handleGithubLoginClick"
+      />
     </section>
   </main>
 </template>
@@ -51,8 +51,8 @@ export default {
 <style scoped>
 /* Style specific to Google login button */
 .google-login-btn {
-  margin-top: 10px;
-  padding: 10px 20px;
+  margin-top: 0.625rem; /* 10px = 0.625rem */
+  padding: 0.625rem 1.25rem; /* 10px = 0.625rem, 20px = 1.25rem */
   border-radius: 15px;
   font-weight: bold;
   transition: background-color 0.3s ease;
@@ -65,8 +65,8 @@ export default {
 
 /* Style specific to GitHub login button */
 .github-login-btn {
-  margin-top: 10px;
-  padding: 10px 20px;
+  margin-top: 0.625rem; /* 10px = 0.625rem */
+  padding: 0.625rem 1.25rem; /* 10px = 0.625rem, 20px = 1.25rem */
   border-radius: 15px;
   font-weight: bold;
   transition: background-color 0.3s ease;

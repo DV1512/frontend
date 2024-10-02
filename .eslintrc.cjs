@@ -15,6 +15,6 @@ module.exports = {
   },
   plugins: ['prettier'],
   rules: {
-    'prettier/prettier': 'error', // ESLint visar Prettier-fel
+    'prettier/prettier': 'error' // ESLint visar Prettier-fel
   }
 }
