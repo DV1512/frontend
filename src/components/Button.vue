@@ -1,12 +1,6 @@
 <template>
   <!-- Use props.text for dynamic text, and accept button type, style, and classes dynamically -->
-  <button
-    :type="type"
-    @click="$emit('click')"
-    :class="['btn', customClass]"
-    :style="customStyle"
-    :disabled="disabled"
-  >
+  <button :type="type" :class="['btn', customClass]" :style="customStyle" :disabled="disabled">
     {{ text }}
   </button>
 </template>
