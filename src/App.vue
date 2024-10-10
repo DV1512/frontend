@@ -1,24 +1,31 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <header class="navbar">
+    <!-- Add the logo in the top left corner -->
+    <img src="@/assets/logo.png" alt="Logo" class="logo" />
 
-    <div class="wrapper">
-      <HelloWorld msg="ThreatMapper" />
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/how-to-use">How to Use</RouterLink>
-        <RouterLink to="/documentation">Documentation</RouterLink>
-      </nav>
+     <!-- Navigation links in the menu bar -->
+     <nav class="menu">
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/how-to-use">How to Use</RouterLink>
+      <RouterLink to="/documentation">Documentation</RouterLink>
+    </nav>
+
+    <!--Profile, settings and logout -->
+    <div class="icons">
+      <Icon icon="mdi:account" />
+      <Icon icon="mdi:cog" />
+      <Icon icon="mdi:logout" />
     </div>
   </header>
 
+  <!-- Fixed grey/light-dark line -->
   <div class="divider"></div>
+
   <RouterView />
 
   <footer>
@@ -27,72 +34,57 @@ import HelloWorld from './components/HelloWorld.vue'
 </template>
 
 <style scoped>
-.divider {
-  height: 5px; /* Du kan justera höjden */
-  background-color: white;
-  margin-bottom: 20px; /* Justera om du vill ha mer avstånd under strecket */
+/* Full-width navbar */
+.navbar {
+  padding: 1rem 2rem;
+  width: 100%; /* Full width */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
 }
 
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
+/* Style for the logo in the top-left corner */
 .logo {
-  display: block;
-  margin: 0 auto 2rem;
+  width: 70px; /* Size of the logo */
+  height: auto;
+  margin-right: 20px; /* Space between logo and navigation */
+  border-radius: 10px; /* Rounded corners */
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
+.menu {
+  display: flex;
+  gap: 2rem; /* Space between links */
+  padding-top: 40px; /* Move the text down by 15px */
+}
+
+/* Styling for the navigation links */
+.menu a {
+  color: black;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.menu a:hover {
+  color: darkgrey; /* Hover effect */
+}
+
+
+/* Divider styles - stays fixed at full width */
+.divider {
+  height: 2px;
+  background-color: lightgrey;
+  width: 80%; /* Divider always spans the full width */
+  position: fixed; /* Ensures the divider stays in place */
+  left: 10%; /* Center the divider */
+  z-index: 10; /* Ensures it's above other content */
+}
+
+body {
+  margin: 0; /* Remove body margin to avoid unwanted shifting */
+}
+
+footer {
+  margin-top: 100px;
   text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    justify-content: space-between;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
 }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import TheWelcome from '../components/frontpage.vue'
 
 export default {
   components: {
