@@ -1,121 +1,82 @@
 <script setup>
 import { Icon } from '@iconify/vue'
+import '@/assets/main.scss' // Ensure you import your custom main.scss
 </script>
 
 <template>
-  <header class="navbar">
-    <!-- Add the logo in the top left corner -->
-    <img src="@/assets/logo.png" alt="Logo" class="logo" />
+  <div class="app-container">
+    <header class="navbar is-primary">
+      <!-- Add the logo in the top left corner -->
+      <div class="navbar-brand">
+        <RouterLink to="/">
+          <img src="@/assets/logo.png" alt="Logo" class="logo" />
+        </RouterLink>
+      </div>
 
-    <!-- Navigation links in the menu bar -->
-    <nav class="menu">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/how-to-use">How to Use</RouterLink>
-      <RouterLink to="/documentation">Documentation</RouterLink>
-      <RouterLink to="/profile">
-        <Icon icon="mdi:account" />
-      </RouterLink>
-      <RouterLink to="/settings">
-        <Icon icon="mdi:cog" />
-      </RouterLink>
-      <RouterLink to="/logout">
-        <Icon icon="mdi:logout" />
-      </RouterLink>
-    </nav>
-  </header>
+      <!-- Navigation links in the menu bar -->
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <!-- Dropdown for Home -->
+          <RouterLink to="/" class="navbar-item">Home</RouterLink>
 
-  <!-- Fixed grey/light-dark line -->
-  <div class="divider"></div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <RouterLink to="/about" class="navbar-link">About</RouterLink>
+            <div class="navbar-dropdown">
+              <RouterLink to="/subpage1" class="navbar-item">The Team</RouterLink>
+              <hr class="navbar-divider" />
+              <RouterLink to="/subpage2" class="navbar-item">ThreatMapperAI</RouterLink>
+              <hr class="navbar-divider" />
+              <RouterLink to="/subpage3" class="navbar-item">Background</RouterLink>
+            </div>
+          </div>
 
-  <main class="section main-container">
-    <RouterView />
-  </main>
+          <RouterLink to="/how-to-use" class="navbar-item">How to Use</RouterLink>
+          <RouterLink to="/documentation" class="navbar-item">Documentation</RouterLink>
+        </div>
+        <div class="navbar-end">
+          <RouterLink to="/profile" class="navbar-item">
+            <Icon icon="mdi:account" class="icon-size" />
+          </RouterLink>
+          <RouterLink to="/settings" class="navbar-item">
+            <Icon icon="mdi:cog" class="icon-size" />
+          </RouterLink>
+          <RouterLink to="/logout" class="navbar-item">
+            <Icon icon="mdi:logout" class="icon-size" />
+          </RouterLink>
+        </div>
+      </div>
+    </header>
 
-  <footer>
-    <p>Terms of service, contact, other links?</p>
-  </footer>
+    <main class="section main-container">
+      <div class="container grey-box">
+        <RouterView />
+      </div>
+    </main>
+
+    <footer class="footer has-text-centered">
+      <div class="content">
+        <p>Terms of service, contact, other links?</p>
+      </div>
+    </footer>
+  </div>
 </template>
 
 <style scoped>
-/* Full-width navbar */
-.navbar {
-  padding: 0.5rem 1rem;
-  width: 100%; /* Full width */
-  box-sizing: border-box;
-  display: flex;
-  align-items: center; /* Align items vertically in the center */
-}
-
-/* Style for the logo in the top-left corner */
+/* Custom styles */
 .logo {
-  width: 70px; /* Size of the logo */
+  width: 80px; /* Size of the logo */
   height: auto;
-  margin-right: 30px; /* Space between logo and navigation */
+  margin-right: 10px; /* Space between logo and navigation */
+  margin-top: 5px;
+  margin-left: 10px;
   border-radius: 10px; /* Rounded corners */
 }
 
-.menu {
-  display: flex;
-  gap: 2rem; /* Space between links */
-  justify-content: flex-start; /* Align menu items to the start */
-  padding-top: 50px; /* Move the text down by 15px */
-}
-
-/* Styling for the navigation links */
-.menu a {
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.menu a:hover {
-  color: darkgrey; /* Hover effect */
-}
-
-/* Divider styles - stays fixed at full width */
-.divider {
-  height: 2px;
-  background-color: lightgrey;
-  width: 90%; /* Divider always spans the full width */
-  position: fixed; /* Ensures the divider stays in place */
-  left: 5%; /* Center the divider */
-  margin: 0 auto; /* Center the divider */
-}
-
-/* Dynamic container */
-.dynamic-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Align items at the start of the container */
+.main-container {
   padding: 2rem;
 }
 
-/* Footer styles */
-footer {
-  text-align: center;
-  padding: 1rem 0;
-}
-
-/* Icons container */
-.icons {
-  display: flex;
-  gap: 1rem;
-  margin-left: auto; /* Push icons to the right */
-  font-size: 2rem; /* Increase the size of the icons */
-}
-
-.icons a {
-  color: inherit; /* Ensure the icon color is inherited */
-  text-decoration: none; /* Remove underline from links */
-}
-
-.icons a:hover {
-  color: darkgrey; /* Hover effect for icons */
-}
-
-.main-container {
-  min-width: 100vw;
-  min-height: 100vh;
+.icon-size {
+  font-size: 1.5rem; /* Size of the icons */
 }
 </style>
