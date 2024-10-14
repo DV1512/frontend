@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import WelcomeItem from './WelcomeItem.vue'
+import WelcomeItem from '../components/WelcomeItem.vue'
 import AButton from '../components/Button.vue'
 </script>
 
 <template>
   <section class="section">
     <div class="container">
-      <div class="box grey-box">
+      <div class="box">
         <WelcomeItem>
           <template #heading>ThreatMapper</template>
 
@@ -21,7 +21,11 @@ import AButton from '../components/Button.vue'
               <AButton
                 text="Login"
                 customClass="button is-primary custom-button"
-                :customStyle="{ backgroundColor: '#4285F4', color: 'white' }"
+                :customStyle="{
+                  backgroundColor: 'white',
+                  color: 'black',
+                  border: '1px solid black'
+                }"
               />
             </RouterLink>
           </div>
@@ -30,8 +34,12 @@ import AButton from '../components/Button.vue'
             <RouterLink to="/signup">
               <AButton
                 text="Sign Up"
-                customClass="button is-dark custom-button"
-                :customStyle="{ backgroundColor: '#333', color: 'white' }"
+                customClass="button is-primary custom-button"
+                :customStyle="{
+                  backgroundColor: 'white',
+                  color: 'black',
+                  border: '1px solid black'
+                }"
               />
             </RouterLink>
           </div>
@@ -47,8 +55,12 @@ import AButton from '../components/Button.vue'
             <RouterLink to="/about">
               <AButton
                 text="Continue as Guest"
-                customClass="button is-info custom-button"
-                :customStyle="{ backgroundColor: '#17a2b8', color: 'white' }"
+                customClass="button is-primary custom-button"
+                :customStyle="{
+                  backgroundColor: 'white',
+                  color: 'black',
+                  border: '1px solid black'
+                }"
               />
             </RouterLink>
           </div>
@@ -61,15 +73,8 @@ import AButton from '../components/Button.vue'
 <style scoped>
 /* Custom styles */
 .custom-button {
-  width: 150px; /* Adjust the width as needed */
+  width: 200px; /* Adjust the width as needed */
   margin: 0 80px; /* Add horizontal margin to create space between buttons */
-}
-
-.grey-box {
-  background-color: #f5f5f5; /* Light grey background */
-  padding: 2rem; /* Add padding inside the box */
-  border-radius: 8px; /* Optional: Add rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
 }
 
 .text-snippet {

@@ -5,7 +5,7 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
 
 <template>
   <div class="app-container">
-    <header class="navbar is-primary">
+    <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
       <!-- Add the logo in the top left corner -->
       <div class="navbar-brand">
         <RouterLink to="/">
@@ -45,7 +45,7 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
           </RouterLink>
         </div>
       </div>
-    </header>
+    </nav>
 
     <main class="section main-container">
       <div class="container grey-box">
@@ -76,7 +76,8 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
   padding: 2rem;
 }
 
+/* Custom icon size */
 .icon-size {
-  font-size: 1.5rem; /* Size of the icons */
+  font-size: 1.5rem; /* Adjust the size as needed */
 }
 </style>

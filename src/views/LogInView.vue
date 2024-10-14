@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import AButton from '../components/Button.vue'
+import { Icon } from '@iconify/vue'
 
 // Define the methods for handling button clicks
 const handleGoogleLoginClick = () => {
@@ -27,99 +28,86 @@ const handleLoginClick = () => {
 </script>
 
 <template>
-  <div class="logInView">
-    <h1>Login Page</h1>
+  <section class="section">
+    <div class="container">
+      <h1 class="title has-text-centered">Login Page</h1>
 
-    <div class="input-container">
-      <input
-        type="text"
-        v-model="emailOrUsername"
-        placeholder="Email or Username"
-        class="input-field"
-      />
-      <input type="password" v-model="password" placeholder="Password" class="input-field" />
-      <AButton
-        text="Login"
-        customClass="login-btn"
-        :customStyle="{ backgroundColor: '#4285F4', color: 'white' }"
-        @click="handleLoginClick"
-      />
+      <div class="box">
+        <div class="field">
+          <label class="label">Email or Username</label>
+          <div class="control">
+            <input
+              type="text"
+              v-model="emailOrUsername"
+              class="input"
+              placeholder="Email or Username"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input type="password" v-model="password" class="input" placeholder="Password" />
+          </div>
+        </div>
+
+        <div class="columns is-centered mt-5">
+          <div class="column is-narrow">
+            <AButton
+              text="Login"
+              customClass="button is-primary custom-button"
+              :customStyle="{ backgroundColor: 'white', color: 'black', border: '1px solid black' }"
+              @click="handleLoginClick"
+            />
+          </div>
+        </div>
+
+        <h2 class="has-text-centered mt-5">Or login with:</h2>
+
+        <div class="columns is-centered mt-5">
+          <div class="column is-narrow">
+            <AButton
+              text="Login with Google"
+              customClass="button is-primary custom-button"
+              :customStyle="{ backgroundColor: 'white', color: 'black', border: '1px solid black' }"
+              @click="handleGoogleLoginClick"
+            >
+              <template #icon>
+                <Icon icon="logos:google-icon" class="icon" />
+              </template>
+            </AButton>
+          </div>
+          <div class="column is-narrow">
+            <AButton
+              text="Login with GitHub"
+              customClass="button is-primary custom-button"
+              :customStyle="{ backgroundColor: 'white', color: 'black', border: '1px solid black' }"
+              @click="handleGithubLoginClick"
+            >
+              <template #icon>
+                <Icon icon="mdi:github" class="icon" />
+              </template>
+            </AButton>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <h4>Or login with:</h4>
-    <div class="button-container">
-      <section>
-        <AButton
-          text="Login with Google"
-          customClass="google-login-btn"
-          :customStyle="{ backgroundColor: '#4285F4', color: 'white' }"
-          @click="handleGoogleLoginClick"
-        />
-      </section>
-
-      <section>
-        <AButton
-          text="Login with GitHub"
-          customClass="github-login-btn"
-          :customStyle="{ backgroundColor: '#333', color: 'white' }"
-          @click="handleGithubLoginClick"
-        />
-      </section>
-    </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
-.logInView {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 2rem;
+.custom-button {
+  width: 250px; /* Adjust the width as needed */
+  margin: 0 80px; /* Add horizontal margin to create space between buttons */
 }
 
-.input-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 2rem;
+.icon {
+  margin-right: 10px;
+  font-size: 1.5rem; /* Adjust the size of the icons */
 }
 
-.input-field {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.button-container {
-  display: flex;
-  justify-content: space-between; /* Space between the buttons */
-  align-items: center; /* Center the buttons vertically */
-  width: 100%;
-  max-width: 400px;
-}
-
-section {
-  flex: 1;
-  display: flex;
-  justify-content: center; /* Center the buttons within their sections */
-}
-
-.google-login-btn,
-.github-login-btn {
-  width: 100%; /* Ensure the button takes full width of its section */
-  max-width: 200px; /* Set a max width for the button */
-}
-
-.login-btn {
-  width: 50%; /* Ensure the button takes full width of its section */
-  max-width: 100px; /* Set a max width for the button */
-  margin: 0 auto; /* Center the button */
+.mt-5 {
+  margin-top: 2rem;
 }
 </style>
