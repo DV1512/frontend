@@ -17,7 +17,7 @@ import AButton from '../components/Button.vue'
 
         <div class="columns is-centered mt-5">
           <div class="column is-narrow">
-            <RouterLink to="/loginView">
+            <RouterLink to="/login">
               <AButton
                 text="Login"
                 customClass="button is-primary custom-button"

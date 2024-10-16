@@ -24,7 +24,7 @@ const password = ref('')
 const confirmPassword = ref('')
 
 // Define the method for handling the login button click
-const handleLoginClick = () => {
+const handleSignUpClick = () => {
   console.log('Login button clicked')
   // Add your login logic here
 }
@@ -36,56 +36,70 @@ const handleLoginClick = () => {
       <h1 class="title has-text-centered">Sign Up Page</h1>
 
       <div class="box">
-        <div class="field">
-          <label class="label">Name</label>
-          <div class="control">
-            <input type="text" v-model="name" class="input" placeholder="Name" />
+        <form @submit.prevent="handleSignUpClick">
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input type="email" v-model="email" class="input" placeholder="Email" required />
+            </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label class="label">Username</label>
-          <div class="control">
-            <input type="text" v-model="Username" class="input" placeholder="Username" />
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input type="text" v-model="name" class="input" placeholder="Name" required />
+            </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label class="label">Email</label>
-          <div class="control">
-            <input type="email" v-model="email" class="input" placeholder="Email" />
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input type="text" v-model="Username" class="input" placeholder="Username" required />
+            </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label class="label">Password</label>
-          <div class="control">
-            <input type="password" v-model="password" class="input" placeholder="Password" />
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input
+                type="password"
+                v-model="password"
+                class="input"
+                placeholder="Password"
+                required
+                minlength="8"
+              />
+            </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label class="label">Confirm Password</label>
-          <div class="control">
-            <input
-              type="password"
-              v-model="confirmPassword"
-              class="input"
-              placeholder="Confirm Password"
-            />
+          <div class="field">
+            <label class="label">Confirm Password</label>
+            <div class="control">
+              <input
+                type="password"
+                v-model="confirmPassword"
+                class="input"
+                placeholder="Confirm Password"
+                required
+              />
+            </div>
           </div>
-        </div>
 
-        <div class="columns is-centered mt-5">
-          <div class="column is-narrow">
-            <AButton
-              text="Sign Up"
-              customClass="button is-primary custom-button"
-              :customStyle="{ backgroundColor: 'white', color: 'black', border: '1px solid black' }"
-              @click="handleLoginClick"
-            />
+          <div class="columns is-centered mt-5">
+            <div class="column is-narrow">
+              <AButton
+                text="Sign Up"
+                customClass="button is-primary custom-button"
+                :customStyle="{
+                  backgroundColor: 'white',
+                  color: 'black',
+                  border: '1px solid black'
+                }"
+                type="submit"
+              />
+            </div>
           </div>
-        </div>
+        </form>
 
         <h2 class="has-text-centered mt-5">Or Sign Up with:</h2>
 
