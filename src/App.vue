@@ -1,86 +1,83 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import { Icon } from '@iconify/vue'
+import '@/assets/main.scss' // Ensure you import your custom main.scss
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="app-container">
+    <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+      <!-- Add the logo in the top left corner -->
+      <div class="navbar-brand">
+        <RouterLink to="/">
+          <img src="@/assets/logo.png" alt="Logo" class="logo" />
+        </RouterLink>
+      </div>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/contact">Contact</RouterLink>
-      </nav>
-    </div>
-  </header>
+      <!-- Navigation links in the menu bar -->
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <!-- Dropdown for Home -->
+          <RouterLink to="/" class="navbar-item">Home</RouterLink>
 
-  <RouterView />
+          <div class="navbar-item has-dropdown is-hoverable">
+            <RouterLink to="/about" class="navbar-link">About</RouterLink>
+            <div class="navbar-dropdown">
+              <RouterLink to="/subpage1" class="navbar-item">The Team</RouterLink>
+              <hr class="navbar-divider" />
+              <RouterLink to="/subpage2" class="navbar-item">ThreatMapperAI</RouterLink>
+              <hr class="navbar-divider" />
+              <RouterLink to="/subpage3" class="navbar-item">Background</RouterLink>
+            </div>
+          </div>
+
+          <RouterLink to="/how-to-use" class="navbar-item">How to Use</RouterLink>
+          <RouterLink to="/documentation" class="navbar-item">Documentation</RouterLink>
+        </div>
+        <div class="navbar-end">
+          <RouterLink to="/profile" class="navbar-item">
+            <Icon icon="mdi:account" class="icon-size" />
+          </RouterLink>
+          <RouterLink to="/settings" class="navbar-item">
+            <Icon icon="mdi:cog" class="icon-size" />
+          </RouterLink>
+          <RouterLink to="/logout" class="navbar-item">
+            <Icon icon="mdi:logout" class="icon-size" />
+          </RouterLink>
+        </div>
+      </div>
+    </nav>
+
+    <main class="section main-container">
+      <div class="container grey-box">
+        <RouterView />
+      </div>
+    </main>
+
+    <footer class="footer has-text-centered">
+      <div class="content">
+        <p>Terms of service, contact, other links?</p>
+      </div>
+    </footer>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
+/* Custom styles */
 .logo {
-  display: block;
-  margin: 0 auto 2rem;
+  width: 80px; /* Size of the logo */
+  height: auto;
+  margin-right: 10px; /* Space between logo and navigation */
+  margin-top: 5px;
+  margin-left: 10px;
+  border-radius: 10px; /* Rounded corners */
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+.main-container {
+  padding: 2rem;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    justify-content: space-between;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+/* Custom icon size */
+.icon-size {
+  font-size: 1.5rem; /* Adjust the size as needed */
 }
 </style>

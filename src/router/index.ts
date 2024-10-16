@@ -1,23 +1,98 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import StartPage from '../views/frontpage.vue'
+import LoginView from '../views/LogInView.vue'
+import SignupView from '../views/SignUpView.vue'
+/*
+import welcomeView from '../views/WelcomeView.vue'
+import ContactView from '../views/ContactView.vue'
+import TermsOfServiceView from '../views/TermsOfServiceView.vue'
+import ChatView from '../views/ChatView.vue'
+import ProfileView from '../views/ProfileView.vue'
+import BackgroundView from '../views/BackgroundView.vue'
+import HowToView from '../views/HowToView.vue'
+import ThreatTMapperAIView from '../views/ThreatTMapperAIView.vue'
+import DocumentationView from '../views/DocumentationView.vue'
+import TheTeamView from '../views/TheTeamView.vue'
+*/
+
+const routes = [
+  {
+    path: '/',
+    name: 'start',
+    component: StartPage
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: SignupView
+  }
+  /*
+  {path: '/home',
+  name: 'home',
+  component: welcomeView
+  },
+  {
+  path: '/contact',
+  name: 'contact',
+  component: ContactView
+  },
+  {
+  path: '/tos',
+  name: 'termsofservice',
+  component: TermsOfServiceView
+  },
+  {
+  path: '/chat',
+  name: 'chat',
+  component: ChatView
+  },
+  {
+  path: '/profile',
+  name: 'profile',
+  component: ProfileView
+  },
+  {
+  path: '/background',
+  name: 'background',
+  component: BackgroundView
+  },
+  {
+  path: '/howto',
+  name: 'howto',
+  component: HowToView
+  },
+  {
+  path: '/threattmapperai',
+  name: 'threattmapperai',
+  component: ThreatTMapperAIView
+  },
+  {
+  path: '/documentation',
+  name: 'documentation',
+  component: DocumentationView
+  },
+  {
+  path: '/theteam',
+  name: 'theteam',
+  component: TheTeamView
+  },
+  {
+  path: '/settings',
+  name: 'settings',
+  component: SettingsView
+  }
+  */
+  // Add other routes here
+]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
-  ]
+  history: createWebHistory(),
+  routes
 })
 
 export default router
