@@ -66,7 +66,7 @@ const handleLoginClick = () => {
 
         <div class="columns is-centered mt-5">
           <div class="column is-narrow">
-            <AButton
+            <Button
               text="Login with Google"
               customClass="button is-primary custom-button"
               :customStyle="{ backgroundColor: 'white', color: 'black', border: '1px solid black' }"
@@ -75,10 +75,10 @@ const handleLoginClick = () => {
               <template #icon>
                 <Icon icon="logos:google-icon" class="icon" />
               </template>
-            </AButton>
+            </Button>
           </div>
           <div class="column is-narrow">
-            <AButton
+            <Button
               text="Login with GitHub"
               customClass="button is-primary custom-button"
               :customStyle="{ backgroundColor: 'white', color: 'black', border: '1px solid black' }"
@@ -87,7 +87,7 @@ const handleLoginClick = () => {
               <template #icon>
                 <Icon icon="mdi:github" class="icon" />
               </template>
-            </AButton>
+            </Button>
           </div>
         </div>
         <div class="has-text-centered mt-5">
