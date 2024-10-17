@@ -48,10 +48,7 @@ import WelcomeItem from '../components/WelcomeItem.vue'
 <style scoped>
 /* Custom styles */
 .custom-button {
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-  width: 200px; /* Adjust the width as needed */
+  width: 250px; /* Adjust the width as needed */
   margin: 0 80px; /* Add horizontal margin to create space between buttons */
 }
 
