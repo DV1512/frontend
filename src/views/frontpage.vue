@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import WelcomeItem from '../components/WelcomeItem.vue'
-import AButton from '../components/Button.vue'
 </script>
 
 <template>
@@ -18,29 +17,13 @@ import AButton from '../components/Button.vue'
         <div class="columns is-centered mt-5">
           <div class="column is-narrow">
             <RouterLink to="/login">
-              <AButton
-                text="Login"
-                customClass="button is-primary custom-button"
-                :customStyle="{
-                  backgroundColor: 'white',
-                  color: 'black',
-                  border: '1px solid black'
-                }"
-              />
+              <button class="button is-primary custom-button">Login</button>
             </RouterLink>
           </div>
 
           <div class="column is-narrow">
             <RouterLink to="/signup">
-              <AButton
-                text="Sign Up"
-                customClass="button is-primary custom-button"
-                :customStyle="{
-                  backgroundColor: 'white',
-                  color: 'black',
-                  border: '1px solid black'
-                }"
-              />
+              <button class="button is-primary custom-button">Sign Up</button>
             </RouterLink>
           </div>
         </div>
@@ -53,15 +36,7 @@ import AButton from '../components/Button.vue'
         <div class="columns is-centered mt-5">
           <div class="column is-narrow">
             <RouterLink to="/about">
-              <AButton
-                text="Continue as Guest"
-                customClass="button is-primary custom-button"
-                :customStyle="{
-                  backgroundColor: 'white',
-                  color: 'black',
-                  border: '1px solid black'
-                }"
-              />
+              <button class="button is-primary custom-button">Continue as Guest</button>
             </RouterLink>
           </div>
         </div>
@@ -73,7 +48,7 @@ import AButton from '../components/Button.vue'
 <style scoped>
 /* Custom styles */
 .custom-button {
-  width: 200px; /* Adjust the width as needed */
+  width: 250px; /* Adjust the width as needed */
   margin: 0 80px; /* Add horizontal margin to create space between buttons */
 }
 

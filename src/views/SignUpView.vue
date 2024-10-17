@@ -119,10 +119,8 @@ const handleSignUpClick = () => {
 
 <style scoped>
 .custom-button {
-  background-color: white;
-  color: black;
-  border: 1px solid black;
   width: 250px; /* Adjust the width as needed */
+  margin: 0 80px; /* Add horizontal margin to create space between buttons */
 }
 
 .mt-5 {
