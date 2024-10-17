@@ -53,12 +53,7 @@ const handleLoginClick = () => {
 
         <div class="columns is-centered mt-5">
           <div class="column is-narrow">
-            <AButton
-              text="Login"
-              customClass="button is-primary custom-button"
-              :customStyle="{ backgroundColor: 'white', color: 'black', border: '1px solid black' }"
-              @click="handleLoginClick"
-            />
+            <button class="button is-primary custom-button" @click="handleLoginClick">Login</button>
           </div>
         </div>
 
