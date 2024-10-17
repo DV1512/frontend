@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import AButton from '../components/Button.vue'
 import { Icon } from '@iconify/vue'
 
 // Define the methods for handling button clicks
