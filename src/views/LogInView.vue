@@ -61,28 +61,16 @@ const handleLoginClick = () => {
 
         <div class="columns is-centered mt-5">
           <div class="column is-narrow">
-            <AButton
-              text="Login with Google"
-              customClass="button is-primary custom-button"
-              :customStyle="{ backgroundColor: 'white', color: 'black', border: '1px solid black' }"
-              @click="handleGoogleLoginClick"
-            >
-              <template #icon>
-                <Icon icon="logos:google-icon" class="icon" />
-              </template>
-            </AButton>
+            <button class="button is-primary custom-button" @click="handleGoogleLoginClick">
+              <Icon icon="logos:google-icon" class="icon" />
+              Login with Google
+            </button>
           </div>
           <div class="column is-narrow">
-            <AButton
-              text="Login with GitHub"
-              customClass="button is-primary custom-button"
-              :customStyle="{ backgroundColor: 'white', color: 'black', border: '1px solid black' }"
-              @click="handleGithubLoginClick"
-            >
-              <template #icon>
-                <Icon icon="mdi:github" class="icon" />
-              </template>
-            </AButton>
+            <button class="button is-primary custom-button" @click="handleGithubLoginClick">
+              <Icon icon="mdi:github" class="icon" />
+              Login with GitHub
+            </button>
           </div>
         </div>
         <div class="has-text-centered mt-5">
