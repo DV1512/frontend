@@ -9,11 +9,11 @@ import ThreatTMapperAIView from '../views/ThreatTMapperAIView.vue'
 import TheTeamView from '../views/TheTeamView.vue'
 import HowToView from '../views/HowToView.vue'
 import DocumentationView from '../views/DocumentationView.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 /*
 import welcomeView from '../views/WelcomeView.vue'
 import ChatView from '../views/ChatView.vue'
-import ProfileView from '../views/ProfileView.vue'
 */
 
 const routes = [
@@ -66,6 +66,11 @@ const routes = [
     path: '/documentation',
     name: 'documentation',
     component: DocumentationView
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView
   }
   /*
   {path: '/home',
@@ -76,11 +81,6 @@ const routes = [
   path: '/chat',
   name: 'chat',
   component: ChatView
-  },
-  {
-  path: '/profile',
-  name: 'profile',
-  component: ProfileView
   },
   {
   path: '/settings',
