@@ -30,7 +30,7 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
             </div>
           </div>
 
-          <RouterLink to="/how-to-use" class="navbar-item">How to Use</RouterLink>
+          <RouterLink to="/howto" class="navbar-item">How to Use</RouterLink>
           <RouterLink to="/documentation" class="navbar-item">Documentation</RouterLink>
         </div>
         <div class="navbar-end">
