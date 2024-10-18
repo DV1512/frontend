@@ -4,13 +4,12 @@ import LoginView from '../views/LogInView.vue'
 import SignupView from '../views/SignUpView.vue'
 import ContactView from '../views/ContactView.vue'
 import TermsOfServiceView from '../views/TermsOfServiceView.vue'
-
+import BackgroundView from '../views/BackgroundView.vue'
 
 /*
 import welcomeView from '../views/WelcomeView.vue'
 import ChatView from '../views/ChatView.vue'
 import ProfileView from '../views/ProfileView.vue'
-import BackgroundView from '../views/BackgroundView.vue'
 import HowToView from '../views/HowToView.vue'
 import ThreatTMapperAIView from '../views/ThreatTMapperAIView.vue'
 import DocumentationView from '../views/DocumentationView.vue'
@@ -42,6 +41,11 @@ const routes = [
     path: '/tos',
     name: 'termsofservice',
     component: TermsOfServiceView
+  },
+  {
+    path: '/background',
+    name: 'background',
+    component: BackgroundView
   }
   /*
   {path: '/home',
@@ -57,11 +61,6 @@ const routes = [
   path: '/profile',
   name: 'profile',
   component: ProfileView
-  },
-  {
-  path: '/background',
-  name: 'background',
-  component: BackgroundView
   },
   {
   path: '/howto',

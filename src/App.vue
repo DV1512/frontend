@@ -26,7 +26,7 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
               <hr class="navbar-divider" />
               <RouterLink to="/subpage2" class="navbar-item">ThreatMapperAI</RouterLink>
               <hr class="navbar-divider" />
-              <RouterLink to="/subpage3" class="navbar-item">Background</RouterLink>
+              <RouterLink to="/background" class="navbar-item">Background</RouterLink>
             </div>
           </div>
 
