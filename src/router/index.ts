@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import StartPage from '../views/frontpage.vue'
+import StartPage from '../views/FrontPage.vue'
 import LoginView from '../views/LogInView.vue'
 import SignupView from '../views/SignUpView.vue'
 import ContactView from '../views/ContactView.vue'

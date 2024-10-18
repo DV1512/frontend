@@ -20,7 +20,7 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
           <RouterLink to="/" class="navbar-item">Home</RouterLink>
 
           <div class="navbar-item has-dropdown is-hoverable">
-            <RouterLink to="/about" class="navbar-link">About</RouterLink>
+            <a class="navbar-link">About</a>
             <div class="navbar-dropdown">
               <RouterLink to="/theteam" class="navbar-item">The Team</RouterLink>
               <hr class="navbar-divider" />
