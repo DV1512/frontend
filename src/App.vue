@@ -20,17 +20,17 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
           <RouterLink to="/" class="navbar-item">Home</RouterLink>
 
           <div class="navbar-item has-dropdown is-hoverable">
-            <RouterLink to="/about" class="navbar-link">About</RouterLink>
+            <a class="navbar-link">About</a>
             <div class="navbar-dropdown">
-              <RouterLink to="/subpage1" class="navbar-item">The Team</RouterLink>
+              <RouterLink to="/theteam" class="navbar-item">The Team</RouterLink>
               <hr class="navbar-divider" />
-              <RouterLink to="/subpage2" class="navbar-item">ThreatMapperAI</RouterLink>
+              <RouterLink to="/threattmapperai" class="navbar-item">ThreatMapperAI</RouterLink>
               <hr class="navbar-divider" />
-              <RouterLink to="/subpage3" class="navbar-item">Background</RouterLink>
+              <RouterLink to="/background" class="navbar-item">Background</RouterLink>
             </div>
           </div>
 
-          <RouterLink to="/how-to-use" class="navbar-item">How to Use</RouterLink>
+          <RouterLink to="/howto" class="navbar-item">How to Use</RouterLink>
           <RouterLink to="/documentation" class="navbar-item">Documentation</RouterLink>
         </div>
         <div class="navbar-end">
