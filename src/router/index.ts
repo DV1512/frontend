@@ -3,10 +3,11 @@ import StartPage from '../views/frontpage.vue'
 import LoginView from '../views/LogInView.vue'
 import SignupView from '../views/SignUpView.vue'
 import ContactView from '../views/ContactView.vue'
+import TermsOfServiceView from '../views/TermsOfServiceView.vue'
+
 
 /*
 import welcomeView from '../views/WelcomeView.vue'
-import TermsOfServiceView from '../views/TermsOfServiceView.vue'
 import ChatView from '../views/ChatView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import BackgroundView from '../views/BackgroundView.vue'
@@ -36,17 +37,16 @@ const routes = [
     path: '/contact',
     name: 'contact',
     component: ContactView
+  },
+  {
+    path: '/tos',
+    name: 'termsofservice',
+    component: TermsOfServiceView
   }
   /*
   {path: '/home',
   name: 'home',
   component: welcomeView
-  },
-
-  {
-  path: '/tos',
-  name: 'termsofservice',
-  component: TermsOfServiceView
   },
   {
   path: '/chat',
