@@ -10,10 +10,10 @@ import TheTeamView from '../views/TheTeamView.vue'
 import HowToView from '../views/HowToView.vue'
 import DocumentationView from '../views/DocumentationView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import ChatView from '../views/ChatView.vue'
 
 /*
 import welcomeView from '../views/WelcomeView.vue'
-import ChatView from '../views/ChatView.vue'
 */
 
 const routes = [
@@ -71,6 +71,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: ChatView
   }
   /*
   {path: '/home',
