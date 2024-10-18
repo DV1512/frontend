@@ -24,7 +24,7 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
             <div class="navbar-dropdown">
               <RouterLink to="/subpage1" class="navbar-item">The Team</RouterLink>
               <hr class="navbar-divider" />
-              <RouterLink to="/subpage2" class="navbar-item">ThreatMapperAI</RouterLink>
+              <RouterLink to="/threattmapperai" class="navbar-item">ThreatMapperAI</RouterLink>
               <hr class="navbar-divider" />
               <RouterLink to="/background" class="navbar-item">Background</RouterLink>
             </div>
