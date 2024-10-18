@@ -22,7 +22,7 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
           <div class="navbar-item has-dropdown is-hoverable">
             <RouterLink to="/about" class="navbar-link">About</RouterLink>
             <div class="navbar-dropdown">
-              <RouterLink to="/subpage1" class="navbar-item">The Team</RouterLink>
+              <RouterLink to="/theteam" class="navbar-item">The Team</RouterLink>
               <hr class="navbar-divider" />
               <RouterLink to="/threattmapperai" class="navbar-item">ThreatMapperAI</RouterLink>
               <hr class="navbar-divider" />
