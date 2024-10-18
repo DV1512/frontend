@@ -2,9 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import StartPage from '../views/frontpage.vue'
 import LoginView from '../views/LogInView.vue'
 import SignupView from '../views/SignUpView.vue'
+import ContactView from '../views/ContactView.vue'
+
 /*
 import welcomeView from '../views/WelcomeView.vue'
-import ContactView from '../views/ContactView.vue'
 import TermsOfServiceView from '../views/TermsOfServiceView.vue'
 import ChatView from '../views/ChatView.vue'
 import ProfileView from '../views/ProfileView.vue'
@@ -30,17 +31,18 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: SignupView
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: ContactView
   }
   /*
   {path: '/home',
   name: 'home',
   component: welcomeView
   },
-  {
-  path: '/contact',
-  name: 'contact',
-  component: ContactView
-  },
+
   {
   path: '/tos',
   name: 'termsofservice',
