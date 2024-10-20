@@ -23,6 +23,13 @@ const password = ref('')
 const handleLoginClick = () => {
   console.log('Login button clicked')
   // Add your login logic here
+  if (emailOrUsername.value === 'admin' && password.value === 'admin') {
+    alert('Login successful')
+    // Redirect to the welcome page after successful login
+    window.location.href = '../views/WelcomeView.vue'
+  } else {
+    alert('Invalid email/username or password')
+  }
 }
 </script>
 

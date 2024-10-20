@@ -17,6 +17,7 @@ function handleLogoutClick() {
           </div>
         </div>
       </div>
+      <div class="box">Welcome.</div>
       <header class="header">
         <nav class="nav">
           <ul>
@@ -47,3 +48,52 @@ function handleLogoutClick() {
     </div>
   </section>
 </template>
+
+<style scoped>
+.WellcomeView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #333;
+}
+
+.header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav ul {
+  display: flex;
+  gap: 1rem;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+}
+
+.Chat-btn {
+  margin-right: 10px;
+  font-size: 1.5rem; /* Adjust the size of the icons */
+}
+.mt-5 {
+  margin-top: 2rem;
+}
+</style>
