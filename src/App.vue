@@ -9,9 +9,7 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
     <AppNavbar />
 
     <main class="section main-container">
-      <TheContainer>
-        <RouterView />
-      </TheContainer>
+      <router-view />
     </main>
 
     <AppFooter />
