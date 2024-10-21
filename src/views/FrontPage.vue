@@ -30,6 +30,7 @@ import TheContainer from '@/components/TheContainer.vue'
 
       <div class="text-snippet mt-5">
         <p>
+          <!-- Let this text snippet be here som we can se the scrollup -->
           ThreatMapper is a web application that helps you visualize and manage your security
           threats. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rerum libero ex fuga
           dolores numquam esse quae, fugiat quidem architecto. Et accusantium, perferendis minus
@@ -902,7 +903,6 @@ import TheContainer from '@/components/TheContainer.vue'
           a numquam labore velit. Optio ex nobis ut! Iure modi vitae, laborum ullam quidem
           dignissimos ut pariatur ea fuga excepturi! Voluptate temporibus cupiditate soluta
           accusantium.import { ref, onMounted, onUnmounted } from 'vue'
-
         </p>
       </div>
       <div class="columns is-centered mt-5">

@@ -29,11 +29,29 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <!-- Conditionally Render Back to Top -->
-  <div v-if="showBackToTop" class="column is-narrow">
-    <a href="javascript:void(0)" class="footer-link" @click="scrollToTop">
-      <Icon icon="mdi:arrow-up" class="icon-size" />
-      Back to Top
-    </a>
+  <div v-if="showBackToTop" class="scroll-up-button" @click="scrollToTop">
+    <Icon icon="mdi:arrow-up" class="icon" />
   </div>
 </template>
+
+<style scoped>
+.scroll-up-button {
+  position: fixed;
+  bottom: 4rem;
+  right: 2rem;
+  background-color: #333;
+  padding: 0.75rem 1rem; /* Adjust padding for visibility */
+  border-radius: 50px;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+}
+
+.scroll-up-button:hover {
+  background-color: #444;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+</style>
