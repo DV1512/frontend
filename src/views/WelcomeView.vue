@@ -21,9 +21,6 @@
   width: 250px;
   margin: 0 80px;
 }
-.content {
-  text-align: center;
-}
 
 .mt-5 {
   margin-top: 2rem;
