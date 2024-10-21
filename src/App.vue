@@ -1,5 +1,5 @@
 <script setup>
-import AppNavbar from '@/components/Navbar.vue'
+import AppNavbar from '@/components/AppNavbar.vue'
 import '@/assets/main.scss' // Ensure you import your custom main.scss
 </script>
 
