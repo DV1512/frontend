@@ -11,10 +11,7 @@ import HowToView from '../views/HowToView.vue'
 import DocumentationView from '../views/DocumentationView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ChatView from '../views/ChatView.vue'
-
-/*
 import welcomeView from '../views/WelcomeView.vue'
-*/
 
 const routes = [
   {
@@ -76,12 +73,13 @@ const routes = [
     path: '/chat',
     name: 'chat',
     component: ChatView
-  }
-  /*
-  {path: '/home',
-  name: 'home',
-  component: welcomeView
   },
+  {
+    path: '/home',
+    name: 'home',
+    component: welcomeView
+  }
+  /*,
   {
   path: '/chat',
   name: 'chat',
