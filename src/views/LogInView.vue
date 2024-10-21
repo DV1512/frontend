@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
+import { passwordLogin, getUser, GetUserByFilter } from 'sdk'
+import { RouterLink } from 'vue-router';
 
 // Define the methods for handling button clicks
 const handleGoogleLoginClick = () => {
@@ -20,15 +22,16 @@ const emailOrUsername = ref('')
 const password = ref('')
 
 // Define the method for handling the login button click
-const handleLoginClick = () => {
-  console.log('Login button clicked')
-  // Add your login logic here
-  if (emailOrUsername.value === 'admin' && password.value === 'admin') {
-    alert('Login successful')
-    // Redirect to the welcome page after successful login
+const handleLoginClick = async () => {
+  try {
+    const token = await passwordLogin(emailOrUsername.value, password.value)
+    console.log('Token:', token)
+    const filter = new GetUserByFilter(undefined, undefined, token.access_token)
+    const user = await getUser(filter)
+    console.log('User logged in:', user)
     window.location.href = '/home'
-  } else {
-    alert('Invalid email/username or password')
+  } catch (error) {
+    console.error('Error logging in:', error)
   }
 }
 </script>
