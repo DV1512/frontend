@@ -1,48 +1,48 @@
 <script setup lang="ts">
-import WelcomeItem from '../components/WelcomeItem.vue'
+import TheContainer from '@/components/TheContainer.vue'
 </script>
 
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="box">
-        <WelcomeItem>
-          <template #heading>ThreatMapper</template>
-
+  <div class="app-container">
+    <TheContainer>
+      <template #heading>ThreatMapper</template>
+      <div class="text-snippet">
+        <p>
           Vue’s
           <a href="https://vuejs.org/" target="_blank" rel="noopener">official documentation</a>
           provides you with all information you need to get started.
-        </WelcomeItem>
+        </p>
+      </div>
 
-        <div class="columns is-centered mt-5">
-          <div class="column is-narrow">
-            <RouterLink to="/login">
-              <button class="button is-primary custom-button">Login</button>
-            </RouterLink>
-          </div>
+      <div class="columns is-centered mt-5">
+        <div class="column is-narrow">
+          <RouterLink to="/login">
+            <button class="button is-primary custom-button">Login</button>
+          </RouterLink>
+        </div>
 
-          <div class="column is-narrow">
-            <RouterLink to="/signup">
-              <button class="button is-primary custom-button">Sign Up</button>
-            </RouterLink>
-          </div>
-        </div>
-        <div class="text-snippet mt-5">
-          <p>
-            ThreatMapper is a web application that helps you visualize and manage your security
-            threats.
-          </p>
-        </div>
-        <div class="columns is-centered mt-5">
-          <div class="column is-narrow">
-            <RouterLink to="/about">
-              <button class="button is-primary custom-button">Continue as Guest</button>
-            </RouterLink>
-          </div>
+        <div class="column is-narrow">
+          <RouterLink to="/signup">
+            <button class="button is-primary custom-button">Sign Up</button>
+          </RouterLink>
         </div>
       </div>
-    </div>
-  </section>
+
+      <div class="text-snippet mt-5">
+        <p>
+          ThreatMapper is a web application that helps you visualize and manage your security
+          threats.
+        </p>
+      </div>
+      <div class="columns is-centered mt-5">
+        <div class="column is-narrow">
+          <RouterLink to="/about">
+            <button class="button is-primary custom-button">Continue as Guest</button>
+          </RouterLink>
+        </div>
+      </div>
+    </TheContainer>
+  </div>
 </template>
 
 <style scoped>
