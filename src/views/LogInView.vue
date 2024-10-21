@@ -26,7 +26,7 @@ const handleLoginClick = () => {
   if (emailOrUsername.value === 'admin' && password.value === 'admin') {
     alert('Login successful')
     // Redirect to the welcome page after successful login
-    window.location.href = '/WelcomeView'
+    window.location.href = '/home'
   } else {
     alert('Invalid email/username or password')
   }
