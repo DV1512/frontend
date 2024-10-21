@@ -48,13 +48,13 @@ const routes = [
     component: BackgroundView
   },
   {
-    path: '/threattmapperai',
-    name: 'threattmapperai',
+    path: '/ai',
+    name: 'ai',
     component: ThreatTMapperAIView
   },
   {
-    path: '/theteam',
-    name: 'theteam',
+    path: '/team',
+    name: 'team',
     component: TheTeamView
   },
   {
