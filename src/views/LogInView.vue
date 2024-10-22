@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import { passwordLogin, getUser, GetUserByFilter } from 'sdk'
-import { RouterLink } from 'vue-router';
+import { RouterLink } from 'vue-router'
 
 // Define the methods for handling button clicks
 const handleGoogleLoginClick = () => {
