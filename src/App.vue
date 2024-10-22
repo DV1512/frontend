@@ -1,6 +1,7 @@
 <script setup>
-import AppNavbar from '@/components/AppNavbar.vue'
-import AppFooter from '@/components/AppFooter.vue'
+import AppNavbar from './components/AppNavbar.vue'
+import AppFooter from './components/AppFooter.vue'
+import ScrollUp from './components/ScrollUp.vue'
 import '@/assets/main.scss' // Ensure you import your custom main.scss
 </script>
 
@@ -9,10 +10,10 @@ import '@/assets/main.scss' // Ensure you import your custom main.scss
     <AppNavbar />
 
     <main class="section main-container">
-      <TheContainer>
-        <RouterView />
-      </TheContainer>
+      <router-view />
     </main>
+
+    <ScrollUp />
 
     <AppFooter />
   </div>
