@@ -2,34 +2,31 @@
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import { passwordLogin, getUser, GetUserByFilter } from 'sdk'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 
-// Define the methods for handling button clicks
+const router = useRouter()
+
 const handleGoogleLoginClick = () => {
   console.log('Google login button clicked')
-  // Redirect to the updated Google OAuth login URL with API versioning
-  window.location.href = 'http://localhost:9999/api/v1/oauth/google/login'
+  window.location.href = 'http://localhost:9999/api/v1/oauth/google/login' // TODO: Check if we can do this via the SDK instead, helps preserve the SPA feel of the app
 }
 
 const handleGithubLoginClick = () => {
   console.log('GitHub login button clicked')
-  // Redirect to the updated GitHub OAuth login URL with API versioning
-  window.location.href = 'http://localhost:9999/api/v1/oauth/github/login'
+  window.location.href = 'http://localhost:9999/api/v1/oauth/github/login' // TODO: Same as above
 }
 
-// Define reactive variables for email/username and password
 const emailOrUsername = ref('')
 const password = ref('')
 
-// Define the method for handling the login button click
 const handleLoginClick = async () => {
   try {
     const token = await passwordLogin(emailOrUsername.value, password.value)
     console.log('Token:', token)
     const filter = new GetUserByFilter(undefined, undefined, token.access_token)
-    const user = await getUser(filter)
+    const user = await getUser(token.access_token, filter)
     console.log('User logged in:', user)
-    window.location.href = '/home'
+    router.push('/home')
   } catch (error) {
     console.error('Error logging in:', error)
   }
@@ -93,7 +90,7 @@ const handleLoginClick = async () => {
 
 <style scoped>
 .custom-button {
-  width: 250px; /* Adjust the width as needed */
+  width: 250px;
   margin: 0 80px; /* Add horizontal margin to create space between buttons */
 }
 
