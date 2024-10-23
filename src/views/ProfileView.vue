@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-// Define the reactive variables to hold user profile data
-const name = ref('') // Placeholder for existing data, fetch actual data from API
-const username = ref('') // Placeholder for existing username
-const email = ref('') // Placeholder for existing email
-const password = ref('') // Leave empty for password update
+const name = ref('')
+const username = ref('')
+const email = ref('')
+const password = ref('')
 const confirmPassword = ref('')
 
 // Method to handle profile updates
@@ -24,11 +23,38 @@ const handleProfileUpdateClick = () => {
   })
   // Add code to make an API call to update the user's profile
 }
+
+// Method to handle account deletion
+const handleAccountDeleteClick = () => {
+  const confirmation = confirm(
+    'Are you sure you want to delete your account? This action is irreversible.'
+  )
+  if (confirmation) {
+    // Add code to make an API call to delete the user's account
+    console.log('Account deleted')
+  }
+}
+
+// Method to handle declining (canceling) changes
+const handleDeclineChangesClick = () => {
+  const confirmation = confirm(
+    'Are you sure you want to cancel the changes? Unsaved changes will be lost.'
+  )
+  if (confirmation) {
+    // Reset the form fields to their previous values or leave empty if no previous values
+    name.value = ''
+    username.value = ''
+    email.value = ''
+    password.value = ''
+    confirmPassword.value = ''
+    console.log('Changes declined and form reset')
+  }
+}
 </script>
 
 <template>
   <section class="section">
-    <div class="container">
+    <div class="Thecontainer">
       <div class="box">
         <h2>
           <slot name="heading">Edit Profile</slot>
@@ -94,6 +120,20 @@ const handleProfileUpdateClick = () => {
             </div>
           </div>
         </form>
+
+        <!-- Additional Actions: Decline and Delete Account -->
+        <div class="columns is-centered mt-5">
+          <div class="column is-narrow">
+            <button @click="handleDeclineChangesClick" class="button is-primary custom-button">
+              Decline Changes
+            </button>
+          </div>
+          <div class="column is-narrow">
+            <button @click="handleAccountDeleteClick" class="button is-primary custom-button">
+              Delete Account
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
