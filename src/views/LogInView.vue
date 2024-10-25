@@ -1,34 +1,32 @@
-<script setup lang="ts">
+<script lang="ts">
 import { ref } from 'vue'
+import { mapActions } from 'pinia'
 import { Icon } from '@iconify/vue'
 import { passwordLogin, getUser, GetUserByFilter } from 'sdk'
 import { RouterLink, useRouter } from 'vue-router'
+import { userStore } from './stores/userStore'
 
-const router = useRouter()
-
-const handleGoogleLoginClick = () => {
-  console.log('Google login button clicked')
-  window.location.href = 'http://localhost:9999/api/v1/oauth/google/login' // TODO: Check if we can do this via the SDK instead, helps preserve the SPA feel of the app
-}
-
-const handleGithubLoginClick = () => {
-  console.log('GitHub login button clicked')
-  window.location.href = 'http://localhost:9999/api/v1/oauth/github/login' // TODO: Same as above
-}
-
-const emailOrUsername = ref('')
-const password = ref('')
-
-const handleLoginClick = async () => {
-  try {
-    const token = await passwordLogin(emailOrUsername.value, password.value)
-    console.log('Token:', token)
-    const filter = new GetUserByFilter(undefined, undefined, token.access_token)
-    const user = await getUser(token.access_token, filter)
-    console.log('User logged in:', user)
-    router.push('/home')
-  } catch (error) {
-    console.error('Error logging in:', error)
+export default {
+  components: {
+    Icon,
+    RouterLink
+  },
+  data() {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
+    ...mapActions(userStore, ['login']),
+    handleGoogleLoginClick() {
+      console.log('Google login button clicked')
+      window.location.href = 'http://localhost:9999/api/v1/oauth/google/login' // TODO: Check if we can do this via the SDK instead, helps preserve the SPA feel of the app
+    },
+    handleGithubLoginClick() {
+      console.log('GitHub login button clicked')
+      window.location.href = 'http://localhost:9999/api/v1/oauth/github/login' // TODO: Same as above
+    }
   }
 }
 </script>
@@ -42,12 +40,7 @@ const handleLoginClick = async () => {
         <div class="field">
           <label class="label">Email or Username</label>
           <div class="control">
-            <input
-              type="text"
-              v-model="emailOrUsername"
-              class="input"
-              placeholder="Email or Username"
-            />
+            <input type="text" v-model="username" class="input" placeholder="Email" />
           </div>
         </div>
 
@@ -60,7 +53,7 @@ const handleLoginClick = async () => {
 
         <div class="columns is-centered mt-5">
           <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="handleLoginClick">Login</button>
+            <button class="button is-primary custom-button" @click="login(username, password)">Login</button>
           </div>
         </div>
 
