@@ -15,38 +15,41 @@ import TheContainer from '@/components/TheContainer.vue'
         and modern web technologies, we aim to enhance security and prevent potential threats in
         real-time.
       </p>
-      <h2>Our Team:</h2>
+      <h2>Our Team</h2>
       <ul>
         <li>
           <h6>Backend Developers:</h6>
-          <ol>
+          <ul>
             <li>Gustav</li>
             <li>Oskar</li>
             <li>Emil</li>
-          </ol>
+          </ul>
           The backend team is responsible for the core functionality of our application, integrating
           the LLM, and managing authentication systems to ensure secure access control.
         </li>
         <li>
           <h6>Frontend Developers:</h6>
-          <ol>
+          <ul>
             <li>Emma</li>
             <li>Muaath</li>
-          </ol>
+          </ul>
           The frontend team focuses on designing and developing an intuitive web interface that
           allows users to interact with the application, providing input through prompts and
           receiving output seamlessly.
         </li>
+      </ul>
+      <h2>Our Values as a team</h2>
+      <ul>
         <li>
-          <h6>Our Values as a team, we prioritize:</h6>
-          <ol>
+          we prioritize:
+          <ul>
             <li>Respect and Professionalism</li>
             <li>Open Communication</li>
             <li>Collaboration and Teamwork</li>
             <li>Accountability and Commitment</li>
             <li>Conflict Resolution</li>
             <li>Flexibility and Adaptability</li>
-          </ol>
+          </ul>
         </li>
       </ul>
     </TheContainer>
