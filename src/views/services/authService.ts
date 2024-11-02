@@ -13,25 +13,21 @@ class AuthService {
       console.error('Username or password is missing')
       return
     }
-    console.log('Logging in')
     try {
       passwordLogin(username, password)
-      .then((res) => {
-        this.access_token = res.access_token
-        this.refresh_token = res.refresh_token
+        .then((res) => {
+          this.access_token = res.access_token
+          this.refresh_token = res.refresh_token
 
-        console.log(res.access_token)
+          console.log(res.access_token)
 
-        this.expieries = new Date(res.expires_in + new Date().getTime() / 1000)
-      })
-      .catch((err) => {
-        console.error("error happend")
-      }).finally(() => {
-        console.log('done')
-      })
+          this.expieries = new Date(res.expires_in + new Date().getTime() / 1000)
+        })
+        .catch((err) => {
+          console.error('Error occured when fetching token', err)
+        })
     } catch (error) {
-      console.log('error', error);
-      
+      console.log('error', error)
     }
   }
 
@@ -39,7 +35,7 @@ class AuthService {
    * getAccessToken
    */
   public getAccessToken(): string | null {
-    if (this.access_token != undefined && new Date().getTime() > this.expieries!.getTime()) {
+    if (this.access_token != undefined) {
       return this.access_token!
     }
 
