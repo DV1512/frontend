@@ -26,17 +26,17 @@ export const userStore = defineStore('userStore', {
   actions: {
     async login(username: string, password: string) {
       this.loading = true
-      
-        authService.login(username, password)
-        const filter = new GetUserByFilter()
-        filter.token = authService.getAccessToken()!
-        const userInfo = await getUser(authService.getAccessToken()!, filter)
-        this.user = userInfo
 
-        this.loading = false
+      authService.login(username, password)
+      const filter = new GetUserByFilter()
+      filter.token = authService.getAccessToken()!
+      const userInfo = await getUser(authService.getAccessToken()!, filter)
+      this.user = userInfo
 
-        const router = useRouter()
-        router.push('/home')
+      this.loading = false
+
+      const router = useRouter()
+      router.push('/home')
     }
   }
 })

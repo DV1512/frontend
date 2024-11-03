@@ -16,22 +16,22 @@ class AuthService {
     console.log('Logging in')
     try {
       passwordLogin(username, password)
-      .then((res) => {
-        this.access_token = res.access_token
-        this.refresh_token = res.refresh_token
+        .then((res) => {
+          this.access_token = res.access_token
+          this.refresh_token = res.refresh_token
 
-        console.log(res.access_token)
+          console.log(res.access_token)
 
-        this.expieries = new Date(res.expires_in + new Date().getTime() / 1000)
-      })
-      .catch((err) => {
-        console.error("error happend")
-      }).finally(() => {
-        console.log('done')
-      })
+          this.expieries = new Date(res.expires_in + new Date().getTime() / 1000)
+        })
+        .catch((err) => {
+          console.error('error happend')
+        })
+        .finally(() => {
+          console.log('done')
+        })
     } catch (error) {
-      console.log('error', error);
-      
+      console.log('error', error)
     }
   }
 
