@@ -12,6 +12,7 @@ import DocumentationView from '../views/DocumentationView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ChatView from '../views/ChatView.vue'
 import welcomeView from '../views/WelcomeView.vue'
+import OauthRedirect from '@/views/OauthRedirect.vue'
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: SignupView
+  },
+  {
+    path: '/redirect',
+    name: 'oauthRedirect',
+    component: OauthRedirect
   },
   {
     path: '/contact',

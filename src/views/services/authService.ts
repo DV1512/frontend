@@ -51,6 +51,10 @@ class AuthService {
     console.error('User is not logged in')
     return null
   }
+
+  public setAccessToken(token: string) {
+    this.access_token = token
+  }
 }
 
 export default new AuthService()

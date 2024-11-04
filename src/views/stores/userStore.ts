@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import { GetUserByFilter, User } from 'sdk'
 import authService from '../services/authService'
 import { getUser } from 'sdk'
-import { useRouter } from 'vue-router'
 
 export const userStore = defineStore('userStore', {
   state: () => {
@@ -25,12 +24,16 @@ export const userStore = defineStore('userStore', {
 
       authService.login(username, password)
       const token = authService.getAccessToken()!
-      const filter = new GetUserByFilter()
-      filter.token = authService.getAccessToken()!
-      const userInfo = await getUser(token, filter)
-      this.user = userInfo
+
+      await this.getUserInfo(token)
 
       this.loading = false
+    },
+
+    async getUserInfo(token: string) {
+      const filter = new GetUserByFilter()
+      filter.token = authService.getAccessToken()!
+      this.user = await getUser(token, filter)
     }
   }
 })
