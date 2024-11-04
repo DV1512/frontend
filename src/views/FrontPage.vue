@@ -917,7 +917,6 @@ import TheContainer from '@/components/TheContainer.vue'
 </template>
 
 <style scoped>
-/* Custom styles */
 .custom-button {
   width: 250px; /* Adjust the width as needed */
   margin: 0 80px; /* Add horizontal margin to create space between buttons */

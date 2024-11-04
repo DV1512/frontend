@@ -2,7 +2,7 @@
 import AppNavbar from './components/AppNavbar.vue'
 import AppFooter from './components/AppFooter.vue'
 import ScrollUp from './components/ScrollUp.vue'
-import '@/assets/main.scss' // Ensure you import your custom main.scss
+import '@/assets/main.scss'
 </script>
 
 <template>
