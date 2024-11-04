@@ -13,7 +13,6 @@ class AuthService {
       console.error('Username or password is missing')
       return
     }
-    console.log('Logging in')
     try {
       passwordLogin(username, password)
         .then((res) => {
@@ -25,10 +24,7 @@ class AuthService {
           this.expieries = new Date(res.expires_in + new Date().getTime() / 1000)
         })
         .catch((err) => {
-          console.error('error happend')
-        })
-        .finally(() => {
-          console.log('done')
+          console.error('Error occured when fetching token', err)
         })
     } catch (error) {
       console.log('error', error)
@@ -39,7 +35,7 @@ class AuthService {
    * getAccessToken
    */
   public getAccessToken(): string | null {
-    if (this.access_token != undefined && new Date().getTime() > this.expieries!.getTime()) {
+    if (this.access_token != undefined) {
       return this.access_token!
     }
 

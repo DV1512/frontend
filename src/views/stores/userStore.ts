@@ -16,10 +16,6 @@ export const userStore = defineStore('userStore', {
   getters: {
     isLoggedIn(): boolean {
       return this.user !== null
-    },
-
-    user(): User | null {
-      return this.user
     }
   },
 
@@ -28,15 +24,13 @@ export const userStore = defineStore('userStore', {
       this.loading = true
 
       authService.login(username, password)
+      const token = authService.getAccessToken()!
       const filter = new GetUserByFilter()
       filter.token = authService.getAccessToken()!
-      const userInfo = await getUser(authService.getAccessToken()!, filter)
+      const userInfo = await getUser(token, filter)
       this.user = userInfo
 
       this.loading = false
-
-      const router = useRouter()
-      router.push('/home')
     }
   }
 })

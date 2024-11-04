@@ -1,6 +1,6 @@
 <script lang="ts">
 import { ref } from 'vue'
-import { mapActions } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { Icon } from '@iconify/vue'
 import { passwordLogin, getUser, GetUserByFilter } from 'sdk'
 import { RouterLink, useRouter } from 'vue-router'
@@ -17,8 +17,19 @@ export default {
       password: ''
     }
   },
+  computed: {
+    ...mapState(userStore, ['isLoggedIn'])
+  },
   methods: {
     ...mapActions(userStore, ['login']),
+    async loginUser() {
+      try {
+        await this.login(this.username, this.password)
+        this.$router.push({ name: 'home' })
+      } catch (error) {
+        console.error(error)
+      }
+    },
     handleGoogleLoginClick() {
       console.log('Google login button clicked')
       window.location.href = 'http://localhost:9999/api/v1/oauth/google/login' // TODO: Check if we can do this via the SDK instead, helps preserve the SPA feel of the app
@@ -53,7 +64,7 @@ export default {
 
         <div class="columns is-centered mt-5">
           <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="login(username, password)">Login</button>
+            <button class="button is-primary custom-button" @click="loginUser">Login</button>
           </div>
         </div>
 
