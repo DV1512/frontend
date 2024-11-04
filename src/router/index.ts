@@ -13,6 +13,7 @@ import ProfileView from '../views/ProfileView.vue'
 import ChatView from '../views/ChatView.vue'
 import welcomeView from '../views/WelcomeView.vue'
 import OauthRedirect from '@/views/OauthRedirect.vue'
+import ErrorPage from '@/views/ErrorPage.vue'
 
 const routes = [
   {
@@ -84,6 +85,11 @@ const routes = [
     path: '/home',
     name: 'home',
     component: welcomeView
+  },
+  {
+    path: '/error',
+    name: 'error',
+    component: ErrorPage
   }
   /*,
   {

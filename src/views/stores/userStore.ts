@@ -20,20 +20,33 @@ export const userStore = defineStore('userStore', {
 
   actions: {
     async login(username: string, password: string) {
+      if (!username || !password) {
+        console.error('Username or password is missing')
+        return
+      }
+
       this.loading = true
 
-      authService.login(username, password)
-      const token = authService.getAccessToken()!
+      try {
+        await authService.login(username, password)
+        const token = authService.getAccessToken()
+        if (!token) {
+          throw new Error('Failed to get access token')
+        }
 
-      await this.getUserInfo(token)
-
-      this.loading = false
+        this.getUserInfo(token)
+      } catch (error) {
+        console.error('Login failed', error)
+      } finally {
+        this.loading = false
+      }
     },
-
     async getUserInfo(token: string) {
       const filter = new GetUserByFilter()
-      filter.token = authService.getAccessToken()!
-      this.user = await getUser(token, filter)
+      filter.token = token
+      const userInfo = await getUser(token, filter)
+      this.user = userInfo
+      console.log('User info fetched successfully:', userInfo)
     }
   }
 })

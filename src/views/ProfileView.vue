@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import TheContainer from '@/components/TheContainer.vue'
+import { userStore } from './stores/userStore'
 
-const name = ref('')
-const username = ref('')
-const email = ref('')
+const store = userStore()
+const router = useRouter()
+
+if (store.user == null) {
+  router.push({ name: 'error' })
+}
+
 const password = ref('')
 const confirmPassword = ref('')
 
@@ -31,12 +37,7 @@ const handleDeclineChangesClick = () => {
     'Are you sure you want to cancel the changes? Unsaved changes will be lost.'
   )
   if (confirmation) {
-    name.value = ''
-    username.value = ''
-    email.value = ''
-    password.value = ''
-    confirmPassword.value = ''
-    console.log('Changes declined and form reset')
+    // TODO: implement this later
   }
 }
 </script>
@@ -52,21 +53,39 @@ const handleDeclineChangesClick = () => {
         <div class="field">
           <label class="label">Name</label>
           <div class="control">
-            <input type="text" v-model="name" class="input" placeholder="Name" required />
+            <input
+              type="text"
+              v-model="store.user.first_name"
+              class="input"
+              placeholder="Name"
+              required
+            />
           </div>
         </div>
 
         <div class="field">
           <label class="label">Username</label>
           <div class="control">
-            <input type="text" v-model="username" class="input" placeholder="Username" required />
+            <input
+              type="text"
+              v-model="store.user.username"
+              class="input"
+              placeholder="Username"
+              required
+            />
           </div>
         </div>
 
         <div class="field">
           <label class="label">Email</label>
           <div class="control">
-            <input type="email" v-model="email" class="input" placeholder="Email" required />
+            <input
+              type="email"
+              v-model="store.user.email"
+              class="input"
+              placeholder="Email"
+              required
+            />
           </div>
         </div>
 
