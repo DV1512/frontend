@@ -7,13 +7,11 @@ import { RouterLink } from 'vue-router'
   <footer class="footer">
     <div class="content has-text-centered">
       <div class="columns is-centered is-vcentered">
-        <!-- Logo Column -->
         <div class="column is-narrow">
           <RouterLink to="/">
             <img src="@/assets/logo.png" alt="Logo" class="logo" />
           </RouterLink>
         </div>
-        <!-- Links Columns with Icons -->
         <div class="column is-narrow">
           <RouterLink to="/tos" class="footer-link">
             <Icon icon="mdi:file-document" class="icon-size" />
@@ -26,7 +24,7 @@ import { RouterLink } from 'vue-router'
             Privacy
           </RouterLink>
         </div>
-        <!-- Optional Security Link -->
+        <!-- Optional Security Link if we want -->
         <div class="column is-narrow">
           <RouterLink to="/security" class="footer-link">
             <Icon icon="mdi:lock" class="icon-size" />
@@ -47,7 +45,6 @@ import { RouterLink } from 'vue-router'
         </div>
       </div>
 
-      <!-- Copyright -->
       <div class="copyright">© 2024 ThreatMapper, Inc.</div>
     </div>
   </footer>
