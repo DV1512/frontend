@@ -14,7 +14,8 @@ export default {
   data() {
     return {
       username: '',
-      password: ''
+      password: '',
+      passwordError: '' // To store validation error message
     }
   },
   computed: {
@@ -22,7 +23,40 @@ export default {
   },
   methods: {
     ...mapActions(userStore, ['login']),
+
+    validatePassword(password: string) {
+      const minLength = 8
+      const hasUpperCase = /[A-Z]/.test(password)
+      const hasLowerCase = /[a-z]/.test(password)
+      const hasNumber = /\d/.test(password)
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+      if (password.length < minLength) {
+        return `Password must be at least ${minLength} characters long.`
+      }
+      if (!hasUpperCase) {
+        return 'Password must contain at least one uppercase letter.'
+      }
+      if (!hasLowerCase) {
+        return 'Password must contain at least one lowercase letter.'
+      }
+      if (!hasNumber) {
+        return 'Password must contain at least one number.'
+      }
+      if (!hasSpecialChar) {
+        return 'Password must contain at least one special character.'
+      }
+      return ''
+    },
+
     async loginUser() {
+      // Run password validation
+      this.passwordError = this.validatePassword(this.password)
+      if (this.passwordError) {
+        console.warn(this.passwordError)
+        return // Stop the login process if validation fails
+      }
+
       try {
         await this.login(this.username, this.password)
         this.$router.push({ name: 'home' })
@@ -30,10 +64,12 @@ export default {
         console.error(error)
       }
     },
+
     handleGoogleLoginClick() {
       console.log('Google login button clicked')
       window.location.href = 'http://localhost:9999/api/v1/oauth/google/login' // TODO: Check if we can do this via the SDK instead, helps preserve the SPA feel of the app
     },
+
     handleGithubLoginClick() {
       console.log('GitHub login button clicked')
       window.location.href = 'http://localhost:9999/api/v1/oauth/github/login' // TODO: Same as above
@@ -60,6 +96,7 @@ export default {
           <div class="control">
             <input type="password" v-model="password" class="input" placeholder="Password" />
           </div>
+          <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
         </div>
 
         <div class="columns is-centered mt-5">
