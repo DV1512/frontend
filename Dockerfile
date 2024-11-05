@@ -16,9 +16,9 @@ RUN bun run build
 # Runtime stage using Bun
 FROM oven/bun:latest
 
-# Install a modern version of Node.js (v16)
+# Install a modern version of Node.js (v21)
 RUN apt-get update && apt-get install -y curl \
-    && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_21.x | bash - \
     && apt-get install -y nodejs
 
 # Install 'serve' globally using Bun
