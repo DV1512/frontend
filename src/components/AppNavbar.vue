@@ -5,19 +5,15 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
-    <!-- Add the logo in the top left corner -->
     <div class="navbar-brand">
       <RouterLink to="/">
         <img src="@/assets/logo.png" alt="Logo" class="logo" />
       </RouterLink>
     </div>
 
-    <!-- Navigation links in the menu bar -->
     <div class="navbar-menu">
       <div class="navbar-start">
-        <!-- Dropdown for Home -->
         <RouterLink to="/" class="navbar-item">Home</RouterLink>
-
         <div class="navbar-item has-dropdown is-hoverable">
           <p class="navbar-link">About</p>
           <div class="navbar-dropdown">
@@ -48,18 +44,16 @@ import { RouterLink } from 'vue-router'
 </template>
 
 <style scoped>
-/* Custom styles */
 .logo {
-  width: 80px; /* Size of the logo */
+  width: 80px;
   height: auto;
-  margin-right: 10px; /* Space between logo and navigation */
+  margin-right: 10px;
   margin-top: 5px;
   margin-left: 10px;
-  border-radius: 10px; /* Rounded corners */
+  border-radius: 10px;
 }
 
-/* Custom icon size */
 .icon-size {
-  font-size: 1.5rem; /* Adjust the size as needed */
+  font-size: 1.5rem;
 }
 </style>
