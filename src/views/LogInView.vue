@@ -24,6 +24,8 @@ export default {
   methods: {
     ...mapActions(userStore, ['login']),
 
+    // This is not supposed to be here, it should be in sign up view
+    // We should have something with wrong username or password here
     validatePassword(password: string) {
       const minLength = 8
       const hasUpperCase = /[A-Z]/.test(password)
