@@ -2,15 +2,12 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Icon } from '@iconify/vue'
 
-// State to track if "Back to Top" should be visible
 const showBackToTop = ref(false)
 
-// Function to handle scrolling
 const handleScroll = () => {
   showBackToTop.value = window.scrollY > 100 // Show if scrolled more than 100px
 }
 
-// Function to scroll back to the top smoothly
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
@@ -18,7 +15,6 @@ const scrollToTop = () => {
   })
 }
 
-// Mount and unmount the scroll event listener
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })

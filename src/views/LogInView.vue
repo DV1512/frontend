@@ -1,34 +1,43 @@
-<script setup lang="ts">
+<script lang="ts">
 import { ref } from 'vue'
+import { mapActions, mapState } from 'pinia'
 import { Icon } from '@iconify/vue'
+import { passwordLogin, getUser, GetUserByFilter } from 'sdk'
+import { RouterLink, useRouter } from 'vue-router'
+import { userStore } from './stores/userStore'
 
-// Define the methods for handling button clicks
-const handleGoogleLoginClick = () => {
-  console.log('Google login button clicked')
-  // Redirect to the updated Google OAuth login URL with API versioning
-  window.location.href = 'http://localhost:9999/api/v1/oauth/google/login'
-}
-
-const handleGithubLoginClick = () => {
-  console.log('GitHub login button clicked')
-  // Redirect to the updated GitHub OAuth login URL with API versioning
-  window.location.href = 'http://localhost:9999/api/v1/oauth/github/login'
-}
-
-// Define reactive variables for email/username and password
-const emailOrUsername = ref('')
-const password = ref('')
-
-// Define the method for handling the login button click
-const handleLoginClick = () => {
-  console.log('Login button clicked')
-  // Add your login logic here
-  if (emailOrUsername.value === 'admin' && password.value === 'admin') {
-    alert('Login successful')
-    // Redirect to the welcome page after successful login
-    window.location.href = '/home'
-  } else {
-    alert('Invalid email/username or password')
+export default {
+  components: {
+    Icon,
+    RouterLink
+  },
+  data() {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  computed: {
+    ...mapState(userStore, ['isLoggedIn'])
+  },
+  methods: {
+    ...mapActions(userStore, ['login']),
+    async loginUser() {
+      try {
+        await this.login(this.username, this.password)
+        this.$router.push({ name: 'home' })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    handleGoogleLoginClick() {
+      console.log('Google login button clicked')
+      window.location.href = 'http://localhost:9999/api/v1/oauth/google/login' // TODO: Check if we can do this via the SDK instead, helps preserve the SPA feel of the app
+    },
+    handleGithubLoginClick() {
+      console.log('GitHub login button clicked')
+      window.location.href = 'http://localhost:9999/api/v1/oauth/github/login' // TODO: Same as above
+    }
   }
 }
 </script>
@@ -42,12 +51,7 @@ const handleLoginClick = () => {
         <div class="field">
           <label class="label">Email or Username</label>
           <div class="control">
-            <input
-              type="text"
-              v-model="emailOrUsername"
-              class="input"
-              placeholder="Email or Username"
-            />
+            <input type="text" v-model="username" class="input" placeholder="Email" />
           </div>
         </div>
 
@@ -60,7 +64,7 @@ const handleLoginClick = () => {
 
         <div class="columns is-centered mt-5">
           <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="handleLoginClick">Login</button>
+            <button class="button is-primary custom-button" @click="loginUser">Login</button>
           </div>
         </div>
 
@@ -90,7 +94,7 @@ const handleLoginClick = () => {
 
 <style scoped>
 .custom-button {
-  width: 250px; /* Adjust the width as needed */
+  width: 250px;
   margin: 0 80px; /* Add horizontal margin to create space between buttons */
 }
 

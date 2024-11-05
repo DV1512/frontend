@@ -2,34 +2,28 @@
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
 
-// Define the methods for handling button clicks
 const handleGoogleSignUpClick = () => {
   console.log('Google signin button clicked')
-  // Redirect to the updated Google OAuth login URL with API versioning
   window.location.href = 'http://localhost:9999/api/v1/oauth/google/signin'
 }
 
 const handleGithubSignUpClick = () => {
   console.log('GitHub login button clicked')
-  // Redirect to the updated GitHub OAuth login URL with API versioning
   window.location.href = 'http://localhost:9999/api/v1/oauth/github/signin'
 }
 
-// Define reactive variables for email/username and password
 const name = ref('')
 const Username = ref('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 
-// Define the method for handling the signup button click
 const handleSignUpClick = () => {
   if (password.value !== confirmPassword.value) {
     alert('Passwords do not match')
     return
   }
   console.log('Sign Up button clicked')
-  // Add your sign up logic here
 }
 </script>
 
@@ -105,7 +99,6 @@ const handleSignUpClick = () => {
           </div>
         </div>
 
-        <!-- Text with Link to Login Page -->
         <div class="has-text-centered mt-5">
           <p>
             Already have an account?
