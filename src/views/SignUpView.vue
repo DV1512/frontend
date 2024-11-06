@@ -17,14 +17,30 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
-      passwordError: ''
+      passwordError: '',
+      confirmPasswordError: '',
+      emailError: '',
+      usernameError: ''
     }
-  },
-  computed: {
-    ...mapState(userStore, ['isLoggedIn'])
   },
   methods: {
     ...mapActions(userStore, ['signup']),
+
+    validateEmail(email: string) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailPattern.test(email)) {
+        return 'Please enter a valid email address.'
+      }
+      return ''
+    },
+
+    validateUsername(username: string) {
+      if (!username) {
+        return 'Username is required.'
+      }
+      return ''
+    },
+
     validatePassword(password: string) {
       const minLength = 8
       const hasUpperCase = /[A-Z]/.test(password)
@@ -50,10 +66,31 @@ export default {
       return ''
     },
 
+    validateConfirmPassword(password: string, confirmPassword: string) {
+      if (password !== confirmPassword) {
+        return 'Passwords do not match.'
+      }
+      return ''
+    },
+
     async signUpUser() {
+      this.emailError = this.validateEmail(this.email)
+      this.usernameError = this.validateUsername(this.username)
       this.passwordError = this.validatePassword(this.password)
-      if (this.passwordError) {
-        console.warn(this.passwordError)
+      this.confirmPasswordError = this.validateConfirmPassword(this.password, this.confirmPassword)
+
+      if (
+        this.emailError ||
+        this.usernameError ||
+        this.passwordError ||
+        this.confirmPasswordError
+      ) {
+        console.warn('Validation errors:', {
+          email: this.emailError,
+          username: this.usernameError,
+          password: this.passwordError,
+          confirmPassword: this.confirmPasswordError
+        })
         return
       }
 
@@ -87,6 +124,7 @@ export default {
         <div class="control">
           <input type="email" v-model="email" class="input" placeholder="Email" required />
         </div>
+        <p v-if="emailError" class="help is-danger">{{ emailError }}</p>
       </div>
 
       <div class="field">
@@ -94,6 +132,7 @@ export default {
         <div class="control">
           <input type="text" v-model="username" class="input" placeholder="Username" required />
         </div>
+        <p v-if="usernameError" class="help is-danger">{{ usernameError }}</p>
       </div>
 
       <div class="field">
@@ -108,6 +147,7 @@ export default {
             minlength="8"
           />
         </div>
+        <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
       </div>
 
       <div class="field">
@@ -121,8 +161,8 @@ export default {
             required
           />
         </div>
+        <p v-if="confirmPasswordError" class="help is-danger">{{ confirmPasswordError }}</p>
       </div>
-      <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
 
       <div class="columns is-centered mt-5">
         <div class="column is-narrow">
