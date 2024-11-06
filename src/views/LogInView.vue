@@ -45,6 +45,7 @@ export default {
         await this.login(this.username, this.password)
         this.$router.push({ name: 'home' })
       } catch (error) {
+        // Set an error message if login fails
         this.loginError = 'Incorrect username or password.'
         console.error(error)
       }
