@@ -41,6 +41,24 @@ export const userStore = defineStore('userStore', {
         this.loading = false
       }
     },
+
+    async signup(username: string, email: string, password: string) {
+      if (!username || !email || !password) {
+        console.error('Username, email, or password is missing')
+        return
+      }
+
+      this.loading = true
+
+      try {
+        await authService.signup(username, email, password)
+      } catch (error) {
+        console.error('Signup failed', error)
+      } finally {
+        this.loading = false
+      }
+    },
+
     async getUserInfo(token: string) {
       const filter = new GetUserByFilter()
       filter.token = token
