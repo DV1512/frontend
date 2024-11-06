@@ -15,7 +15,9 @@ export default {
     return {
       username: '',
       password: '',
-      passwordError: ''
+      usernameError: '',
+      passwordError: '',
+      loginError: ''
     }
   },
   computed: {
@@ -24,45 +26,26 @@ export default {
   methods: {
     ...mapActions(userStore, ['login']),
 
-    // This is not supposed to be here, it should be in sign up view
-    // We should have something with wrong username or password here
-    validatePassword(password: string) {
-      const minLength = 8
-      const hasUpperCase = /[A-Z]/.test(password)
-      const hasLowerCase = /[a-z]/.test(password)
-      const hasNumber = /\d/.test(password)
-      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
-
-      if (password.length < minLength) {
-        return `Password must be at least ${minLength} characters long.`
-      }
-      if (!hasUpperCase) {
-        return 'Password must contain at least one uppercase letter.'
-      }
-      if (!hasLowerCase) {
-        return 'Password must contain at least one lowercase letter.'
-      }
-      if (!hasNumber) {
-        return 'Password must contain at least one number.'
-      }
-      if (!hasSpecialChar) {
-        return 'Password must contain at least one special character.'
-      }
-      return ''
-    },
-
     async loginUser() {
-      // Run password validation
-      this.passwordError = this.validatePassword(this.password)
-      if (this.passwordError) {
-        console.warn(this.passwordError)
-        return // Stop the login process if validation fails
+      this.usernameError = ''
+      this.passwordError = ''
+      this.loginError = ''
+
+      if (!this.username) {
+        this.usernameError = 'Please enter a username or email'
+        return
+      }
+
+      if (!this.password) {
+        this.passwordError = 'Please enter a password'
+        return
       }
 
       try {
         await this.login(this.username, this.password)
         this.$router.push({ name: 'home' })
       } catch (error) {
+        this.loginError = 'Incorrect username or password.'
         console.error(error)
       }
     },
@@ -91,6 +74,7 @@ export default {
           <div class="control">
             <input type="text" v-model="username" class="input" placeholder="Email" />
           </div>
+          <p v-if="usernameError" class="help is-danger">{{ usernameError }}</p>
         </div>
       </div>
 
@@ -103,6 +87,8 @@ export default {
           <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
         </div>
       </div>
+
+      <p v-if="loginError" class="help is-danger">{{ loginError }}</p>
 
       <div class="columns is-centered mt-5">
         <div class="column is-narrow">
