@@ -1,15 +1,15 @@
 <script lang="ts">
-import { ref } from 'vue'
 import { mapActions, mapState } from 'pinia'
 import { Icon } from '@iconify/vue'
-import { passwordLogin, getUser, GetUserByFilter } from 'sdk'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { userStore } from './stores/userStore'
+import TheContainer from '@/components/TheContainer.vue'
 
 export default {
   components: {
     Icon,
-    RouterLink
+    RouterLink,
+    TheContainer
   },
   data() {
     return {
@@ -17,7 +17,7 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
-      passwordError: '' // To store validation error message
+      passwordError: ''
     }
   },
   computed: {
@@ -51,16 +51,15 @@ export default {
     },
 
     async signUpUser() {
-      // Run password validation
       this.passwordError = this.validatePassword(this.password)
       if (this.passwordError) {
         console.warn(this.passwordError)
-        return // Stop the login process if validation fails
+        return
       }
 
       try {
         await this.signup(this.username, this.email, this.password)
-        this.$router.push({ name: 'login' }) // Navigate to the home page after successful signup
+        this.$router.push({ name: 'login' })
       } catch (error) {
         console.error('Sign-up failed:', error)
       }
@@ -79,85 +78,83 @@ export default {
 </script>
 
 <template>
-  <section class="section">
-    <div class="container">
-      <h1 class="title has-text-centered">Sign Up</h1>
+  <div class="app-container">
+    <TheContainer>
+      <template #heading>Signup</template>
 
-      <div class="box">
-        <div class="field">
-          <label class="label">Email</label>
-          <div class="control">
-            <input type="email" v-model="email" class="input" placeholder="Email" required />
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label">Username</label>
-          <div class="control">
-            <input type="text" v-model="username" class="input" placeholder="Username" required />
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label">Password</label>
-          <div class="control">
-            <input
-              type="password"
-              v-model="password"
-              class="input"
-              placeholder="Password"
-              required
-              minlength="8"
-            />
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label">Confirm Password</label>
-          <div class="control">
-            <input
-              type="password"
-              v-model="confirmPassword"
-              class="input"
-              placeholder="Confirm Password"
-              required
-            />
-          </div>
-        </div>
-        <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
-
-        <div class="columns is-centered mt-5">
-          <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="signUpUser">Sign Up</button>
-          </div>
-        </div>
-
-        <h2 class="has-text-centered mt-5">Or Sign Up with:</h2>
-
-        <div class="columns is-centered mt-5">
-          <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="handleGoogleSignUpClick">
-              <Icon icon="logos:google-icon" class="icon" />
-              Sign Up with Google
-            </button>
-          </div>
-          <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="handleGithubSignUpClick">
-              <Icon icon="mdi:github" class="icon" />
-              Sign Up with GitHub
-            </button>
-          </div>
-        </div>
-
-        <div class="has-text-centered mt-5">
-          <p>
-            Already have an account?
-            <RouterLink to="/login" class="has-text-link">Log in here</RouterLink>.
-          </p>
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input type="email" v-model="email" class="input" placeholder="Email" required />
         </div>
       </div>
-    </div>
-  </section>
+
+      <div class="field">
+        <label class="label">Username</label>
+        <div class="control">
+          <input type="text" v-model="username" class="input" placeholder="Username" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input
+            type="password"
+            v-model="password"
+            class="input"
+            placeholder="Password"
+            required
+            minlength="8"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Confirm Password</label>
+        <div class="control">
+          <input
+            type="password"
+            v-model="confirmPassword"
+            class="input"
+            placeholder="Confirm Password"
+            required
+          />
+        </div>
+      </div>
+      <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
+
+      <div class="columns is-centered mt-5">
+        <div class="column is-narrow">
+          <button class="button is-primary custom-button" @click="signUpUser">Sign Up</button>
+        </div>
+      </div>
+
+      <h2 class="has-text-centered mt-5">Or Sign Up with:</h2>
+
+      <div class="columns is-centered mt-5">
+        <div class="column is-narrow">
+          <button class="button is-primary custom-button" @click="handleGoogleSignUpClick">
+            <Icon icon="logos:google-icon" class="icon" />
+            Sign Up with Google
+          </button>
+        </div>
+        <div class="column is-narrow">
+          <button class="button is-primary custom-button" @click="handleGithubSignUpClick">
+            <Icon icon="mdi:github" class="icon" />
+            Sign Up with GitHub
+          </button>
+        </div>
+      </div>
+
+      <div class="has-text-centered mt-5">
+        <p>
+          Already have an account?
+          <RouterLink to="/login" class="has-text-link">Log in here</RouterLink>.
+        </p>
+      </div>
+    </TheContainer>
+  </div>
 </template>
 
 <style scoped>

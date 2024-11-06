@@ -1,9 +1,7 @@
 <script lang="ts">
-import { ref } from 'vue'
 import { mapActions, mapState } from 'pinia'
 import { Icon } from '@iconify/vue'
-import { passwordLogin, getUser, GetUserByFilter } from 'sdk'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { userStore } from './stores/userStore'
 
 export default {
@@ -15,7 +13,7 @@ export default {
     return {
       username: '',
       password: '',
-      passwordError: '' // To store validation error message
+      passwordError: ''
     }
   },
   computed: {
