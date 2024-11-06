@@ -118,50 +118,57 @@ export default {
   <div class="app-container">
     <TheContainer>
       <template #heading>Signup</template>
-
-      <div class="field">
-        <label class="label">Email</label>
-        <div class="control">
-          <input type="email" v-model="email" class="input" placeholder="Email" required />
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control">
+            <input type="email" v-model="email" class="input" placeholder="Email" required />
+          </div>
+          <p v-if="emailError" class="help is-danger">{{ emailError }}</p>
         </div>
-        <p v-if="emailError" class="help is-danger">{{ emailError }}</p>
       </div>
 
-      <div class="field">
-        <label class="label">Username</label>
-        <div class="control">
-          <input type="text" v-model="username" class="input" placeholder="Username" required />
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">Username</label>
+          <div class="control">
+            <input type="text" v-model="username" class="input" placeholder="Username" required />
+          </div>
+          <p v-if="usernameError" class="help is-danger">{{ usernameError }}</p>
         </div>
-        <p v-if="usernameError" class="help is-danger">{{ usernameError }}</p>
       </div>
 
-      <div class="field">
-        <label class="label">Password</label>
-        <div class="control">
-          <input
-            type="password"
-            v-model="password"
-            class="input"
-            placeholder="Password"
-            required
-            minlength="8"
-          />
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input
+              type="password"
+              v-model="password"
+              class="input"
+              placeholder="Password"
+              required
+              minlength="8"
+            />
+          </div>
+          <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
         </div>
-        <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
       </div>
 
-      <div class="field">
-        <label class="label">Confirm Password</label>
-        <div class="control">
-          <input
-            type="password"
-            v-model="confirmPassword"
-            class="input"
-            placeholder="Confirm Password"
-            required
-          />
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">Confirm Password</label>
+          <div class="control">
+            <input
+              type="password"
+              v-model="confirmPassword"
+              class="input"
+              placeholder="Confirm Password"
+              required
+            />
+          </div>
+          <p v-if="confirmPasswordError" class="help is-danger">{{ confirmPasswordError }}</p>
         </div>
-        <p v-if="confirmPasswordError" class="help is-danger">{{ confirmPasswordError }}</p>
       </div>
 
       <div class="columns is-centered mt-5">
@@ -174,15 +181,19 @@ export default {
 
       <div class="columns is-centered mt-5">
         <div class="column is-narrow">
-          <button class="button is-primary custom-button" @click="handleGoogleSignUpClick">
-            <Icon icon="logos:google-icon" class="icon" />
-            Sign Up with Google
+          <button class="button is-primary custom-button is-flex" @click="handleGoogleSignUpClick">
+            <span class="button-content">
+              <Icon icon="logos:google-icon" class="icon" />
+              <span>Sign Up with Google</span>
+            </span>
           </button>
         </div>
         <div class="column is-narrow">
-          <button class="button is-primary custom-button" @click="handleGithubSignUpClick">
-            <Icon icon="mdi:github" class="icon" />
-            Sign Up with GitHub
+          <button class="button is-primary custom-button is-flex" @click="handleGithubSignUpClick">
+            <span class="button-content">
+              <Icon icon="mdi:github" class="icon" />
+              <span>Sign Up with GitHub</span>
+            </span>
           </button>
         </div>
       </div>
@@ -198,17 +209,29 @@ export default {
 </template>
 
 <style scoped>
-.custom-button {
-  width: 250px;
-  margin: 0 80px;
+.field {
+  width: 70%;
+  margin-top: 1.5rem;
 }
 
-.mt-5 {
-  margin-top: 2rem;
+.custom-button {
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon {
   margin-right: 10px;
-  font-size: 1.5rem;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mt-5 {
+  margin-top: 2rem;
 }
 </style>

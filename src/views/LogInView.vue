@@ -3,11 +3,13 @@ import { mapActions, mapState } from 'pinia'
 import { Icon } from '@iconify/vue'
 import { RouterLink } from 'vue-router'
 import { userStore } from './stores/userStore'
+import TheContainer from '@/components/TheContainer.vue'
 
 export default {
   components: {
     Icon,
-    RouterLink
+    RouterLink,
+    TheContainer
   },
   data() {
     return {
@@ -79,18 +81,20 @@ export default {
 </script>
 
 <template>
-  <section class="section">
-    <div class="container">
-      <h1 class="title has-text-centered">Login Page</h1>
+  <div class="app-container">
+    <TheContainer>
+      <template #heading>Login</template>
 
-      <div class="box">
+      <div class="columns is-centered">
         <div class="field">
           <label class="label">Email or Username</label>
           <div class="control">
             <input type="text" v-model="username" class="input" placeholder="Email" />
           </div>
         </div>
+      </div>
 
+      <div class="columns is-centered">
         <div class="field">
           <label class="label">Password</label>
           <div class="control">
@@ -98,46 +102,62 @@ export default {
           </div>
           <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
         </div>
+      </div>
 
-        <div class="columns is-centered mt-5">
-          <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="loginUser">Login</button>
-          </div>
-        </div>
-
-        <h2 class="has-text-centered mt-5">Or login with:</h2>
-
-        <div class="columns is-centered mt-5">
-          <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="handleGoogleLoginClick">
-              <Icon icon="logos:google-icon" class="icon" />
-              Login with Google
-            </button>
-          </div>
-          <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="handleGithubLoginClick">
-              <Icon icon="mdi:github" class="icon" />
-              Login with GitHub
-            </button>
-          </div>
-        </div>
-        <div class="has-text-centered mt-5">
-          <p>Don't have an account? <RouterLink to="/signup">Sign up here</RouterLink></p>
+      <div class="columns is-centered mt-5">
+        <div class="column is-narrow">
+          <button class="button is-primary custom-button" @click="loginUser">Login</button>
         </div>
       </div>
-    </div>
-  </section>
+
+      <h2 class="has-text-centered mt-5">Or login with:</h2>
+
+      <div class="columns is-centered mt-5">
+        <div class="column is-narrow">
+          <button class="button is-primary custom-button" @click="handleGoogleLoginClick">
+            <span class="button-content">
+              <Icon icon="logos:google-icon" class="icon" />
+              <span>Login with Google</span>
+            </span>
+          </button>
+        </div>
+        <div class="column is-narrow">
+          <button class="button is-primary custom-button" @click="handleGithubLoginClick">
+            <span class="button-content">
+              <Icon icon="mdi:github" class="icon" />
+              <span>Login with GitHub</span>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="has-text-centered mt-5">
+        <p>Don't have an account? <RouterLink to="/signup">Sign up here</RouterLink></p>
+      </div>
+    </TheContainer>
+  </div>
 </template>
 
 <style scoped>
+.field {
+  width: 70%;
+  margin-top: 1.5rem;
+}
+
 .custom-button {
   width: 250px;
-  margin: 0 80px; /* Add horizontal margin to create space between buttons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon {
   margin-right: 10px;
-  font-size: 1.5rem; /* Adjust the size of the icons */
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .mt-5 {
