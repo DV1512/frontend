@@ -1,15 +1,15 @@
 <script lang="ts">
 import { mapActions, mapState } from 'pinia'
-import { Icon } from '@iconify/vue'
 import { RouterLink } from 'vue-router'
 import { userStore } from './stores/userStore'
 import TheContainer from '@/components/TheContainer.vue'
+import OAuthButton from '@/components/OAuthButton.vue'
 
 export default {
   components: {
-    Icon,
     RouterLink,
-    TheContainer
+    TheContainer,
+    OAuthButton
   },
   data() {
     return {
@@ -51,14 +51,12 @@ export default {
       }
     },
 
-    handleGoogleLoginClick() {
-      console.log('Google login button clicked')
-      window.location.href = 'http://localhost:9999/api/v1/oauth/google/login' // TODO: Check if we can do this via the SDK instead, helps preserve the SPA feel of the app
-    },
-
-    handleGithubLoginClick() {
-      console.log('GitHub login button clicked')
-      window.location.href = 'http://localhost:9999/api/v1/oauth/github/login' // TODO: Same as above
+    handleOAuthClick(method: string) {
+      if (method === 'handleGoogleLoginClick') {
+        window.location.href = 'http://localhost:9999/api/v1/oauth/google/login'
+      } else if (method === 'handleGithubLoginClick') {
+        window.location.href = 'http://localhost:9999/api/v1/oauth/github/login'
+      }
     }
   }
 }
@@ -100,23 +98,10 @@ export default {
       <h2 class="has-text-centered mt-5">Or login with:</h2>
 
       <div class="columns is-centered mt-5">
-        <div class="column is-narrow">
-          <button class="button is-primary custom-button" @click="handleGoogleLoginClick">
-            <span class="button-content">
-              <Icon icon="logos:google-icon" class="icon" />
-              <span>Login with Google</span>
-            </span>
-          </button>
-        </div>
-        <div class="column is-narrow">
-          <button class="button is-primary custom-button" @click="handleGithubLoginClick">
-            <span class="button-content">
-              <Icon icon="mdi:github" class="icon" />
-              <span>Login with GitHub</span>
-            </span>
-          </button>
-        </div>
+        <OAuthButton provider="google" action="login" @click="handleOAuthClick" />
+        <OAuthButton provider="github" action="login" @click="handleOAuthClick" />
       </div>
+
       <div class="has-text-centered mt-5">
         <p>Don't have an account? <RouterLink to="/signup">Sign up here</RouterLink></p>
       </div>
@@ -135,16 +120,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.icon {
-  margin-right: 10px;
-}
-
-.button-content {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .mt-5 {
