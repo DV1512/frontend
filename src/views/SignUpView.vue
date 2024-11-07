@@ -1,15 +1,15 @@
 <script lang="ts">
 import { mapActions, mapState } from 'pinia'
-import { Icon } from '@iconify/vue'
 import { RouterLink } from 'vue-router'
 import { userStore } from './stores/userStore'
 import TheContainer from '@/components/TheContainer.vue'
+import OAuthButton from '@/components/OAuthButton.vue'
 
 export default {
   components: {
-    Icon,
     RouterLink,
-    TheContainer
+    TheContainer,
+    OAuthButton
   },
   data() {
     return {
@@ -101,14 +101,12 @@ export default {
         console.error('Sign-up failed:', error)
       }
     },
-    handleGoogleSignUpClick() {
-      console.log('Google sign-up button clicked')
-      window.location.href = 'http://localhost:9999/api/v1/oauth/google/signup'
-    },
-
-    handleGithubSignUpClick() {
-      console.log('GitHub sign-up button clicked')
-      window.location.href = 'http://localhost:9999/api/v1/oauth/github/signup'
+    handleOAuthClick(method: string) {
+      if (method === 'handleGoogleSignUpClick') {
+        window.location.href = 'http://localhost:9999/api/v1/oauth/google/signup'
+      } else if (method === 'handleGithubSignUpClick') {
+        window.location.href = 'http://localhost:9999/api/v1/oauth/github/signup'
+      }
     }
   }
 }
@@ -180,22 +178,8 @@ export default {
       <h2 class="has-text-centered mt-5">Or Sign Up with:</h2>
 
       <div class="columns is-centered mt-5">
-        <div class="column is-narrow">
-          <button class="button is-primary custom-button is-flex" @click="handleGoogleSignUpClick">
-            <span class="button-content">
-              <Icon icon="logos:google-icon" class="icon" />
-              <span>Sign Up with Google</span>
-            </span>
-          </button>
-        </div>
-        <div class="column is-narrow">
-          <button class="button is-primary custom-button is-flex" @click="handleGithubSignUpClick">
-            <span class="button-content">
-              <Icon icon="mdi:github" class="icon" />
-              <span>Sign Up with GitHub</span>
-            </span>
-          </button>
-        </div>
+        <OAuthButton provider="google" action="signup" @click="handleOAuthClick" />
+        <OAuthButton provider="github" action="signup" @click="handleOAuthClick" />
       </div>
 
       <div class="has-text-centered mt-5">
@@ -219,16 +203,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.icon {
-  margin-right: 10px;
-}
-
-.button-content {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .mt-5 {
