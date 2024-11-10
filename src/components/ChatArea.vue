@@ -18,6 +18,6 @@ const props = defineProps({
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
-  height: 70vh;
+  height: 50vh;
 }
 </style>

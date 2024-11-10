@@ -4,7 +4,7 @@ import ChatArea from '@/components/ChatArea.vue'
 import ChatInput from '@/components/ChatInput.vue'
 import { ref } from 'vue'
 
-const messages = ref([{ text: 'Hello! How can I assist you today?', sender: 'bot' }])
+const messages = ref<Message[]>([{ text: 'Hello! How can I assist you today?', sender: 'bot' }])
 
 const sendMessage = (text: string) => {
   messages.value.push({ text, sender: 'user' })
@@ -49,11 +49,5 @@ const sendMessage = (text: string) => {
 .sidebar {
   border-right: 1px solid #7c7777;
   padding: 0.75rem;
-}
-
-.chat-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
 }
 </style>

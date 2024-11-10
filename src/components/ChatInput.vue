@@ -4,6 +4,13 @@ import { Icon } from '@iconify/vue'
 
 const message = ref('')
 const emit = defineEmits(['send'])
+
+const sendMessage = () => {
+  if (message.value.trim()) {
+    emit('send', message.value)
+    message.value = ''
+  }
+}
 </script>
 
 <template>
@@ -11,7 +18,7 @@ const emit = defineEmits(['send'])
     <div class="input-area">
       <input
         v-model="message"
-        @keyup.enter="message.trim() && emit('send', message)"
+        @keyup.enter="sendMessage"
         type="text"
         placeholder="Type your message..."
         class="input"
