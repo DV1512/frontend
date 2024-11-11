@@ -3,22 +3,13 @@ import { RouterLink } from 'vue-router'
 import TheContainer from '@/components/TheContainer.vue'
 import { computed } from 'vue'
 import { userStore } from './stores/userStore'
-//import { ref, computed } from 'vue'
 
 const store = userStore()
 const welcomeMessage = computed(() => {
   return store.isLoggedIn && store.user?.first_name
-    ? `Welcome, ${store.user.first_name}!`
-    : 'to ThreatMapper AI'
+    ? `Welcome, ${store.user.first_name} ! Press the button below to start chatting.`
+    : 'You are logged out'
 })
-/*const user = ref({
-  isLoggedIn: store.isLoggedIn, // Assuming the store has an `isLoggedIn` property
-  name: store.user?.first_name // Fetching user's first name from the store
-})*/
-
-/*const welcomeMessage = computed(() => {
-  return user.value.isLoggedIn ? `Welcome, ${user.value.name}!` : "";
-})*/
 </script>
 
 <template>
