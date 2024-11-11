@@ -85,7 +85,13 @@ export default {
         <div class="field">
           <label class="label">Password</label>
           <div class="control">
-            <input type="password" v-model="password" class="input" placeholder="Password" />
+            <input
+              type="password"
+              v-model="password"
+              class="input"
+              placeholder="Password"
+              @keyup.enter="loginUser"
+            />
           </div>
           <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
           <p v-if="loginError" class="help is-danger">{{ loginError }}</p>
