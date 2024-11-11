@@ -42,11 +42,15 @@ export default {
       }
 
       try {
-        await this.login(this.username, this.password)
-        this.$router.push({ name: 'home' })
+        const loginSuccessful = await this.login(this.username, this.password)
+        if (loginSuccessful) {
+          this.$router.push({ name: 'home' })
+        } else {
+          console.log('login failed', loginSuccessful)
+          this.loginError = 'Incorrect username or password.'
+        }
       } catch (error) {
-        // Set an error message if login fails
-        this.loginError = 'Incorrect username or password.'
+        this.loginError = 'An error occurred. Please try again.'
         console.error(error)
       }
     },
@@ -84,10 +88,9 @@ export default {
             <input type="password" v-model="password" class="input" placeholder="Password" />
           </div>
           <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
+          <p v-if="loginError" class="help is-danger">{{ loginError }}</p>
         </div>
       </div>
-
-      <p v-if="loginError" class="help is-danger">{{ loginError }}</p>
 
       <div class="columns is-centered mt-5">
         <div class="column is-narrow">

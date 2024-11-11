@@ -22,7 +22,7 @@ export const userStore = defineStore('userStore', {
     async login(username: string, password: string) {
       if (!username || !password) {
         console.error('Username or password is missing')
-        return
+        return false
       }
 
       this.loading = true
@@ -30,11 +30,12 @@ export const userStore = defineStore('userStore', {
       try {
         await authService.login(username, password)
         const token = authService.getAccessToken()
-        if (!token) {
-          throw new Error('Failed to get access token')
+        if (token) {
+          this.getUserInfo(token)
+          return true
         }
 
-        this.getUserInfo(token)
+        //throw new Error('Failed to get access token')
       } catch (error) {
         console.error('Login failed', error)
       } finally {
