@@ -30,12 +30,13 @@ export const userStore = defineStore('userStore', {
       try {
         await authService.login(username, password)
         const token = authService.getAccessToken()
-        if (token) {
-          this.getUserInfo(token)
-          return true
+        if (!token) {
+          console.error('Failed to get access token')
+          return false
         }
-
-        //throw new Error('Failed to get access token')
+        await this.getUserInfo(token)
+        console.log('User info fetched successfully')
+        return true
       } catch (error) {
         console.error('Login failed', error)
       } finally {

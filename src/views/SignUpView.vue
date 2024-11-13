@@ -163,6 +163,7 @@ export default {
               class="input"
               placeholder="Confirm Password"
               required
+              @keyup.enter="signUpUser"
             />
           </div>
           <p v-if="confirmPasswordError" class="help is-danger">{{ confirmPasswordError }}</p>
