@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TheContainer from '@/components/TheContainer.vue'
 import { userStore } from './stores/userStore'
+import { useThemeStore } from './stores/themeStore'
 
 const store = userStore()
 const router = useRouter()
@@ -39,6 +40,7 @@ const handleDeclineChangesClick = () => {
     // TODO: implement this later
   }
 }
+const themeStore = useThemeStore()
 </script>
 
 <template>
@@ -131,6 +133,16 @@ const handleDeclineChangesClick = () => {
           <button @click="handleAccountDeleteClick" class="button is-primary custom-button">
             Delete Account
           </button>
+        </div>
+        <div class="column is-narrow">
+          <label class="theme">
+            <input
+              type="checkbox"
+              :checked="themeStore.isDarkMode"
+              @change="themeStore.toggleTheme"
+            />
+            <span>{{ themeStore.isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
+          </label>
         </div>
       </div>
     </TheContainer>
