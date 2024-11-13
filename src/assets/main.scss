@@ -185,6 +185,99 @@ $text: $snow-storm-2;
   @include setup.setup-theme;
 }
 
+// Light Mode Color Palette
+$polar-night-light-0-h: 220;
+$polar-night-light-0-s: 10%;
+$polar-night-light-0-l: 95%; // Light background
+
+$polar-night-light-1-h: 220;
+$polar-night-light-1-s: 10%;
+$polar-night-light-1-l: 90%;
+
+$polar-night-light-2-h: 219;
+$polar-night-light-2-s: 8%;
+$polar-night-light-2-l: 85%;
+
+$polar-night-light-3-h: 218;
+$polar-night-light-3-s: 6%;
+$polar-night-light-3-l: 80%;
+
+$snow-storm-light-0-h: 210;
+$snow-storm-light-0-s: 10%;
+$snow-storm-light-0-l: 20%; // Darker text color
+
+$snow-storm-light-1-h: 210;
+$snow-storm-light-1-s: 12%;
+$snow-storm-light-1-l: 25%;
+
+$snow-storm-light-2-h: 210;
+$snow-storm-light-2-s: 14%;
+$snow-storm-light-2-l: 30%;
+
+// Register these colors as CSS variables for light mode
+$polar-night-light-0: hsl($polar-night-light-0-h, $polar-night-light-0-s, $polar-night-light-0-l);
+$polar-night-light-1: hsl($polar-night-light-1-h, $polar-night-light-1-s, $polar-night-light-1-l);
+$polar-night-light-2: hsl($polar-night-light-2-h, $polar-night-light-2-s, $polar-night-light-2-l);
+$polar-night-light-3: hsl($polar-night-light-3-h, $polar-night-light-3-s, $polar-night-light-3-l);
+
+$snow-storm-light-0: hsl($snow-storm-light-0-h, $snow-storm-light-0-s, $snow-storm-light-0-l);
+$snow-storm-light-1: hsl($snow-storm-light-1-h, $snow-storm-light-1-s, $snow-storm-light-1-l);
+$snow-storm-light-2: hsl($snow-storm-light-2-h, $snow-storm-light-2-s, $snow-storm-light-2-l);
+
+@mixin light-theme {
+  @include cv.register-vars(
+    (
+      "scheme-brightness": "light",
+      "scheme-main": $polar-night-light-0,
+      "background": $polar-night-light-1,
+      "text": $snow-storm-light-0,
+      "border-weak-l": 75%, 
+      "text-weak-l": 40%,
+      "text-l": 20%,
+      "hover-background-l-delta": -4%, 
+      "active-background-l-delta": -8%, 
+      "hover-border-l-delta": -8%, 
+      "active-border-l-delta": -12%, 
+      "hover-color-l-delta": -4%, 
+      "active-color-l-delta": -8%, 
+    )
+  );
+}
+
+@include cv.bulma-theme($name: "light-mode") {
+  @include light-theme;
+  @include setup.setup-theme;
+}
+
+[data-theme='dark-mode'] {
+  @include nord-theme;
+}
+
+[data-theme='light-mode'] {
+  @include light-theme;
+}
+.theme {
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  // Optional styling for light/dark themes
+  input[type='checkbox'] {
+    cursor: pointer;
+  }
+
+  // Text color based on theme
+  [data-theme='dark'] & span {
+    color: $snow-storm-2; // Light color for dark mode
+  }
+  
+  [data-theme='light'] & span {
+    color: $polar-night-light-0; // Darker color for light mode
+  }
+}
+
 /* main.scss */
 
 /* main.scss */
