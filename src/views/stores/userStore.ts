@@ -42,16 +42,22 @@ export const userStore = defineStore('userStore', {
       }
     },
 
-    async signup(username: string, email: string, password: string) {
-      if (!username || !email || !password) {
-        console.error('Username, email, or password is missing')
+    async signup(
+      username: string,
+      email: string,
+      first_name: string,
+      last_name: string,
+      password: string
+    ) {
+      if (!first_name || !last_name || !username || !email || !password) {
+        console.error('First name, last name, username, email, or password is missing')
         return
       }
 
       this.loading = true
 
       try {
-        await authService.signup(username, email, password)
+        await authService.signup(username, email, first_name, last_name, password)
       } catch (error) {
         console.error('Signup failed', error)
       } finally {
