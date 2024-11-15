@@ -22,7 +22,7 @@ export const userStore = defineStore('userStore', {
     async login(username: string, password: string) {
       if (!username || !password) {
         console.error('Username or password is missing')
-        return
+        return false
       }
 
       this.loading = true
@@ -31,16 +31,36 @@ export const userStore = defineStore('userStore', {
         await authService.login(username, password)
         const token = authService.getAccessToken()
         if (!token) {
-          throw new Error('Failed to get access token')
+          console.error('Failed to get access token')
+          return false
         }
-
-        this.getUserInfo(token)
+        await this.getUserInfo(token)
+        console.log('User info fetched successfully')
+        return true
       } catch (error) {
         console.error('Login failed', error)
       } finally {
         this.loading = false
       }
     },
+
+    async signup(username: string, email: string, password: string) {
+      if (!username || !email || !password) {
+        console.error('Username, email, or password is missing')
+        return
+      }
+
+      this.loading = true
+
+      try {
+        await authService.signup(username, email, password)
+      } catch (error) {
+        console.error('Signup failed', error)
+      } finally {
+        this.loading = false
+      }
+    },
+
     async getUserInfo(token: string) {
       const filter = new GetUserByFilter()
       filter.token = token

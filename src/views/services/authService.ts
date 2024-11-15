@@ -4,6 +4,7 @@ class AuthService {
   private access_token: string | undefined
   private refresh_token: string | undefined
   private expieries: Date | null = null
+  public loading: boolean = false
 
   /**
    * login
@@ -31,6 +32,27 @@ class AuthService {
     }
   }
 
+  /**
+   * signup
+   */
+  public async signup(username: string, email: string, password: string) {
+    if (!username || !email || !password) {
+      console.error('Username, email, or password is missing')
+      return
+    }
+
+    fetch(import.meta.env.VITE_BACKEND_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        username
+      })
+    })
+  }
   /**
    * getAccessToken
    */
