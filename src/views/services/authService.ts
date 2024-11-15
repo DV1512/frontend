@@ -35,8 +35,13 @@ class AuthService {
   /**
    * signup
    */
-  public async signup(username: string, email: string, password: string) {
-    if (!username || !email || !password) {
+  public async signup(
+    username: string,
+    email: string,
+    first_name: string,
+    last_name: string,
+    password: string) {
+    if (!first_name || !last_name || !username || !email || !password) {
       console.error('Username, email, or password is missing')
       return
     }
@@ -49,7 +54,9 @@ class AuthService {
       body: JSON.stringify({
         email,
         password,
-        username
+        username,
+        first_name,
+        last_name
       })
     })
   }

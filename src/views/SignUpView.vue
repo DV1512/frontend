@@ -13,6 +13,8 @@ export default {
   },
   data() {
     return {
+      firstName: '',
+      lastName: '',
       username: '',
       email: '',
       password: '',
@@ -20,11 +22,26 @@ export default {
       passwordError: '',
       confirmPasswordError: '',
       emailError: '',
-      usernameError: ''
+      usernameError: '',
+      firstNameError: '',
+      lastNameError: ''
     }
   },
   methods: {
     ...mapActions(userStore, ['signup']),
+
+    validateFirstName(firstName: string) {
+      if (!firstName) {
+        return 'First name is required.'
+      }
+      return ''
+    },
+    validateLastName(lastName: string) {
+      if (!lastName) {
+        return 'Last name is required.'
+      }
+      return ''
+    },
 
     validateEmail(email: string) {
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -74,18 +91,24 @@ export default {
     },
 
     async signUpUser() {
+      this.firstNameError = this.validateFirstName(this.firstName)
+      this.lastNameError = this.validateLastName(this.lastName)
       this.emailError = this.validateEmail(this.email)
       this.usernameError = this.validateUsername(this.username)
       this.passwordError = this.validatePassword(this.password)
       this.confirmPasswordError = this.validateConfirmPassword(this.password, this.confirmPassword)
 
       if (
+        this.firstNameError ||
+        this.lastNameError ||
         this.emailError ||
         this.usernameError ||
         this.passwordError ||
         this.confirmPasswordError
       ) {
         console.warn('Validation errors:', {
+          firstName: this.firstNameError,
+          lastName: this.lastNameError,
           email: this.emailError,
           username: this.usernameError,
           password: this.passwordError,
@@ -95,7 +118,7 @@ export default {
       }
 
       try {
-        await this.signup(this.username, this.email, this.password)
+        await this.signup(this.username, this.email, this.firstName, this.lastName, this.password)
         this.$router.push({ name: 'login' })
       } catch (error) {
         console.error('Sign-up failed:', error)
@@ -116,6 +139,27 @@ export default {
   <div class="app-container">
     <TheContainer>
       <template #heading>Signup</template>
+
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">First Name</label>
+          <div class="control">
+            <input type="text" v-model="firstName" class="input" placeholder="First Name" required />
+          </div>
+          <p v-if="firstNameError" class="help is-danger">{{ firstNameError }}</p>
+        </div>
+      </div>
+
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">Last Name</label>
+          <div class="control">
+            <input type="text" v-model="lastName" class="input" placeholder="Last Name" required />
+          </div>
+          <p v-if="lastNameError" class="help is-danger">{{ lastNameError }}</p>
+        </div>
+      </div>
+
       <div class="columns is-centered">
         <div class="field">
           <label class="label">Email</label>
@@ -140,14 +184,7 @@ export default {
         <div class="field">
           <label class="label">Password</label>
           <div class="control">
-            <input
-              type="password"
-              v-model="password"
-              class="input"
-              placeholder="Password"
-              required
-              minlength="8"
-            />
+            <input type="password" v-model="password" class="input" placeholder="Password" required minlength="8" />
           </div>
           <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
         </div>
@@ -157,14 +194,8 @@ export default {
         <div class="field">
           <label class="label">Confirm Password</label>
           <div class="control">
-            <input
-              type="password"
-              v-model="confirmPassword"
-              class="input"
-              placeholder="Confirm Password"
-              required
-              @keyup.enter="signUpUser"
-            />
+            <input type="password" v-model="confirmPassword" class="input" placeholder="Confirm Password" required
+              @keyup.enter="signUpUser" />
           </div>
           <p v-if="confirmPasswordError" class="help is-danger">{{ confirmPasswordError }}</p>
         </div>
