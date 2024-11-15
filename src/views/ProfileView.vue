@@ -135,7 +135,7 @@ const themeStore = useThemeStore()
           </button>
         </div>
         <div class="column is-narrow">
-          <label class="theme">
+          <label class="button is-primary custom-button">
             <input
               type="checkbox"
               :checked="themeStore.isDarkMode"
