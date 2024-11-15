@@ -41,7 +41,7 @@ class AuthService {
       return
     }
 
-    fetch('http://localhost:9999/api/v1/oauth/register', {
+    fetch(import.meta.env.VITE_BACKEND_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
