@@ -12,7 +12,6 @@ import { RouterLink } from 'vue-router'
             <img src="@/assets/logo.png" alt="Logo" class="logo" />
           </RouterLink>
         </div>
-
         <div class="column is-narrow">
           <RouterLink to="/tos" class="footer-link">
             <Icon icon="mdi:file-document" class="icon-size" />
@@ -25,7 +24,6 @@ import { RouterLink } from 'vue-router'
             Privacy
           </RouterLink>
         </div>
-
         <div class="column is-narrow">
           <RouterLink to="/security" class="footer-link">
             <Icon icon="mdi:lock" class="icon-size" />

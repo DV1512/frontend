@@ -1,127 +1,212 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Icon } from '@iconify/vue'
+<script lang="ts">
+import { mapActions, mapState } from 'pinia'
+import { RouterLink } from 'vue-router'
+import { userStore } from './stores/userStore'
+import TheContainer from '@/components/TheContainer.vue'
+import OAuthButton from '@/components/OAuthButton.vue'
 
-const handleGoogleSignUpClick = () => {
-  console.log('Google signin button clicked')
-  window.location.href = 'http://localhost:9999/api/v1/oauth/google/signin'
-}
+export default {
+  components: {
+    RouterLink,
+    TheContainer,
+    OAuthButton
+  },
+  data() {
+    return {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      passwordError: '',
+      confirmPasswordError: '',
+      emailError: '',
+      usernameError: ''
+    }
+  },
+  methods: {
+    ...mapActions(userStore, ['signup']),
 
-const handleGithubSignUpClick = () => {
-  console.log('GitHub login button clicked')
-  window.location.href = 'http://localhost:9999/api/v1/oauth/github/signin'
-}
+    validateEmail(email: string) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailPattern.test(email)) {
+        return 'Please enter a valid email address.'
+      }
+      return ''
+    },
 
-const name = ref('')
-const Username = ref('')
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
+    validateUsername(username: string) {
+      if (!username) {
+        return 'Username is required.'
+      }
+      return ''
+    },
 
-const handleSignUpClick = () => {
-  if (password.value !== confirmPassword.value) {
-    alert('Passwords do not match')
-    return
+    validatePassword(password: string) {
+      const minLength = 8
+      const hasUpperCase = /[A-Z]/.test(password)
+      const hasLowerCase = /[a-z]/.test(password)
+      const hasNumber = /\d/.test(password)
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+      if (password.length < minLength) {
+        return `Password must be at least ${minLength} characters long.`
+      }
+      if (!hasUpperCase) {
+        return 'Password must contain at least one uppercase letter.'
+      }
+      if (!hasLowerCase) {
+        return 'Password must contain at least one lowercase letter.'
+      }
+      if (!hasNumber) {
+        return 'Password must contain at least one number.'
+      }
+      if (!hasSpecialChar) {
+        return 'Password must contain at least one special character.'
+      }
+      return ''
+    },
+
+    validateConfirmPassword(password: string, confirmPassword: string) {
+      if (password !== confirmPassword) {
+        return 'Passwords do not match.'
+      }
+      return ''
+    },
+
+    async signUpUser() {
+      this.emailError = this.validateEmail(this.email)
+      this.usernameError = this.validateUsername(this.username)
+      this.passwordError = this.validatePassword(this.password)
+      this.confirmPasswordError = this.validateConfirmPassword(this.password, this.confirmPassword)
+
+      if (
+        this.emailError ||
+        this.usernameError ||
+        this.passwordError ||
+        this.confirmPasswordError
+      ) {
+        console.warn('Validation errors:', {
+          email: this.emailError,
+          username: this.usernameError,
+          password: this.passwordError,
+          confirmPassword: this.confirmPasswordError
+        })
+        return
+      }
+
+      try {
+        await this.signup(this.username, this.email, this.password)
+        this.$router.push({ name: 'login' })
+      } catch (error) {
+        console.error('Sign-up failed:', error)
+      }
+    },
+    handleOAuthClick(method: string) {
+      if (method === 'handleGoogleSignUpClick') {
+        window.location.href = 'http://localhost:9999/api/v1/oauth/google/signup'
+      } else if (method === 'handleGithubSignUpClick') {
+        window.location.href = 'http://localhost:9999/api/v1/oauth/github/signup'
+      }
+    }
   }
-  console.log('Sign Up button clicked')
 }
 </script>
 
 <template>
-  <section class="section">
-    <div class="container">
-      <h1 class="title has-text-centered">Sign Up</h1>
-
-      <div class="box">
-        <form @submit.prevent="handleSignUpClick">
-          <div class="field">
-            <label class="label">Email</label>
-            <div class="control">
-              <input type="email" v-model="email" class="input" placeholder="Email" required />
-            </div>
+  <div class="app-container">
+    <TheContainer>
+      <template #heading>Signup</template>
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control">
+            <input type="email" v-model="email" class="input" placeholder="Email" required />
           </div>
-
-          <div class="field">
-            <label class="label">Username</label>
-            <div class="control">
-              <input type="text" v-model="Username" class="input" placeholder="Username" required />
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-              <input
-                type="password"
-                v-model="password"
-                class="input"
-                placeholder="Password"
-                required
-                minlength="8"
-              />
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">Confirm Password</label>
-            <div class="control">
-              <input
-                type="password"
-                v-model="confirmPassword"
-                class="input"
-                placeholder="Confirm Password"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="columns is-centered mt-5">
-            <div class="column is-narrow">
-              <button type="submit" class="button is-primary custom-button">Sign Up</button>
-            </div>
-          </div>
-        </form>
-
-        <h2 class="has-text-centered mt-5">Or Sign Up with:</h2>
-
-        <div class="columns is-centered mt-5">
-          <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="handleGoogleSignUpClick">
-              <Icon icon="logos:google-icon" class="icon" />
-              Sign Up with Google
-            </button>
-          </div>
-          <div class="column is-narrow">
-            <button class="button is-primary custom-button" @click="handleGithubSignUpClick">
-              <Icon icon="mdi:github" class="icon" />
-              Sign Up with GitHub
-            </button>
-          </div>
-        </div>
-
-        <div class="has-text-centered mt-5">
-          <p>
-            Already have an account?
-            <RouterLink to="/login" class="has-text-link">Log in here</RouterLink>.
-          </p>
+          <p v-if="emailError" class="help is-danger">{{ emailError }}</p>
         </div>
       </div>
-    </div>
-  </section>
+
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">Username</label>
+          <div class="control">
+            <input type="text" v-model="username" class="input" placeholder="Username" required />
+          </div>
+          <p v-if="usernameError" class="help is-danger">{{ usernameError }}</p>
+        </div>
+      </div>
+
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input
+              type="password"
+              v-model="password"
+              class="input"
+              placeholder="Password"
+              required
+              minlength="8"
+            />
+          </div>
+          <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
+        </div>
+      </div>
+
+      <div class="columns is-centered">
+        <div class="field">
+          <label class="label">Confirm Password</label>
+          <div class="control">
+            <input
+              type="password"
+              v-model="confirmPassword"
+              class="input"
+              placeholder="Confirm Password"
+              required
+              @keyup.enter="signUpUser"
+            />
+          </div>
+          <p v-if="confirmPasswordError" class="help is-danger">{{ confirmPasswordError }}</p>
+        </div>
+      </div>
+
+      <div class="columns is-centered mt-5">
+        <div class="column is-narrow">
+          <button class="button is-primary custom-button" @click="signUpUser">Sign Up</button>
+        </div>
+      </div>
+
+      <h2 class="has-text-centered mt-5">Or Sign Up with:</h2>
+
+      <div class="columns is-centered mt-5">
+        <OAuthButton provider="google" action="signup" @click="handleOAuthClick" />
+        <OAuthButton provider="github" action="signup" @click="handleOAuthClick" />
+      </div>
+
+      <div class="has-text-centered mt-5">
+        <p>
+          Already have an account?
+          <RouterLink to="/login" class="has-text-link">Log in here</RouterLink>.
+        </p>
+      </div>
+    </TheContainer>
+  </div>
 </template>
 
 <style scoped>
+.field {
+  width: 70%;
+  margin-top: 1.5rem;
+}
+
 .custom-button {
-  width: 250px; /* Adjust the width as needed */
-  margin: 0 80px; /* Add horizontal margin to create space between buttons */
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mt-5 {
   margin-top: 2rem;
-}
-
-.icon {
-  margin-left: 10px; /* Adjust the margin to move the icon to the left */
-  font-size: 1rem; /* Adjust the size of the icons */
 }
 </style>
