@@ -256,6 +256,16 @@ $snow-storm-light-2: hsl($snow-storm-light-2-h, $snow-storm-light-2-s, $snow-sto
 [data-theme='light-mode'] {
   @include light-theme;
 }
+
+[data-theme="auto"] {
+  @media (prefers-color-scheme: dark) {
+    @include nord-theme;
+  }
+  
+  @media (prefers-color-scheme: light) {
+    @include light-theme;
+  }
+}
 .theme {
   cursor: pointer;
   font-size: 1rem;
@@ -270,11 +280,11 @@ $snow-storm-light-2: hsl($snow-storm-light-2-h, $snow-storm-light-2-s, $snow-sto
 
   // Text color based on theme
   [data-theme='dark'] & span {
-    color: $snow-storm-2; // Light color for dark mode
+    color: $snow-storm-2; 
   }
   
   [data-theme='light'] & span {
-    color: $polar-night-light-0; // Darker color for light mode
+    color: $polar-night-light-0; 
   }
 }
 
