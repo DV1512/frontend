@@ -73,6 +73,12 @@ export const userStore = defineStore('userStore', {
       const userInfo = await getUser(token, filter)
       this.user = userInfo
       console.log('User info fetched successfully:', userInfo)
+    },
+
+    async logout() {
+      this.user = null
+      authService.setAccessToken('')
+      console.log('User logged out')
     }
   }
 })

@@ -40,7 +40,8 @@ class AuthService {
     email: string,
     first_name: string,
     last_name: string,
-    password: string) {
+    password: string
+  ) {
     if (!first_name || !last_name || !username || !email || !password) {
       console.error('Username, email, or password is missing')
       return
@@ -83,6 +84,15 @@ class AuthService {
 
   public setAccessToken(token: string) {
     this.access_token = token
+  }
+  /**
+   * logout
+   */
+  public logout() {
+    this.access_token = undefined
+    this.refresh_token = undefined
+    this.expieries = null
+    console.log('User logged out')
   }
 }
 

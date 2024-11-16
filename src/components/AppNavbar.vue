@@ -1,6 +1,11 @@
 <script setup name="AppNavbar">
 import { Icon } from '@iconify/vue'
 import { RouterLink } from 'vue-router'
+import { userStore } from '../views/stores/userStore'
+
+function handleLogout() {
+  userStore.logout()
+}
 </script>
 
 <template>
@@ -35,7 +40,7 @@ import { RouterLink } from 'vue-router'
         <RouterLink to="/settings" class="navbar-item">
           <Icon icon="mdi:cog" class="icon-size" />
         </RouterLink>
-        <RouterLink to="/logout" class="navbar-item">
+        <RouterLink to="/" class="navbar-item" @click="handleLogout">
           <Icon icon="mdi:logout" class="icon-size" />
         </RouterLink>
       </div>
