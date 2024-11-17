@@ -1,4 +1,4 @@
-<script setup name="AppNavbar">
+<script setup>
 import { Icon } from '@iconify/vue'
 import { RouterLink } from 'vue-router'
 import { userStore } from '../views/stores/userStore'
@@ -33,7 +33,7 @@ function handleLogout() {
         <RouterLink to="/howto" class="navbar-item">How to Use</RouterLink>
         <RouterLink to="/documentation" class="navbar-item">Documentation</RouterLink>
       </div>
-      <div class="navbar-end">
+      <div v-if="userStore.isLoggedIn" class="navbar-end">
         <RouterLink to="/profile" class="navbar-item">
           <Icon icon="mdi:account" class="icon-size" />
         </RouterLink>
@@ -43,6 +43,10 @@ function handleLogout() {
         <RouterLink to="/" class="navbar-item" @click="handleLogout">
           <Icon icon="mdi:logout" class="icon-size" />
         </RouterLink>
+      </div>
+      <div v-else class="navbar-end">
+        <RouterLink to="/login" class="navbar-item">Log In</RouterLink>
+        <RouterLink to="/signup" class="navbar-item">Sign Up</RouterLink>
       </div>
     </div>
   </nav>
