@@ -88,11 +88,42 @@ class AuthService {
   /**
    * logout
    */
-  public logout() {
-    this.access_token = undefined
-    this.refresh_token = undefined
-    this.expieries = null
-    console.log('User logged out')
+  public async logout() {
+    if (!this.access_token) {
+      console.error('No access token available for logout')
+      return
+    }
+
+    const url = 'http://localhost:9999/api/v1/oauth/logout'
+    const options = {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${this.access_token}` }
+    }
+
+    try {
+      const response = await fetch(url, options)
+
+      let data
+      try {
+        data = await response.json()
+      } catch (err) {
+        console.warn('No JSON response during logout:', err)
+      }
+
+      if (!response.ok) {
+        console.error(`Logout failed with status ${response.status}: ${response.statusText}`)
+      } else {
+        console.log('Logout successful:', data || 'No response body')
+      }
+    } catch (error) {
+      console.error('Network error during logout:', error)
+    } finally {
+      // Clear sensitive data regardless of the logout outcome
+      this.access_token = undefined
+      this.refresh_token = undefined
+      this.expieries = null
+      console.log('Auth tokens cleared')
+    }
   }
 }
 

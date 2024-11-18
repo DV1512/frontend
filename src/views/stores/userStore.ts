@@ -15,6 +15,9 @@ export const userStore = defineStore('userStore', {
   getters: {
     isLoggedIn(): boolean {
       return this.user !== null
+    },
+    isLoggedOut(): boolean {
+      return this.user === null
     }
   },
 
@@ -75,10 +78,14 @@ export const userStore = defineStore('userStore', {
       console.log('User info fetched successfully:', userInfo)
     },
 
-    async logout() {
-      this.user = null
-      authService.setAccessToken('')
-      console.log('User logged out')
+    async logout(): Promise<void> {
+      try {
+        await authService.logout()
+        this.user = null
+        this.loading = false
+      } catch (error) {
+        console.error('Logout failed', error)
+      }
     }
   }
 })

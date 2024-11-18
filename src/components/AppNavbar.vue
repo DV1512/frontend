@@ -1,10 +1,38 @@
-<script setup>
+<script lang="ts">
 import { Icon } from '@iconify/vue'
 import { RouterLink } from 'vue-router'
 import { userStore } from '../views/stores/userStore'
 
-function handleLogout() {
-  userStore.logout()
+export default {
+  components: {
+    RouterLink,
+    Icon
+  },
+  data() {
+    return {
+      logoutError: ''
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      const store = userStore()
+      return store.isLoggedIn
+    }
+  },
+  methods: {
+    async handleLogout() {
+      this.logoutError = ''
+      try {
+        const UserStore = userStore()
+        await UserStore.logout()
+        console.log('Logout successful')
+        this.$router.push({ name: 'login' })
+      } catch (error) {
+        this.logoutError = 'An error occurred during logout. Please try again.'
+        console.error('Logout failed:', error)
+      }
+    }
+  }
 }
 </script>
 
@@ -33,16 +61,16 @@ function handleLogout() {
         <RouterLink to="/howto" class="navbar-item">How to Use</RouterLink>
         <RouterLink to="/documentation" class="navbar-item">Documentation</RouterLink>
       </div>
-      <div v-if="userStore.isLoggedIn" class="navbar-end">
+      <div v-if="isLoggedIn" class="navbar-end">
         <RouterLink to="/profile" class="navbar-item">
           <Icon icon="mdi:account" class="icon-size" />
         </RouterLink>
         <RouterLink to="/settings" class="navbar-item">
           <Icon icon="mdi:cog" class="icon-size" />
         </RouterLink>
-        <RouterLink to="/" class="navbar-item" @click="handleLogout">
+        <a class="navbar-item" @click.prevent="handleLogout">
           <Icon icon="mdi:logout" class="icon-size" />
-        </RouterLink>
+        </a>
       </div>
       <div v-else class="navbar-end">
         <RouterLink to="/login" class="navbar-item">Log In</RouterLink>
