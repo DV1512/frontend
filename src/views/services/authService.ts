@@ -94,7 +94,7 @@ class AuthService {
       return
     }
 
-    const url = 'http://localhost:9999/api/v1/oauth/logout'
+    const url = import.meta.env.VITE_BACKEND_LOGOUT_URL
     const options = {
       method: 'GET',
       headers: { Authorization: `Bearer ${this.access_token}` }

@@ -138,7 +138,7 @@ export default {
 <template>
   <div class="app-container">
     <TheContainer>
-      <template #heading>Signup</template>
+      <template #heading>Sign Up</template>
 
       <div class="columns is-centered">
         <div class="field">

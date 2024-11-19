@@ -73,7 +73,7 @@ export default {
         </a>
       </div>
       <div v-else class="navbar-end">
-        <RouterLink to="/login" class="navbar-item">Log In</RouterLink>
+        <RouterLink to="/login" class="navbar-item">Login</RouterLink>
         <RouterLink to="/signup" class="navbar-item">Sign Up</RouterLink>
       </div>
     </div>
