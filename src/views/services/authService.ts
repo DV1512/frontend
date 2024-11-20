@@ -11,7 +11,7 @@ class AuthService {
    */
   public async login(username: string, password: string) {
     if (!username || !password) {
-      console.error('Username or password is missing');
+      console.error('Username or password is missing')
       return
     }
     try {
