@@ -15,20 +15,14 @@ class AuthService {
       return
     }
     try {
-      passwordLogin(username, password)
-        .then((res) => {
-          this.access_token = res.access_token
-          this.refresh_token = res.refresh_token
+      const res = await passwordLogin(username, password)
+      this.access_token = res.access_token
+      this.refresh_token = res.refresh_token
+      console.log(res.access_token)
 
-          console.log(res.access_token)
-
-          this.expieries = new Date(res.expires_in + new Date().getTime() / 1000)
-        })
-        .catch((err) => {
-          console.error('Error occured when fetching token', err)
-        })
+      this.expieries = new Date(res.expires_in * 1000 + new Date().getTime())
     } catch (error) {
-      console.log('error', error)
+      console.error('Error occurred when fetching token', error)
     }
   }
 
@@ -40,13 +34,14 @@ class AuthService {
     email: string,
     first_name: string,
     last_name: string,
-    password: string) {
+    password: string
+  ) {
     if (!first_name || !last_name || !username || !email || !password) {
       console.error('Username, email, or password is missing')
       return
     }
 
-    fetch(import.meta.env.VITE_BACKEND_URL, {
+    fetch(import.meta.env.VITE_BACKEND_URL + '/api/v1/oauth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -83,6 +78,45 @@ class AuthService {
 
   public setAccessToken(token: string) {
     this.access_token = token
+  }
+  /**
+   * logout
+   */
+  public async logout() {
+    if (!this.access_token) {
+      console.error('No access token available for logout')
+      return
+    }
+
+    const url = import.meta.env.VITE_BACKEND_URL + '/api/v1/oauth/logout'
+    const options = {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${this.access_token}` }
+    }
+
+    try {
+      const response = await fetch(url, options)
+
+      let data
+      try {
+        data = await response.json()
+      } catch (err) {
+        console.warn('No JSON response during logout:', err)
+      }
+
+      if (!response.ok) {
+        console.error(`Logout failed with status ${response.status}: ${response.statusText}`)
+      } else {
+        console.log('Logout successful:', data || 'No response body')
+      }
+    } catch (error) {
+      console.error('Network error during logout:', error)
+    } finally {
+      this.access_token = undefined
+      this.refresh_token = undefined
+      this.expieries = null
+      console.log('Auth tokens cleared')
+    }
   }
 }
 
