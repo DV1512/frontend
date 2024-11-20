@@ -138,13 +138,19 @@ export default {
 <template>
   <div class="app-container">
     <TheContainer>
-      <template #heading>Signup</template>
+      <template #heading>Sign Up</template>
 
       <div class="columns is-centered">
         <div class="field">
           <label class="label">First Name</label>
           <div class="control">
-            <input type="text" v-model="firstName" class="input" placeholder="First Name" required />
+            <input
+              type="text"
+              v-model="firstName"
+              class="input"
+              placeholder="First Name"
+              required
+            />
           </div>
           <p v-if="firstNameError" class="help is-danger">{{ firstNameError }}</p>
         </div>
@@ -184,7 +190,14 @@ export default {
         <div class="field">
           <label class="label">Password</label>
           <div class="control">
-            <input type="password" v-model="password" class="input" placeholder="Password" required minlength="8" />
+            <input
+              type="password"
+              v-model="password"
+              class="input"
+              placeholder="Password"
+              required
+              minlength="8"
+            />
           </div>
           <p v-if="passwordError" class="help is-danger">{{ passwordError }}</p>
         </div>
@@ -194,8 +207,14 @@ export default {
         <div class="field">
           <label class="label">Confirm Password</label>
           <div class="control">
-            <input type="password" v-model="confirmPassword" class="input" placeholder="Confirm Password" required
-              @keyup.enter="signUpUser" />
+            <input
+              type="password"
+              v-model="confirmPassword"
+              class="input"
+              placeholder="Confirm Password"
+              required
+              @keyup.enter="signUpUser"
+            />
           </div>
           <p v-if="confirmPasswordError" class="help is-danger">{{ confirmPasswordError }}</p>
         </div>
