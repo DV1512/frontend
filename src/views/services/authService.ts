@@ -47,7 +47,7 @@ class AuthService {
       return
     }
 
-    fetch(import.meta.env.VITE_BACKEND_URL, {
+    fetch(import.meta.env.VITE_BACKEND_URL + '/api/v1/oauth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -94,7 +94,7 @@ class AuthService {
       return
     }
 
-    const url = import.meta.env.VITE_BACKEND_LOGOUT_URL
+    const url = import.meta.env.VITE_BACKEND_URL + '/api/v1/oauth/logout'
     const options = {
       method: 'GET',
       headers: { Authorization: `Bearer ${this.access_token}` }
@@ -118,7 +118,6 @@ class AuthService {
     } catch (error) {
       console.error('Network error during logout:', error)
     } finally {
-      // Clear sensitive data regardless of the logout outcome
       this.access_token = undefined
       this.refresh_token = undefined
       this.expieries = null

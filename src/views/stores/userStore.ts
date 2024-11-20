@@ -15,9 +15,6 @@ export const userStore = defineStore('userStore', {
   getters: {
     isLoggedIn(): boolean {
       return this.user !== null
-    },
-    isLoggedOut(): boolean {
-      return this.user === null
     }
   },
 

@@ -68,9 +68,9 @@ export default {
         <RouterLink to="/settings" class="navbar-item">
           <Icon icon="mdi:cog" class="icon-size" />
         </RouterLink>
-        <a class="navbar-item" @click.prevent="handleLogout">
+        <button class="navbar-item" @click.prevent="handleLogout">
           <Icon icon="mdi:logout" class="icon-size" />
-        </a>
+        </button>
       </div>
       <div v-else class="navbar-end">
         <RouterLink to="/login" class="navbar-item">Login</RouterLink>
