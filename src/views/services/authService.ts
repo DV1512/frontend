@@ -11,24 +11,18 @@ class AuthService {
    */
   public async login(username: string, password: string) {
     if (!username || !password) {
-      console.error('Username or password is missing')
+      console.error('Username or password is missing');
       return
     }
     try {
-      passwordLogin(username, password)
-        .then((res) => {
-          this.access_token = res.access_token
-          this.refresh_token = res.refresh_token
+      const res = await passwordLogin(username, password)
+      this.access_token = res.access_token
+      this.refresh_token = res.refresh_token
+      console.log(res.access_token)
 
-          console.log(res.access_token)
-
-          this.expieries = new Date(res.expires_in + new Date().getTime() / 1000)
-        })
-        .catch((err) => {
-          console.error('Error occured when fetching token', err)
-        })
+      this.expieries = new Date(res.expires_in * 1000 + new Date().getTime())
     } catch (error) {
-      console.log('error', error)
+      console.error('Error occurred when fetching token', error)
     }
   }
 
