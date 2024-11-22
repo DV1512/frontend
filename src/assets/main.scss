@@ -188,7 +188,7 @@ $text: $snow-storm-2;
 // Light Mode Color Palette
 $polar-night-light-0-h: 220;
 $polar-night-light-0-s: 10%;
-$polar-night-light-0-l: 95%; // Light background
+$polar-night-light-0-l: 95%;
 
 $polar-night-light-1-h: 220;
 $polar-night-light-1-s: 10%;
@@ -204,7 +204,7 @@ $polar-night-light-3-l: 80%;
 
 $snow-storm-light-0-h: 210;
 $snow-storm-light-0-s: 10%;
-$snow-storm-light-0-l: 20%; // Darker text color
+$snow-storm-light-0-l: 20%;
 
 $snow-storm-light-1-h: 210;
 $snow-storm-light-1-s: 12%;
@@ -273,12 +273,10 @@ $snow-storm-light-2: hsl($snow-storm-light-2-h, $snow-storm-light-2-s, $snow-sto
   align-items: center;
   gap: 0.5rem;
 
-  // Optional styling for light/dark themes
   input[type='checkbox'] {
     cursor: pointer;
   }
 
-  // Text color based on theme
   [data-theme='dark'] & span {
     color: $snow-storm-2; 
   }

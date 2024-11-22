@@ -9,6 +9,7 @@ const store = userStore()
 const router = useRouter()
 const confirmPassword = ref('')
 const password = ref('')
+const themeStore = useThemeStore()
 
 if (store.user == null) {
   router.push({ name: 'error' })
@@ -40,7 +41,6 @@ const handleDeclineChangesClick = () => {
     // TODO: implement this later
   }
 }
-const themeStore = useThemeStore()
 </script>
 
 <template>
@@ -135,14 +135,9 @@ const themeStore = useThemeStore()
           </button>
         </div>
         <div class="column is-narrow">
-          <label class="button is-primary custom-button">
-            <input
-              type="checkbox"
-              :checked="themeStore.isDarkMode"
-              @change="themeStore.toggleTheme"
-            />
+          <button @click="themeStore.toggleTheme" class="button is-primary custom-button">
             <span>{{ themeStore.isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
-          </label>
+          </button>
         </div>
       </div>
     </TheContainer>
