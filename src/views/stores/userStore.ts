@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { GetUserByFilter, User } from 'sdk'
 import authService from '../services/authService'
@@ -7,8 +7,8 @@ import { getUser } from 'sdk'
 export const userStore = defineStore('userStore', {
   state: () => {
     return {
-      user: ref<User | null>(null),
-      loading: ref(false)
+      user: reactive<User | {}>({}),
+      loading: false
     }
   },
 
@@ -83,6 +83,9 @@ export const userStore = defineStore('userStore', {
       } catch (error) {
         console.error('Logout failed', error)
       }
+    },
+    async updateUser(updatedUser: User) {
+      this.user = updatedUser
     }
   }
 })
