@@ -1,271 +1,50 @@
-// More Neutral Brand Colors
-$purple: #6b5b7a; // Softened purple
-$pink: #e3a4b1; // Muted pink
-$brown: #8d8c79; // Lighter brown
-$beige-light: #e0e1db; // Lighter, neutral beige
-$beige-lighter: #f5f5f1; // Almost white beige
+@import 'bulma/css/bulma.css';
 
-// Polar Night (Softened the shades)
-$polar-night-0-h: 220;
-$polar-night-0-s: 12%;
-$polar-night-0-l: 20%; // Increased lightness for a less harsh dark tone
+@import "bulma/sass/utilities/initial-variables";
+@import "bulma/sass/utilities/css-variables";
+@import "bulma/sass/utilities/derived-variables";
+@import "bulma/sass/themes/setup";
 
-$polar-night-1-h: 220;
-$polar-night-1-s: 11%;
-$polar-night-1-l: 22%;
+@import "bulma/sass/base";
+@import "bulma/sass/components";
+@import "bulma/sass/elements";
+@import "bulma/sass/layout";
+@import "bulma/sass/grid";
+@import "bulma/sass/helpers";
+@import "bulma/sass/themes";
 
-$polar-night-2-h: 219;
-$polar-night-2-s: 10%;
-$polar-night-2-l: 26%;
+// Define theme colors
+$polar-night-0: hsl(220, 12%, 20%);
+$polar-night-1: hsl(220, 11%, 22%);
+$polar-night-2: hsl(219, 10%, 26%);
+$polar-night-3: hsl(218, 12%, 32%);
+$snow-storm-2: hsl(210, 22%, 98%);
 
-$polar-night-3-h: 218;
-$polar-night-3-s: 12%;
-$polar-night-3-l: 32%; // A lighter tone for more subtle contrast
+$polar-night-light-0: hsl(220, 10%, 95%);
+$polar-night-light-1: hsl(220, 10%, 90%);
+$polar-night-light-2: hsl(219, 8%, 85%);
+$polar-night-light-3: hsl(218, 6%, 80%);
 
-// Snow Storm (Less contrast, more neutral grays)
-$snow-storm-0-h: 210;
-$snow-storm-0-s: 12%;
-$snow-storm-0-l: 90%; // Reduced saturation for softer appearance
+// Only one declaration of $snow-storm-2, remove redundancy
 
-$snow-storm-1-h: 210;
-$snow-storm-1-s: 18%;
-$snow-storm-1-l: 94%;
-
-$snow-storm-2-h: 210;
-$snow-storm-2-s: 22%;
-$snow-storm-2-l: 98%;
-
-// Frost (Neutralized blue shades)
-$frost-0-h: 190; // More neutral tone
-$frost-0-s: 20%; // Reduced saturation
-$frost-0-l: 60%; // Softened brightness
-
-$frost-1-h: 191;
-$frost-1-s: 22%;
-$frost-1-l: 65%;
-
-$frost-2-h: 193;
-$frost-2-s: 20%;
-$frost-2-l: 70%;
-
-$frost-3-h: 196;
-$frost-3-s: 18%;
-$frost-3-l: 75%;
-
-// Aurora (Desaturated and softened)
-$aurora-red-h: 358;
-$aurora-red-s: 50%; // Reduced vibrancy
-$aurora-red-l: 60%;
-
-$aurora-orange-h: 29;
-$aurora-orange-s: 45%; // Neutral orange
-$aurora-orange-l: 65%;
-
-$aurora-yellow-h: 49;
-$aurora-yellow-s: 50%;
-$aurora-yellow-l: 75%;
-
-$aurora-green-h: 99;
-$aurora-green-s: 25%;
-$aurora-green-l: 60%; // More muted green
-
-$aurora-purple-h: 289;
-$aurora-purple-s: 35%; // Desaturated
-$aurora-purple-l: 65%;
-
-// Updating HSL values in the Nord palette
-$polar-night-0: hsl($polar-night-0-h, $polar-night-0-s, $polar-night-0-l);
-$polar-night-1: hsl($polar-night-1-h, $polar-night-1-s, $polar-night-1-l);
-$polar-night-2: hsl($polar-night-2-h, $polar-night-2-s, $polar-night-2-l);
-$polar-night-3: hsl($polar-night-3-h, $polar-night-3-s, $polar-night-3-l);
-
-$snow-storm-0: hsl($snow-storm-0-h, $snow-storm-0-s, $snow-storm-0-l);
-$snow-storm-1: hsl($snow-storm-1-h, $snow-storm-1-s, $snow-storm-1-l);
-$snow-storm-2: hsl($snow-storm-2-h, $snow-storm-2-s, $snow-storm-2-l);
-
-$frost-0: hsl($frost-0-h, $frost-0-s, $frost-0-l);
-$frost-1: hsl($frost-1-h, $frost-1-s, $frost-1-l);
-$frost-2: hsl($frost-2-h, $frost-2-s, $frost-2-l);
-$frost-3: hsl($frost-3-h, $frost-3-s, $frost-3-l);
-
-$aurora-red: hsl($aurora-red-h, $aurora-red-s, $aurora-red-l);
-$aurora-orange: hsl($aurora-orange-h, $aurora-orange-s, $aurora-orange-l);
-$aurora-yellow: hsl($aurora-yellow-h, $aurora-yellow-s, $aurora-yellow-l);
-$aurora-green: hsl($aurora-green-h, $aurora-green-s, $aurora-green-l);
-$aurora-purple: hsl($aurora-purple-h, $aurora-purple-s, $aurora-purple-l);
-
-// Override global Sass variables from the /utilities folder
-@use "bulma/sass/utilities" with (
-  $family-primary: '"Nunito", sans-serif',
-  $grey-dark: $polar-night-1,
-  $grey-light: $polar-night-3,
-  $primary: $snow-storm-0,
-  $link: $frost-3,
-  $info: $frost-0,
-  $success: $aurora-green,
-  $warning: $aurora-yellow,
-  $danger: $aurora-orange,
-  $control-border-width: 2px
-);
-
-// Override Sass variables from the /form folder
-@use "bulma/sass/form" with (
-  $input-shadow: none
-);
-
-// Import the components you need
-@forward "bulma/sass/base";
-@forward "bulma/sass/components";
-@forward "bulma/sass/elements";
-@forward "bulma/sass/layout";
-@forward "bulma/sass/grid";
-@forward "bulma/sass/helpers";
-
-// Import the themes so that all CSS variables have a value
-@forward "bulma/sass/themes";
-
-// Register HSL values as CSS variables
-@use "sass:list";
-@use "bulma/sass/utilities/initial-variables" as iv;
-@use "bulma/sass/utilities/css-variables" as cv;
-@use "bulma/sass/utilities/derived-variables" as dv;
-@use "bulma/sass/themes/setup";
-
-// Define neutral theme brightness
-$scheme-main-l: 20%; // Slightly brighter to reduce contrast
-$background-l: 24%; // Softer background contrast
-$text-l: 70%; // Less stark text
-
-// Define main scheme color
-$scheme-main: $polar-night-0;
-$background: $polar-night-1;
-$text: $snow-storm-2;
-
-// Include theme-specific mixin
-@mixin nord-theme {
-  @each $name, $color in dv.$colors {
-    $base: $color;
-    @if type-of($color == "list") {
-      $base: list.nth($color, 1);
-    }
-    @include cv.generate-on-scheme-colors($name, $base, $scheme-main);
-  }
-
-  @include cv.register-vars(
-    (
-      "scheme-brightness": "dark",
-      "scheme-main-l": $scheme-main-l,
-      "scheme-main-bis-l": $scheme-main-l + 2%,
-      "scheme-main-ter-l": $scheme-main-l + 4%,
-      "soft-l": iv.$dark-l,
-      "bold-l": iv.$light-l,
-      "soft-invert-l": iv.$light-l,
-      "bold-invert-l": iv.$dark-l,
-      "background-l": $background-l,
-      "border-weak-l": 25%, // Softer border contrast
-      "border-l": 28%,
-      "text-weak-l": 55%, 
-      "text-l": $text-l,
-      "text-strong-l": 95%, 
-      "text-title-l": 98%, 
-      "hover-background-l-delta": 4%, 
-      "active-background-l-delta": 8%, 
-      "hover-border-l-delta": 8%, 
-      "active-border-l-delta": 12%, 
-      "hover-color-l-delta": 4%, 
-      "active-color-l-delta": 8%, 
-    )
-  );
-
-  @include cv.register-hsl("shadow", white);
+[data-theme='Dark Mode'] {
+  @include bulma-theme($name: "dark-theme");
 }
 
-@include cv.bulma-theme($name: "neutral-nord") {
-  @include nord-theme;
-  @include setup.setup-theme;
+[data-theme='Light Mode'] {
+  @include bulma-theme($name: "light-theme");
 }
 
-// Light Mode Color Palette
-$polar-night-light-0-h: 220;
-$polar-night-light-0-s: 10%;
-$polar-night-light-0-l: 95%;
-
-$polar-night-light-1-h: 220;
-$polar-night-light-1-s: 10%;
-$polar-night-light-1-l: 90%;
-
-$polar-night-light-2-h: 219;
-$polar-night-light-2-s: 8%;
-$polar-night-light-2-l: 85%;
-
-$polar-night-light-3-h: 218;
-$polar-night-light-3-s: 6%;
-$polar-night-light-3-l: 80%;
-
-$snow-storm-light-0-h: 210;
-$snow-storm-light-0-s: 10%;
-$snow-storm-light-0-l: 20%;
-
-$snow-storm-light-1-h: 210;
-$snow-storm-light-1-s: 12%;
-$snow-storm-light-1-l: 25%;
-
-$snow-storm-light-2-h: 210;
-$snow-storm-light-2-s: 14%;
-$snow-storm-light-2-l: 30%;
-
-// Register these colors as CSS variables for light mode
-$polar-night-light-0: hsl($polar-night-light-0-h, $polar-night-light-0-s, $polar-night-light-0-l);
-$polar-night-light-1: hsl($polar-night-light-1-h, $polar-night-light-1-s, $polar-night-light-1-l);
-$polar-night-light-2: hsl($polar-night-light-2-h, $polar-night-light-2-s, $polar-night-light-2-l);
-$polar-night-light-3: hsl($polar-night-light-3-h, $polar-night-light-3-s, $polar-night-light-3-l);
-
-$snow-storm-light-0: hsl($snow-storm-light-0-h, $snow-storm-light-0-s, $snow-storm-light-0-l);
-$snow-storm-light-1: hsl($snow-storm-light-1-h, $snow-storm-light-1-s, $snow-storm-light-1-l);
-$snow-storm-light-2: hsl($snow-storm-light-2-h, $snow-storm-light-2-s, $snow-storm-light-2-l);
-
-@mixin light-theme {
-  @include cv.register-vars(
-    (
-      "scheme-brightness": "light",
-      "scheme-main": $polar-night-light-0,
-      "background": $polar-night-light-1,
-      "text": $snow-storm-light-0,
-      "border-weak-l": 75%, 
-      "text-weak-l": 40%,
-      "text-l": 20%,
-      "hover-background-l-delta": -4%, 
-      "active-background-l-delta": -8%, 
-      "hover-border-l-delta": -8%, 
-      "active-border-l-delta": -12%, 
-      "hover-color-l-delta": -4%, 
-      "active-color-l-delta": -8%, 
-    )
-  );
-}
-
-@include cv.bulma-theme($name: "light-mode") {
-  @include light-theme;
-  @include setup.setup-theme;
-}
-
-[data-theme='dark-mode'] {
-  @include nord-theme;
-}
-
-[data-theme='light-mode'] {
-  @include light-theme;
-}
-
-[data-theme="auto"] {
-  @media (prefers-color-scheme: dark) {
-    @include nord-theme;
+[data-theme= 'Auto Mode'] {
+  @media (prefers-color-scheme: Dark) {
+    @include bulma-theme($name: "dark-mode");
   }
   
-  @media (prefers-color-scheme: light) {
-    @include light-theme;
+  @media (prefers-color-scheme: Light) {
+    @include bulma-theme($name: "light-mode");
   }
 }
+
 .theme {
   cursor: pointer;
   font-size: 1rem;
@@ -285,10 +64,3 @@ $snow-storm-light-2: hsl($snow-storm-light-2-h, $snow-storm-light-2-s, $snow-sto
     color: $polar-night-light-0; 
   }
 }
-
-/* main.scss */
-
-/* main.scss */
-
-
-//

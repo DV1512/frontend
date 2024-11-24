@@ -136,7 +136,13 @@ const handleDeclineChangesClick = () => {
         </div>
         <div class="column is-narrow">
           <button @click="themeStore.toggleTheme" class="button is-primary custom-button">
-            <span>{{ themeStore.isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
+            <span>{{
+              themeStore.currentTheme === 'dark'
+                ? 'Switch to Light Mode'
+                : themeStore.currentTheme === 'light'
+                  ? 'Switch to System Default'
+                  : 'Switch to Dark Mode'
+            }}</span>
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { GetUserByFilter, User } from 'sdk'
 import authService from '../services/authService'
