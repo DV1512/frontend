@@ -11,16 +11,18 @@ export default {
   },
   data() {
     return {
-      messages: [] as Array<{ sender: string; text: string }>,
+      messages: [] as Array<{
+        sender: string
+        text: string
+      }>,
       interactionCount: 0,
       maxInteractions: 5,
       isLimitReached: false,
-      threatLogs: [] as Array<string> // To store detected threats
+      threatLogs: [] as Array<string>
     }
   },
   methods: {
     handleMessage(userMessage: string) {
-      // Check interaction limit
       if (this.interactionCount >= this.maxInteractions) {
         this.isLimitReached = true
         return
@@ -29,29 +31,22 @@ export default {
       // Add user's message
       this.messages.push({ sender: 'You', text: userMessage })
 
-      // Perform threat modeling analysis
+      // Analyze threat
       const threatAnalysis = this.analyzeThreat(userMessage)
-
-      // Add threat analysis log (if any)
       if (threatAnalysis) {
         this.threatLogs.push(threatAnalysis)
       }
 
-      // Simulate bot response
-      setTimeout(() => {
-        const botResponse = this.getBotResponse(userMessage, threatAnalysis)
-        this.messages.push({ sender: 'Bot', text: botResponse })
-      }, 500)
+      // Simulate bot typing and response
+      const botResponse = this.getBotResponse(userMessage, threatAnalysis)
+      this.simulateTyping(botResponse)
 
-      // Increment interaction count
       this.interactionCount++
     },
     getBotResponse(message: string, threatAnalysis: string | null): string {
       if (threatAnalysis) {
-        return `I've detected a potential concern: ${threatAnalysis}. Can you clarify further?`
+        return `I've detected a potential concern: ${threatAnalysis}. Do you need help with anything else?`
       }
-
-      // Generic bot responses
       if (message.toLowerCase().includes('asset')) {
         return 'What kind of assets are you protecting?'
       } else if (message.toLowerCase().includes('threat')) {
@@ -59,8 +54,23 @@ export default {
       }
       return 'Can you clarify your question?'
     },
+    simulateTyping(response: string) {
+      const letters = response.split('')
+      let currentMessage = ''
+      const interval = 50
+
+      letters.forEach((letter, index) => {
+        setTimeout(() => {
+          currentMessage += letter
+          if (index === 0) {
+            this.messages.push({ sender: 'Bot', text: currentMessage })
+          } else {
+            this.messages[this.messages.length - 1].text = currentMessage
+          }
+        }, index * interval)
+      })
+    },
     analyzeThreat(message: string): string | null {
-      // Basic threat modeling based on keyword detection and threat categories
       const threats = [
         {
           keyword: 'breach',
@@ -124,21 +134,19 @@ export default {
         }
       ]
 
-      // Iterate through the threats and check if any of the keywords match the message
       for (const threat of threats) {
         if (message.toLowerCase().includes(threat.keyword)) {
-          // Return the risk along with the identified threat actors and hacker groups
           return `${threat.risk} Likely threat actors: ${threat.threatActors.join(', ')}. Possible hacker groups: ${threat.hackerGroups.join(', ')}.`
         }
       }
 
-      return null // No threats detected
+      return null
     },
     resetSession() {
       this.isLimitReached = false
       this.messages = []
       this.interactionCount = 0
-      this.threatLogs = [] // Clear threat logs
+      this.threatLogs = []
     }
   }
 }
@@ -157,13 +165,26 @@ export default {
         </section>
       </div>
 
-      <ChatArea :messages="messages" />
+      <!-- Chat Display Area -->
+      <section class="chat-area section">
+        <div v-for="(message, index) in messages" :key="index">
+          <!-- User Message -->
+          <div v-if="message.sender === 'You'" class="is-flex is-justify-content-end">
+            <div class="message message-user">{{ message.text }}</div>
+          </div>
+          <!-- Bot Message -->
+          <div v-else class="is-flex is-justify-content-start">
+            <div class="message message-bot">{{ message.text }}</div>
+          </div>
+        </div>
+      </section>
 
+      <!-- Input Area -->
       <section class="section is-flex is-justify-content-center is-align-items-center">
         <ChatInput @send="handleMessage" />
       </section>
 
-      <!-- Display Threat Logs -->
+      <!-- Threat Logs -->
       <section class="section threat-log">
         <h3>Threat Analysis Logs</h3>
         <div v-if="threatLogs.length === 0">No threats detected yet.</div>
