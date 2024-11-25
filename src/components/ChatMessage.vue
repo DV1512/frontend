@@ -1,14 +1,26 @@
-<script setup>
-import { defineProps } from 'vue'
-
-const props = defineProps({
-  message: Object
-})
+<script>
+export default {
+  props: {
+    message: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    messageClass() {
+      return {
+        message: true,
+        user: this.message.sender === 'user',
+        bot: this.message.sender === 'bot'
+      }
+    }
+  }
+}
 </script>
 
 <template>
-  <div :class="['message', message.sender]">
-    <div class="message-content">{{ message.text }}</div>
+  <div :class="messageClass">
+    <div class="message-content" v-html="message.text"></div>
   </div>
 </template>
 
@@ -34,5 +46,7 @@ const props = defineProps({
   padding: 0.5rem 1rem;
   border-radius: 1rem;
   max-width: 60%;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 </style>

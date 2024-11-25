@@ -30,7 +30,7 @@ export const chatStore = defineStore('chatStore', {
 
         const botMessage = {
           sender: 'bot',
-          text: `Analysis complete! Here are the details: \nID: ${response.id}, \nName: ${response.name}, \nDescription: ${response.description}, \nAssociated Names: ${response.associated_names}, \nURL: ${response.url}`,
+          text: `Analysis complete! Here are the details: \n\nID: ${response.id} \nName: ${response.name} \nDescription: ${response.description} \nAssociated Names: ${response.associated_names} \nURL: ${response.url}`,
           data: {
             id: response.id,
             name: response.name,
