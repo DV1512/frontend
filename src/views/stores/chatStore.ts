@@ -19,7 +19,6 @@ export const useChatStore = defineStore('chatStore', {
         return
       }
 
-      // Validate prompt
       if (!prompt || typeof prompt !== 'string' || prompt.trim() === '') {
         console.error('Invalid prompt: Ensure it is a non-empty string.')
         this.messages.push({
