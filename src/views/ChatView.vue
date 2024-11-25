@@ -2,7 +2,7 @@
 import TheContainer from '@/components/TheContainer.vue'
 import ChatArea from '@/components/ChatArea.vue'
 import ChatInput from '@/components/ChatInput.vue'
-import { useChatStore } from './stores/chatStore'
+import { chatStore } from './stores/chatStore'
 
 export default {
   components: {
@@ -12,7 +12,7 @@ export default {
   },
   computed: {
     chatStore() {
-      return useChatStore()
+      return chatStore()
     },
     messages() {
       return this.chatStore.messages

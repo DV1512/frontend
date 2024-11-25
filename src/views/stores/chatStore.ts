@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import chatService from '../services/chatService'
-import authService from '../services/authService'
 
-export const useChatStore = defineStore('chatStore', {
+export const chatStore = defineStore('chatStore', {
   state: () => ({
     messages: [] as Array<{
       sender: string
       text: string
+      data?: any
     }>,
     isAnalysisComplete: false,
     loading: false
@@ -19,28 +19,28 @@ export const useChatStore = defineStore('chatStore', {
         return
       }
 
-      if (!prompt || typeof prompt !== 'string' || prompt.trim() === '') {
-        console.error('Invalid prompt: Ensure it is a non-empty string.')
-        this.messages.push({
-          sender: 'bot',
-          text: 'Invalid prompt. Please provide a valid input.'
-        })
-        return
-      }
-
       this.messages.push({ sender: 'user', text: prompt })
       this.loading = true
 
       try {
-        const token = authService.getAccessToken()
-        if (!token) {
-          throw new Error('User is not authenticated.')
-        }
-
         chatService.setPrompt(prompt)
 
         const response = await chatService.sendMessage()
-        this.messages.push({ sender: 'bot', text: response })
+        console.log('Received response from API:', response)
+
+        const botMessage = {
+          sender: 'bot',
+          text: `Analysis complete! Here are the details: \nID: ${response.id}, \nName: ${response.name}, \nDescription: ${response.description}, \nAssociated Names: ${response.associated_names}, \nURL: ${response.url}`,
+          data: {
+            id: response.id,
+            name: response.name,
+            description: response.description,
+            associated_names: response.associated_names,
+            url: response.url
+          }
+        }
+
+        this.messages.push(botMessage)
         this.isAnalysisComplete = true
       } catch (error) {
         this.messages.push({
@@ -56,7 +56,6 @@ export const useChatStore = defineStore('chatStore', {
     resetChat() {
       this.messages = []
       this.isAnalysisComplete = false
-      // TODO: Add reset method in chatService if needed and if we want
     }
   }
 })
