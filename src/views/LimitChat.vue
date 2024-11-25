@@ -1,12 +1,10 @@
 <script lang="ts">
 import TheContainer from '@/components/TheContainer.vue'
-import ChatArea from '@/components/ChatArea.vue'
 import ChatInput from '@/components/ChatInput.vue'
 
 export default {
   components: {
     TheContainer,
-    ChatArea,
     ChatInput
   },
   data() {
@@ -45,7 +43,7 @@ export default {
     },
     getBotResponse(message: string, threatAnalysis: string | null): string {
       if (threatAnalysis) {
-        return `I've detected a potential concern: ${threatAnalysis}. Do you need help with anything else?`
+        return `I've detected a potential concern: ${threatAnalysis} Do you need help with anything else?`
       }
       if (message.toLowerCase().includes('asset')) {
         return 'What kind of assets are you protecting?'
@@ -157,34 +155,28 @@ export default {
     <TheContainer>
       <template #heading>Limit Chat</template>
 
-      <div class="columns is-centered">
-        <section class="section p-5">
-          <p>Hi and welcome to the Limited chat!</p>
-          <p>Here you can chat with a bot, but only for a limited number of interactions.</p>
-          <p>Threat modeling is active to flag potential concerns.</p>
-        </section>
-      </div>
+      <section class="section is-flex is-justify-content-center">
+        <p>
+          Hi and welcome to the Limited chat!<br />Here you can chat with a bot, but only for a
+          limited number of interactions.<br />Threat modeling is active to flag potential concerns.
+        </p>
+      </section>
 
-      <!-- Chat Display Area -->
       <section class="chat-area section">
         <div v-for="(message, index) in messages" :key="index">
-          <!-- User Message -->
           <div v-if="message.sender === 'You'" class="is-flex is-justify-content-end">
             <div class="message message-user">{{ message.text }}</div>
           </div>
-          <!-- Bot Message -->
           <div v-else class="is-flex is-justify-content-start">
             <div class="message message-bot">{{ message.text }}</div>
           </div>
         </div>
       </section>
 
-      <!-- Input Area -->
       <section class="section is-flex is-justify-content-center is-align-items-center">
         <ChatInput @send="handleMessage" />
       </section>
 
-      <!-- Threat Logs -->
       <section class="section threat-log">
         <h3>Threat Analysis Logs</h3>
         <div v-if="threatLogs.length === 0">No threats detected yet.</div>
@@ -199,6 +191,9 @@ export default {
 </template>
 
 <style>
+p {
+  text-align: center;
+}
 .threat-log {
   margin-top: 20px;
   padding: 10px;
@@ -220,5 +215,17 @@ export default {
 }
 .threat-log li:last-child {
   border-bottom: none;
+}
+.message-bot {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 5px;
+}
+.message-user {
+  background-color: #4986e0;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 5px;
 }
 </style>
