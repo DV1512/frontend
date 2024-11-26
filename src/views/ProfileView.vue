@@ -32,10 +32,17 @@ const handleProfileUpdateClick = async () => {
 
   const updatedProfile = {
     ...originalProfile,
-    ...(password.value && { password: password.value })
+    password: password.value || null
   }
+  console.log('Updating profile:', updatedProfile)
 
   try {
+    console.log('API URL', `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/update`)
+    console.log('Headers:', {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${authService.getAccessToken()}`
+    })
+    console.log('Body:', JSON.stringify(updatedProfile))
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/update`, {
       method: 'PUT',
       headers: {
@@ -44,7 +51,7 @@ const handleProfileUpdateClick = async () => {
       },
       body: JSON.stringify(updatedProfile)
     })
-
+    console.log('Response Status:', response.status)
     if (!response.ok) {
       const error = await response.json()
       console.error('Failed to update profile:', error)

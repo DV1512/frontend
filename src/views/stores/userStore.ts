@@ -7,7 +7,7 @@ import { getUser } from 'sdk'
 export const userStore = defineStore('userStore', {
   state: () => {
     return {
-      user: reactive<User | {}>({}),
+      user: reactive<User | null>(null),
       loading: false
     }
   },

@@ -15,7 +15,7 @@ class AuthService {
       return
     }
     try {
-      passwordLogin(username, password)
+      await passwordLogin(username, password)
         .then((res) => {
           this.access_token = res.access_token
           this.refresh_token = res.refresh_token
@@ -64,7 +64,8 @@ class AuthService {
   /**
    * getAccessToken
    */
-  public getAccessToken(): string | null {
+  /* public getAccessToken(): string | null {
+    console.log('Sccess token:', this.access_token)
     if (this.access_token != undefined) {
       return this.access_token!
     }
@@ -72,7 +73,8 @@ class AuthService {
     console.error('User is not logged in or the access token has expiered')
     return null
   }
-
+  */
+  /*
   public getRefreshToken(): string | null {
     if (this.refresh_token != undefined) {
       return this.refresh_token!
@@ -80,6 +82,41 @@ class AuthService {
 
     console.error('User is not logged in')
     return null
+  }
+  */
+  public async getAccessToken(): Promise<string | null> {
+    if (!this.access_token || (this.expieries && new Date() > this.expieries)) {
+      console.log('Access token expired or unavailable, refreshing...')
+      await this.refreshToken() // Implement token refresh logic here
+    }
+    console.log('Access token:', this.access_token)
+    return this.access_token || null
+  }
+  private async refreshToken() {
+    if (!this.refresh_token) {
+      console.error('No refresh token available to refresh access token')
+      return
+    }
+    try {
+      const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/api/v1/oauth/refresh', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ refresh_token: this.refresh_token })
+      })
+      if (!response.ok) {
+        console.error('Failed to refresh token:', await response.text())
+        return
+      }
+
+      const data = await response.json()
+      this.access_token = data.access_token
+      this.expieries = new Date(data.expires_in + new Date().getTime() / 1000)
+      console.log('Access token refreshed successfully')
+    } catch (error) {
+      console.error('Error refreshing token:', error)
+    }
   }
 
   public setAccessToken(token: string) {
