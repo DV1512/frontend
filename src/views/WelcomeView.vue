@@ -1,19 +1,28 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterLink } from 'vue-router'
+import TheContainer from '@/components/TheContainer.vue'
+import { computed } from 'vue'
+import { userStore } from './stores/userStore'
+
+const store = userStore()
+const welcomeMessage = computed(() => {
+  return store.isLoggedIn && store.user?.first_name
+    ? `Welcome, ${store.user.first_name} ! Press the button below to start chatting.`
+    : 'You are logged out'
+})
+</script>
 
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="box">
-        <div class="content">
-          <h1>Welcome to</h1>
-          <h1 class="title">ThreatMapper AI</h1>
-          <RouterLink to="/chat">
-            <button class="button is-primary custom-button">Start chat</button>
-          </RouterLink>
-        </div>
+  <div class="app-container">
+    <TheContainer>
+      <div class="content">
+        <h1>{{ welcomeMessage }}</h1>
+        <RouterLink to="/chat">
+          <button class="button is-primary custom-button">Start chat</button>
+        </RouterLink>
       </div>
-    </div>
-  </section>
+    </TheContainer>
+  </div>
 </template>
 
 <style scoped>
