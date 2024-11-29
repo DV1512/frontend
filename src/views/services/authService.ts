@@ -15,20 +15,14 @@ class AuthService {
       return
     }
     try {
-      await passwordLogin(username, password)
-        .then((res) => {
-          this.access_token = res.access_token
-          this.refresh_token = res.refresh_token
+      const res = await passwordLogin(username, password)
+      this.access_token = res.access_token
+      this.refresh_token = res.refresh_token
+      console.log(res.access_token)
 
-          console.log(res.access_token)
-
-          this.expieries = new Date(res.expires_in + new Date().getTime() / 1000)
-        })
-        .catch((err) => {
-          console.error('Error occured when fetching token', err)
-        })
+      this.expieries = new Date(res.expires_in * 1000 + new Date().getTime())
     } catch (error) {
-      console.log('error', error)
+      console.error('Error occurred when fetching token', error)
     }
   }
 
@@ -61,11 +55,46 @@ class AuthService {
       })
     })
   }
+
+  /**
+   * updateUser
+   */
+  public async updateUser() {
+    if (!this.access_token) {
+      console.error('No access token available for user update')
+      return
+    }
+
+    const url = import.meta.env.VITE_BACKEND_URL + '/api/v1//user'
+    const options = {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${this.access_token}` }
+    }
+
+    try {
+      const response = await fetch(url, options)
+
+      let data
+      try {
+        data = await response.json()
+      } catch (err) {
+        console.warn('No JSON response during user update:', err)
+      }
+
+      if (!response.ok) {
+        console.error(`User update failed with status ${response.status}: ${response.statusText}`)
+      } else {
+        console.log('User update successful:', data || 'No response body')
+      }
+    } catch (error) {
+      console.error('Network error during user update:', error)
+    }
+  }
+
   /**
    * getAccessToken
    */
-  /* public getAccessToken(): string | null {
-    console.log('Sccess token:', this.access_token)
+  public getAccessToken(): string | null {
     if (this.access_token != undefined) {
       return this.access_token!
     }
@@ -73,8 +102,7 @@ class AuthService {
     console.error('User is not logged in or the access token has expiered')
     return null
   }
-  */
-  /*
+
   public getRefreshToken(): string | null {
     if (this.refresh_token != undefined) {
       return this.refresh_token!
@@ -82,41 +110,6 @@ class AuthService {
 
     console.error('User is not logged in')
     return null
-  }
-  */
-  public async getAccessToken(): Promise<string | null> {
-    if (!this.access_token || (this.expieries && new Date() > this.expieries)) {
-      console.log('Access token expired or unavailable, refreshing...')
-      await this.refreshToken() // Implement token refresh logic here
-    }
-    console.log('Access token:', this.access_token)
-    return this.access_token || null
-  }
-  private async refreshToken() {
-    if (!this.refresh_token) {
-      console.error('No refresh token available to refresh access token')
-      return
-    }
-    try {
-      const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/api/v1/oauth/refresh', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ refresh_token: this.refresh_token })
-      })
-      if (!response.ok) {
-        console.error('Failed to refresh token:', await response.text())
-        return
-      }
-
-      const data = await response.json()
-      this.access_token = data.access_token
-      this.expieries = new Date(data.expires_in + new Date().getTime() / 1000)
-      console.log('Access token refreshed successfully')
-    } catch (error) {
-      console.error('Error refreshing token:', error)
-    }
   }
 
   public setAccessToken(token: string) {
