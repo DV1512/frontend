@@ -6,13 +6,12 @@ import { userStore } from './stores/userStore'
 
 const store = userStore()
 const router = useRouter()
+const confirmPassword = ref('')
+const password = ref('')
 
 if (store.user == null) {
   router.push({ name: 'error' })
 }
-
-const password = ref('')
-const confirmPassword = ref('')
 
 const handleProfileUpdateClick = () => {
   if (password.value && password.value !== confirmPassword.value) {
