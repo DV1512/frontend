@@ -1,16 +1,37 @@
-<script setup lang="ts">
+<script lang="ts">
 import TheContainer from '@/components/TheContainer.vue'
 import ChatArea from '@/components/ChatArea.vue'
 import ChatInput from '@/components/ChatInput.vue'
-import { ref } from 'vue'
+import { chatStore } from './stores/chatStore'
 
-const messages = ref<Message[]>([{ text: 'Hello! How can I assist you today?', sender: 'bot' }])
-
-const sendMessage = (text: string) => {
-  messages.value.push({ text, sender: 'user' })
-  setTimeout(() => {
-    messages.value.push({ text: 'I am here to help!', sender: 'bot' })
-  }, 1000)
+export default {
+  components: {
+    TheContainer,
+    ChatArea,
+    ChatInput
+  },
+  computed: {
+    chatStore() {
+      return chatStore()
+    },
+    messages() {
+      return this.chatStore.messages
+    },
+    isAnalysisComplete() {
+      return this.chatStore.isAnalysisComplete
+    },
+    loading() {
+      return this.chatStore.loading
+    }
+  },
+  methods: {
+    async sendMessage(text: string) {
+      await this.chatStore.sendMessage(text)
+    },
+    resetChat() {
+      this.chatStore.resetChat()
+    }
+  }
 }
 </script>
 
@@ -21,9 +42,9 @@ const sendMessage = (text: string) => {
         <section class="section p-4">
           <h2 class="title is-5">Chat Options</h2>
           <ul class="menu-list">
-            <li><a href="#" class="is-active">New Chat</a></li>
-            <li><a href="#">One Shot Answer</a></li>
-            <li><a href="#">Previous Chats</a></li>
+            <RouterLink to="/chat" class="is-active" @click="resetChat">New Analysis</RouterLink>
+            <li><a href="#">Saved Analyses</a></li>
+            <li><a href="#">Chat Bot</a></li>
           </ul>
         </section>
       </aside>
@@ -31,14 +52,24 @@ const sendMessage = (text: string) => {
       <div class="column is-9 chat-container">
         <section class="section py-5">
           <p class="has-text-centered">
-            Welcome to the chat! Please provide your prompt to get started.
+            Welcome to the analysis chat! Provide your prompt below to start threat mapping.
           </p>
         </section>
 
         <ChatArea :messages="messages" />
 
-        <section class="section is-flex is-justify-content-center is-align-items-center">
+        <section
+          v-if="!isAnalysisComplete"
+          class="section is-flex is-justify-content-center is-align-items-center"
+        >
           <ChatInput @send="sendMessage" />
+        </section>
+
+        <section v-else class="section is-flex is-justify-content-center is-align-items-center">
+          <p class="has-text-centered mb-4">
+            The analysis is complete. Please press the button to start a new one.
+          </p>
+          <button class="button is-primary" @click="resetChat">Start New Analysis</button>
         </section>
       </div>
     </div>
