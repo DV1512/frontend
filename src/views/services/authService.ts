@@ -57,41 +57,6 @@ class AuthService {
   }
 
   /**
-   * updateUser
-   */
-  public async updateUser() {
-    if (!this.access_token) {
-      console.error('No access token available for user update')
-      return
-    }
-
-    const url = import.meta.env.VITE_BACKEND_URL + '/api/v1//user'
-    const options = {
-      method: 'GET',
-      headers: { Authorization: `Bearer ${this.access_token}` }
-    }
-
-    try {
-      const response = await fetch(url, options)
-
-      let data
-      try {
-        data = await response.json()
-      } catch (err) {
-        console.warn('No JSON response during user update:', err)
-      }
-
-      if (!response.ok) {
-        console.error(`User update failed with status ${response.status}: ${response.statusText}`)
-      } else {
-        console.log('User update successful:', data || 'No response body')
-      }
-    } catch (error) {
-      console.error('Network error during user update:', error)
-    }
-  }
-
-  /**
    * getAccessToken
    */
   public getAccessToken(): string | null {

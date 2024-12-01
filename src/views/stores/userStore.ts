@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { GetUserByFilter, User } from 'sdk'
 import authService from '../services/authService'
+import userService from '../services/userService'
 import { getUser } from 'sdk'
 
 export const userStore = defineStore('userStore', {
@@ -73,6 +74,30 @@ export const userStore = defineStore('userStore', {
       const userInfo = await getUser(token, filter)
       this.user = userInfo
       console.log('User info fetched successfully:', userInfo)
+    },
+
+    async updateUser(payload: {
+      first_name?: string
+      last_name?: string
+      username?: string
+      free?: boolean
+    }) {
+      if (!this.user) {
+        console.error('No user available for update')
+        return
+      }
+
+      this.loading = true
+
+      try {
+        await userService.updateUser(payload)
+        this.user = { ...this.user, ...payload, free: this.user.free }
+        console.log('User update successful')
+      } catch (error) {
+        console.error('User update failed', error)
+      } finally {
+        this.loading = false
+      }
     },
 
     async logout(): Promise<void> {

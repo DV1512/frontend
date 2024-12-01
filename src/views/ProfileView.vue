@@ -4,6 +4,9 @@ import { useRouter } from 'vue-router'
 import TheContainer from '@/components/TheContainer.vue'
 import { userStore } from './stores/userStore'
 import authService from './services/authService'
+import { getUser } from 'sdk/pkg/sdk'
+
+const store = userStore
 
 export default {
   components: {
@@ -11,21 +14,19 @@ export default {
   },
   data() {
     return {
-      firstName: '',
-      lastName: '',
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      passwordError: '',
-      confirmPasswordError: '',
-      emailError: ''
+      userInfo: {
+        firstName: store().user?.first_name || '',
+        lastName: store().user?.last_name || '',
+        username: store().user?.username || '',
+        email: store().user?.email || ''
+      },
+      isLoading: false
     }
   },
   computed: {
     originalProfile() {
       return {
-        firstName: userStore().user.first_name,
+        firstName: getCurrentUser.first_name,
         last_name: userStore().user.last_name,
         username: userStore().user.username,
         email: userStore().user.email
@@ -53,10 +54,12 @@ export default {
       this.isLoading = true
 
       const updatedProfile = {
-        ...this.originalProfile,
+        firstName: this.userInfo.firstName,
+        lastName: this.userInfo.lastName,
+        username: this.userInfo.username,
+        email: this.userInfo.email,
         password: this.password || null
       }
-      console.log('Updating profile:', updatedProfile)
 
       try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/update`, {
@@ -67,7 +70,7 @@ export default {
           },
           body: JSON.stringify(updatedProfile)
         })
-        console.log('Response Status:', response.status)
+
         if (!response.ok) {
           const error = await response.json()
           console.error('Failed to update profile:', error)
@@ -76,7 +79,7 @@ export default {
         }
 
         const updatedUser = await response.json()
-        userStore().user = updatedUser
+        userStore().user = updatedUser // Update the user store
         alert('Profile updated successfully!')
       } catch (error) {
         console.error('Error updating profile:', error)
@@ -127,50 +130,61 @@ export default {
 <template>
   <div class="app-container">
     <TheContainer>
-      <template #heading>{{ userStore().user.username }}</template>
+      <template #heading>{{ Profile }}</template>
 
       <h2>
         <slot name="heading">Edit Profile</slot>
       </h2>
-
       <div class="columns is-centered">
         <div class="field">
           <label class="label">First Name</label>
           <div class="control">
             <input
               type="text"
-              v-model="firstName"
+              v-model="userInfo.firstName"
               class="input"
               placeholder="First Name"
               required
             />
           </div>
         </div>
-      </div>
 
-      <div class="columns is-centered">
         <div class="field">
           <label class="label">Last Name</label>
           <div class="control">
-            <input type="text" v-model="lastName" class="input" placeholder="Last Name" required />
+            <input
+              type="text"
+              v-model="userInfo.lastName"
+              class="input"
+              placeholder="Last Name"
+              required
+            />
           </div>
         </div>
-      </div>
 
-      <div class="columns is-centered">
         <div class="field">
           <label class="label">Email</label>
           <div class="control">
-            <input type="email" v-model="email" class="input" placeholder="Email" required />
+            <input
+              type="email"
+              v-model="userInfo.email"
+              class="input"
+              placeholder="Email"
+              required
+            />
           </div>
         </div>
-      </div>
 
-      <div class="columns is-centered">
         <div class="field">
           <label class="label">Username</label>
           <div class="control">
-            <input type="text" v-model="username" class="input" placeholder="Username" required />
+            <input
+              type="text"
+              v-model="userInfo.username"
+              class="input"
+              placeholder="Username"
+              required
+            />
           </div>
         </div>
 
@@ -204,6 +218,18 @@ export default {
         </div>
       </div>
 
+      <div class="columns is-centered mt-5">
+          <div class="column is-narrow">
+            <button
+              type="submit"
+              class="button is-primary custom-button"
+              :disabled="!isFormValid || isLoading"
+            >
+              <span v-if="isLoading">Updating...</span>
+              <span v-else>Update Profile</span>
+            </button>
+          </div>
+        </div>
       <div class="columns is-centered mt-5">
         <div class="column is-narrow">
           <button @click="handleDeclineChangesClick" class="button is-primary custom-button">
