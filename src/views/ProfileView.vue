@@ -18,30 +18,15 @@ export default {
         firstName: store().user?.first_name || '',
         lastName: store().user?.last_name || '',
         username: store().user?.username || '',
-        email: store().user?.email || ''
+        email: store().user?.email || '',
+        password: ''
       },
-      isLoading: false
-    }
-  },
-  computed: {
-    originalProfile() {
-      return {
-        firstName: getCurrentUser.first_name,
-        last_name: userStore().user.last_name,
-        username: userStore().user.username,
-        email: userStore().user.email
-      }
-    },
-    isFormValid() {
-      return (
-        this.firstName &&
-        this.lastName &&
-        this.username &&
-        this.email &&
-        this.emailError === '' &&
-        this.passwordError === '' &&
-        this.confirmPasswordError === ''
-      )
+      password: '', // Add the password property
+      confirmPassword: '', // Add the confirmPassword property if needed
+      isLoading: false,
+      emailError: '',
+      passwordError: '',
+      confirmPasswordError: ''
     }
   },
   methods: {
@@ -58,7 +43,7 @@ export default {
         lastName: this.userInfo.lastName,
         username: this.userInfo.username,
         email: this.userInfo.email,
-        password: this.password || null
+        password: this.userInfo.password || null
       }
 
       try {
@@ -120,7 +105,7 @@ export default {
 
     handleDeclineChangesClick() {
       if (confirm('Are you sure you want to cancel the changes? Unsaved changes will be lost.')) {
-        Object.assign(userStore().user, this.originalProfile)
+        Object.assign(store.user, this.originalProfile)
       }
     }
   }
@@ -130,11 +115,8 @@ export default {
 <template>
   <div class="app-container">
     <TheContainer>
-      <template #heading>{{ Profile }}</template>
+      <template #heading>{{ userInfo.username }}</template>
 
-      <h2>
-        <slot name="heading">Edit Profile</slot>
-      </h2>
       <div class="columns is-centered">
         <div class="field">
           <label class="label">First Name</label>
@@ -148,7 +130,9 @@ export default {
             />
           </div>
         </div>
+      </div>
 
+      <div class="columns is-centered">
         <div class="field">
           <label class="label">Last Name</label>
           <div class="control">
@@ -161,7 +145,9 @@ export default {
             />
           </div>
         </div>
+      </div>
 
+      <div class="columns is-centered">
         <div class="field">
           <label class="label">Email</label>
           <div class="control">
@@ -174,7 +160,9 @@ export default {
             />
           </div>
         </div>
+      </div>
 
+      <div class="columns is-centered">
         <div class="field">
           <label class="label">Username</label>
           <div class="control">
@@ -187,7 +175,9 @@ export default {
             />
           </div>
         </div>
+      </div>
 
+      <div class="columns is-centered">
         <div class="field">
           <label class="label">Password</label>
           <div class="control">
@@ -200,7 +190,9 @@ export default {
             />
           </div>
         </div>
+      </div>
 
+      <div class="columns is-centered">
         <div class="field">
           <label class="label">Confirm Password</label>
           <div class="control">
@@ -219,17 +211,17 @@ export default {
       </div>
 
       <div class="columns is-centered mt-5">
-          <div class="column is-narrow">
-            <button
-              type="submit"
-              class="button is-primary custom-button"
-              :disabled="!isFormValid || isLoading"
-            >
-              <span v-if="isLoading">Updating...</span>
-              <span v-else>Update Profile</span>
-            </button>
-          </div>
+        <div class="column is-narrow">
+          <button
+            type="submit"
+            class="button is-primary custom-button"
+            :disabled="!isFormValid || isLoading"
+          >
+            <span v-if="isLoading">Updating...</span>
+            <span v-else>Update Profile</span>
+          </button>
         </div>
+      </div>
       <div class="columns is-centered mt-5">
         <div class="column is-narrow">
           <button @click="handleDeclineChangesClick" class="button is-primary custom-button">
@@ -250,6 +242,11 @@ export default {
 .custom-button {
   width: 250px;
   margin: 0 80px;
+}
+
+.field {
+  width: 70%;
+  margin-top: 1.5rem;
 }
 
 .mt-5 {
