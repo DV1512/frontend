@@ -76,12 +76,30 @@ export const userStore = defineStore('userStore', {
       console.log('User info fetched successfully:', userInfo)
     },
 
-    async updateUser(payload: {
-      first_name?: string
-      last_name?: string
-      username?: string
-      free?: boolean
+    async updateUserDetails(updatedInfo: {
+      username: string
+      email: string
+      first_name: string
+      last_name: string
+      password: string
     }) {
+      const updatedUser = await userService.updateUser(
+        updatedInfo.username,
+        updatedInfo.email,
+        updatedInfo.first_name,
+        updatedInfo.last_name,
+        updatedInfo.password
+      )
+
+      if (updatedUser) {
+        this.user = updatedUser
+        console.log('User store updated:', this.user)
+      } else {
+        console.error('Failed to update user details.')
+      }
+    },
+
+    async updateUser() {
       if (!this.user) {
         console.error('No user available for update')
         return
@@ -90,9 +108,20 @@ export const userStore = defineStore('userStore', {
       this.loading = true
 
       try {
-        await userService.updateUser(payload)
-        this.user = { ...this.user, ...payload, free: this.user.free }
-        console.log('User update successful')
+        const { username, email, first_name, last_name } = this.user
+        const password = ''
+        const updatedUser = await userService.updateUser(
+          username,
+          email,
+          first_name,
+          last_name,
+          password
+        )
+
+        if (updatedUser) {
+          this.user = { ...this.user, ...updatedUser }
+          console.log('User update successful')
+        }
       } catch (error) {
         console.error('User update failed', error)
       } finally {
@@ -107,6 +136,25 @@ export const userStore = defineStore('userStore', {
         this.loading = false
       } catch (error) {
         console.error('Logout failed', error)
+      }
+    },
+
+    async delete() {
+      if (!this.user) {
+        console.error('No user available for deletion')
+        return
+      }
+
+      this.loading = true
+
+      try {
+        await userService.deleteUser()
+        this.user = null
+        console.log('User deleted successfully')
+      } catch (error) {
+        console.error('User deletion failed', error)
+      } finally {
+        this.loading = false
       }
     }
   }

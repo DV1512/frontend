@@ -1,12 +1,7 @@
 <script lang="ts">
-import { ref, reactive, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import TheContainer from '@/components/TheContainer.vue'
 import { userStore } from './stores/userStore'
-import authService from './services/authService'
-import { getUser } from 'sdk/pkg/sdk'
-
-const store = userStore
+import { mapState, mapActions } from 'pinia'
+import TheContainer from '@/components/TheContainer.vue'
 
 export default {
   components: {
@@ -14,22 +9,49 @@ export default {
   },
   data() {
     return {
-      userInfo: {
-        firstName: store().user?.first_name || '',
-        lastName: store().user?.last_name || '',
-        username: store().user?.username || '',
-        email: store().user?.email || '',
-        password: ''
-      },
-      password: '', // Add the password property
-      confirmPassword: '', // Add the confirmPassword property if needed
+      password: '',
+      confirmPassword: '',
       isLoading: false,
-      emailError: '',
-      passwordError: '',
-      confirmPasswordError: ''
+      deleteError: ''
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      const store = userStore()
+      return store.isLoggedIn
+    },
+    ...mapState(userStore, ['user', 'loading']),
+    userInfo: {
+      get() {
+        return {
+          firstName: this.user?.first_name || '',
+          lastName: this.user?.last_name || '',
+          username: this.user?.username || '',
+          email: this.user?.email || ''
+        }
+      },
+      set(updatedUserInfo: {
+        firstName: string
+        lastName: string
+        username: string
+        email: string
+      }) {
+        this.userInfo = updatedUserInfo
+      }
+    },
+    isFormValid() {
+      return (
+        this.userInfo.firstName &&
+        this.userInfo.lastName &&
+        this.userInfo.username &&
+        this.userInfo.email &&
+        (!this.password || this.password === this.confirmPassword)
+      )
     }
   },
   methods: {
+    ...mapActions(userStore, ['delete']),
+
     async handleProfileUpdateClick() {
       if (!this.isFormValid) {
         alert('Please ensure all fields are valid.')
@@ -38,33 +60,16 @@ export default {
 
       this.isLoading = true
 
-      const updatedProfile = {
-        firstName: this.userInfo.firstName,
-        lastName: this.userInfo.lastName,
-        username: this.userInfo.username,
-        email: this.userInfo.email,
-        password: this.userInfo.password || null
-      }
-
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/update`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authService.getAccessToken()}`
-          },
-          body: JSON.stringify(updatedProfile)
+        const store = userStore()
+        await store.updateUserDetails({
+          first_name: this.userInfo.firstName,
+          last_name: this.userInfo.lastName,
+          username: this.userInfo.username,
+          email: this.userInfo.email,
+          password: this.password || ''
         })
 
-        if (!response.ok) {
-          const error = await response.json()
-          console.error('Failed to update profile:', error)
-          alert(`Failed to update profile: ${error.message || 'Unknown error'}`)
-          return
-        }
-
-        const updatedUser = await response.json()
-        userStore().user = updatedUser // Update the user store
         alert('Profile updated successfully!')
       } catch (error) {
         console.error('Error updating profile:', error)
@@ -73,39 +78,31 @@ export default {
         this.isLoading = false
       }
     },
-
-    async handleAccountDeleteClick() {
+    async handleDelete() {
+      this.deleteError = ''
       if (!confirm('Are you sure you want to delete your account? This action is irreversible.')) {
         return
       }
 
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/delete`, {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${authService.getAccessToken()}`
-          }
-        })
-
-        if (!response.ok) {
-          const error = await response.json()
-          console.error('Failed to delete account:', error)
-          alert(`Failed to delete account: ${error.message || 'Unknown error'}`)
-          return
-        }
-
+        const UserStore = userStore()
+        await UserStore.delete()
         alert('Account deleted successfully!')
-        userStore().logout()
+        console.log('Account deleted successfully')
         this.$router.push({ name: 'home' })
       } catch (error) {
         console.error('Error deleting account:', error)
         alert('Error deleting account. Please try again later.')
       }
     },
-
     handleDeclineChangesClick() {
       if (confirm('Are you sure you want to cancel the changes? Unsaved changes will be lost.')) {
-        Object.assign(store.user, this.originalProfile)
+        this.userInfo = {
+          firstName: this.user?.first_name || '',
+          lastName: this.user?.last_name || '',
+          username: this.user?.username || '',
+          email: this.user?.email || ''
+        }
       }
     }
   }
@@ -216,6 +213,7 @@ export default {
             type="submit"
             class="button is-primary custom-button"
             :disabled="!isFormValid || isLoading"
+            @click="handleProfileUpdateClick"
           >
             <span v-if="isLoading">Updating...</span>
             <span v-else>Update Profile</span>
@@ -229,7 +227,7 @@ export default {
           </button>
         </div>
         <div class="column is-narrow">
-          <button @click="handleAccountDeleteClick" class="button is-primary custom-button">
+          <button @click="handleDelete" class="button is-primary custom-button">
             Delete Account
           </button>
         </div>
