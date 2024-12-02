@@ -10,6 +10,11 @@ export default {
     ChatArea,
     ChatInput
   },
+  data() {
+    return {
+      uploadedFiles: [] as Array<{ name: string; type: string; preview?: string }>
+    }
+  },
   computed: {
     chatStore() {
       return chatStore()
@@ -30,6 +35,65 @@ export default {
     },
     resetChat() {
       this.chatStore.resetChat()
+    },
+    async handleFileUpload(event: Event) {
+      const input = event.target as HTMLInputElement
+      if (input && input.files) {
+        const files = Array.from(input.files)
+        files.forEach((file) => {
+          if (file.type === 'application/json') {
+            this.handleJsonFile(file)
+          } else if (file.type === 'application/pdf') {
+            this.handlePdfFile(file)
+          } else if (
+            file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          ) {
+            this.handleDocxFile(file)
+          } else if (file.type.startsWith('image/')) {
+            this.handleImageFile(file)
+          } else {
+            this.handleOtherFile(file)
+          }
+        })
+      }
+    },
+
+    handleJsonFile(file: File) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        try {
+          const jsonData = JSON.parse(reader.result as string)
+          console.log('Parsed JSON:', jsonData)
+        } catch (e) {
+          console.error('Error parsing JSON', e)
+        }
+      }
+      reader.readAsText(file)
+    },
+
+    handlePdfFile(file: File) {
+      console.log('PDF file uploaded:', file.name)
+    },
+
+    handleDocxFile(file: File) {
+      console.log('DOCX file uploaded:', file.name)
+    },
+
+    handleImageFile(file: File) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const imageUrl = reader.result as string
+        this.uploadedFiles.push({
+          name: file.name,
+          type: file.type,
+          preview: imageUrl
+        })
+      }
+      reader.readAsDataURL(file)
+    },
+
+    handleOtherFile(file: File) {
+      console.log('Uploaded file:', file.name)
     }
   }
 }
@@ -70,6 +134,23 @@ export default {
             The analysis is complete. Please press the button to start a new one.
           </p>
           <button class="button is-primary" @click="resetChat">Start New Analysis</button>
+        </section>
+
+        <section class="section">
+          <h3 class="title is-5">Upload Files</h3>
+          <input type="file" @change="handleFileUpload" multiple />
+        </section>
+
+        <section v-if="uploadedFiles.length > 0">
+          <h4 class="title is-6">Uploaded Files</h4>
+          <ul>
+            <li v-for="file in uploadedFiles" :key="file.name">
+              <span>{{ file.name }}</span>
+              <div v-if="file.type.startsWith('image/')">
+                <img :src="file.preview" alt="Image Preview" class="image-preview" />
+              </div>
+            </li>
+          </ul>
         </section>
       </div>
     </div>
