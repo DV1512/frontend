@@ -24,27 +24,27 @@ export default {
     userInfo: {
       get() {
         return {
-          firstName: this.user?.first_name || '',
-          lastName: this.user?.last_name || '',
           username: this.user?.username || '',
-          email: this.user?.email || ''
+          email: this.user?.email || '',
+          firstName: this.user?.first_name || '',
+          lastName: this.user?.last_name || ''
         }
       },
       set(updatedUserInfo: {
-        firstName: string
-        lastName: string
         username: string
         email: string
+        firstName: string
+        lastName: string
       }) {
         this.userInfo = updatedUserInfo
       }
     },
     isFormValid() {
       return (
-        this.userInfo.firstName &&
-        this.userInfo.lastName &&
         this.userInfo.username &&
         this.userInfo.email &&
+        this.userInfo.firstName &&
+        this.userInfo.lastName &&
         (!this.password || this.password === this.confirmPassword)
       )
     }
@@ -97,10 +97,10 @@ export default {
     handleDeclineChangesClick() {
       if (confirm('Are you sure you want to cancel the changes? Unsaved changes will be lost.')) {
         this.userInfo = {
-          firstName: this.user?.first_name || '',
-          lastName: this.user?.last_name || '',
           username: this.user?.username || '',
-          email: this.user?.email || ''
+          email: this.user?.email || '',
+          firstName: this.user?.first_name || '',
+          lastName: this.user?.last_name || ''
         }
       }
     }
