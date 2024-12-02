@@ -1,15 +1,11 @@
+import authService from './authService'
+
 class UserService {
-  private access_token: string | null = null
-
-  constructor() {
-    this.access_token = import.meta.env.VITE_ACCESS_TOKEN || null
-  }
-
   /**
    * Fetch current user info
    */
   public async getCurrentUser() {
-    if (!this.access_token) {
+    if (!authService.getAccessToken()) {
       console.error('No access token available for fetching user info')
       return
     }
@@ -17,7 +13,7 @@ class UserService {
     const url = import.meta.env.VITE_BACKEND_URL + '/api/v1/user'
     const options = {
       method: 'GET',
-      headers: { Authorization: `Bearer ${this.access_token}` }
+      headers: { Authorization: `Bearer ${authService.getAccessToken()}` }
     }
 
     try {
@@ -49,15 +45,16 @@ class UserService {
   ) {
     if (!first_name || !last_name || !username || !email) {
       console.error('Required fields are missing')
-      return null
+      return
     }
 
-    const url = `${import.meta.env.VITE_BACKEND_URL}/api/v1/user`
-    const options = {
+    console.warn(authService.getAccessToken())
+
+    fetch(import.meta.env.VITE_BACKEND_URL + '/api/v1/user', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.access_token}`
+        Authorization: `Bearer ${authService.getAccessToken()}`
       },
       body: JSON.stringify({
         username,
@@ -66,29 +63,14 @@ class UserService {
         last_name,
         ...(password && { password })
       })
-    }
-
-    try {
-      const response = await fetch(url, options)
-
-      if (!response.ok) {
-        console.error(`User update failed: ${response.status} ${response.statusText}`)
-        return null
-      }
-
-      console.log('User update successful. Fetching latest user data...')
-      return await this.getCurrentUser()
-    } catch (error) {
-      console.error('Network error during user update:', error)
-      return null
-    }
+    })
   }
 
   /**
    * Delete user
    */
   public async deleteUser() {
-    if (!this.access_token) {
+    if (!authService.getAccessToken()) {
       console.error('No access token available for deleting user')
       return
     }
@@ -96,7 +78,7 @@ class UserService {
     const url = import.meta.env.VITE_BACKEND_URL + '/api/v1/user'
     const options = {
       method: 'DELETE',
-      headers: { Authorization: `Bearer ${this.access_token}` }
+      headers: { Authorization: `Bearer ${authService.getAccessToken()}` }
     }
 
     try {

@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(userStore, ['delete']),
+    ...mapActions(userStore, ['delete', 'updateUser']),
 
     async handleProfileUpdateClick() {
       if (!this.isFormValid) {
@@ -59,17 +59,16 @@ export default {
       }
 
       this.isLoading = true
-
       try {
         const store = userStore()
-        await store.updateUserDetails({
-          first_name: this.userInfo.firstName,
-          last_name: this.userInfo.lastName,
-          username: this.userInfo.username,
-          email: this.userInfo.email,
-          password: this.password || ''
-        })
-
+        await store.updateUser(
+          this.userInfo.firstName,
+          this.userInfo.lastName,
+          this.userInfo.username,
+          this.userInfo.email,
+          this.password
+        )
+        console.log('Profile updated successfully with new data:', this.userInfo)
         alert('Profile updated successfully!')
       } catch (error) {
         console.error('Error updating profile:', error)
