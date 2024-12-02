@@ -62,10 +62,10 @@ export default {
       try {
         const store = userStore()
         await store.updateUser(
-          this.userInfo.firstName,
-          this.userInfo.lastName,
           this.userInfo.username,
           this.userInfo.email,
+          this.userInfo.firstName,
+          this.userInfo.lastName,
           this.password
         )
         console.log('Profile updated successfully with new data:', this.userInfo)
