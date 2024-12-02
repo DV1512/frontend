@@ -97,7 +97,7 @@ export const userStore = defineStore('userStore', {
         }
         setTimeout(() => {
           this.getUserInfo(token)
-        }, 1000)
+        }, 0)
         console.log('User info for update fetched successfully')
         return true
       } catch (error) {
