@@ -95,9 +95,9 @@ export const userStore = defineStore('userStore', {
           console.error('Failed to get access token')
           return false
         }
-        setTimeout(() => {
-          this.getUserInfo(token)
-        }, 1000)
+        setTimeout(async () => {
+          await this.getUserInfo(token)
+        }, 0)
         console.log('User info for update fetched successfully')
         return true
       } catch (error) {

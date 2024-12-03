@@ -60,8 +60,8 @@ export default {
 
       this.isLoading = true
       try {
-        const store = userStore()
-        await store.updateUser(
+        //const store = userStore()
+        await this.updateUser(
           this.userInfo.username,
           this.userInfo.email,
           this.userInfo.firstName,
