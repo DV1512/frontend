@@ -42,7 +42,7 @@ export default {
 
     getBotResponse(message: string, threatAnalysis: string | null): string {
       if (threatAnalysis) {
-        return `I've detected a potential concern: ${threatAnalysis}. Do you need help with anything else?`
+        return `I've detected a potential concern: ${threatAnalysis}Do you need help with anything else?`
       }
       if (message.toLowerCase().includes('asset')) {
         return 'What kind of assets are you protecting?'
@@ -75,15 +75,13 @@ export default {
       )
 
       if (detectedThreats.length > 0) {
-        let logMessage = 'Threats detected:\n'
+        let logMessage = '\n<strong>Threats detected:</strong>'
         detectedThreats.forEach((threat) => {
-          logMessage += `- **[${threat.id}] ${threat.title}**: ${
-            threat.description
-          }\n  Mitigation Strategies: ${threat.mitigation.join(', ')}\n`
-
-          // Add reference URL if available
+          logMessage += ` ${threat.id} 
+          \n<strong>${threat.title}:</strong> ${threat.description}
+          \n<strong>Mitigation Strategies:</strong> ${threat.mitigation.join(', ')}\n`
           if (threat.referenceURL) {
-            logMessage += `  Learn more: [${threat.referenceURL}](${threat.referenceURL})\n\n`
+            logMessage += `\n<strong/>Learn more:</strong><a href="${threat.referenceURL}" target="_blank" rel="noopener noreferrer">${threat.referenceURL}</a>\n\n`
           }
         })
 
@@ -106,11 +104,9 @@ export default {
 
 <template>
   <div class="app-container">
-    <!-- Container for the chat app -->
     <TheContainer>
       <template #heading> Limited Chat </template>
 
-      <!-- Main chat area -->
       <section class="section is-flex is-justify-content-center">
         <p>
           Hi and welcome to the Limited Chat!<br />
@@ -119,59 +115,24 @@ export default {
         </p>
       </section>
 
-      <!-- Chat messages -->
       <ChatArea :messages="messages" />
 
-      <!-- Input area -->
       <section class="section is-flex is-justify-content-center is-align-items-center">
-        <ChatInput @send="handleMessage" />
-      </section>
+        <div v-if="!isLimitReached" class="is-flex is-align-items-center">
+          <ChatInput @send="handleMessage" />
+        </div>
 
-      <!-- Threat log -->
-      <section class="section threat-log">
-        <h3>Threat Analysis Logs</h3>
-        <div v-if="threatLogs.length === 0">No threats detected yet.</div>
-        <ul v-else>
-          <li v-for="(log, index) in threatLogs" :key="index">
-            <div v-html="log"></div>
-          </li>
-        </ul>
+        <!-- Reset button appears when the limit is reached -->
+        <button v-else @click="resetSession" class="button is-danger is-light is-rounded">
+          Reset Session
+        </button>
       </section>
     </TheContainer>
   </div>
 </template>
 
 <style>
-/* Page-wide styles */
 p {
   text-align: center;
-}
-
-/* Styles for the threat analysis logs */
-.threat-log {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.threat-log h3 {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.threat-log ul {
-  list-style: none;
-  padding: 0;
-}
-
-.threat-log li {
-  padding: 5px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.threat-log li:last-child {
-  border-bottom: none;
 }
 </style>
