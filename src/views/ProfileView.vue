@@ -3,16 +3,17 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TheContainer from '@/components/TheContainer.vue'
 import { userStore } from './stores/userStore'
+import { useThemeStore } from './stores/themeStore'
 
 const store = userStore()
 const router = useRouter()
+const confirmPassword = ref('')
+const password = ref('')
+const themeStore = useThemeStore()
 
 if (store.user == null) {
   router.push({ name: 'error' })
 }
-
-const password = ref('')
-const confirmPassword = ref('')
 
 const handleProfileUpdateClick = () => {
   if (password.value && password.value !== confirmPassword.value) {
@@ -131,6 +132,11 @@ const handleDeclineChangesClick = () => {
         <div class="column is-narrow">
           <button @click="handleAccountDeleteClick" class="button is-primary custom-button">
             Delete Account
+          </button>
+        </div>
+        <div class="column is-narrow">
+          <button @click="themeStore.toggleTheme" class="button is-primary custom-button">
+            <span>{{ themeStore.isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
           </button>
         </div>
       </div>
