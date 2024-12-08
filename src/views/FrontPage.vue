@@ -28,6 +28,14 @@ import TheContainer from '@/components/TheContainer.vue'
         </div>
       </div>
 
+      <div class="columns is-centered mt-5">
+        <div class="column is-narrow">
+          <RouterLink to="/limitchat">
+            <button class="button is-primary custom-button">Limit Chat</button>
+          </RouterLink>
+        </div>
+      </div>
+
       <div class="text-snippet mt-5">
         <p>
           <!-- Let this text snippet be here som we can se the scrollup -->

@@ -230,6 +230,11 @@ export default {
             Delete Account
           </button>
         </div>
+        <div class="column is-narrow">
+          <button @click="themeStore.toggleTheme" class="button is-primary custom-button">
+            <span>{{ themeStore.isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
+          </button>
+        </div>
       </div>
     </TheContainer>
   </div>
