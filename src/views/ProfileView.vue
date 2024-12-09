@@ -64,7 +64,6 @@ export default {
 
       this.isLoading = true
       try {
-        //const store = userStore()
         await this.updateUser(
           this.userInfo.username,
           this.userInfo.email,
@@ -97,16 +96,6 @@ export default {
         console.error('Error deleting account:', error)
         alert('Error deleting account. Please try again later.')
       }
-    },
-    handleDeclineChangesClick() {
-      if (confirm('Are you sure you want to cancel the changes? Unsaved changes will be lost.')) {
-        this.userInfo = {
-          username: this.user?.username || '',
-          email: this.user?.email || '',
-          firstName: this.user?.first_name || '',
-          lastName: this.user?.last_name || ''
-        }
-      }
     }
   }
 }
@@ -115,7 +104,7 @@ export default {
 <template>
   <div class="app-container">
     <TheContainer>
-      <template #heading>{{ userInfo.username }}</template>
+      <template #heading>{{ userInfo.firstName + ' ' + userInfo.lastName }}</template>
 
       <div class="columns is-centered">
         <div class="field">
