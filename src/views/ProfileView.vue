@@ -13,7 +13,9 @@ export default {
       password: '',
       confirmPassword: '',
       isLoading: false,
-      deleteError: ''
+      deleteError: '',
+      statusMessage: '',
+      showPopup: false
     }
   },
   computed: {
@@ -41,13 +43,22 @@ export default {
       }
     },
     isFormValid() {
-      return (
+      if (
         this.userInfo.username &&
         this.userInfo.email &&
         this.userInfo.firstName &&
         this.userInfo.lastName &&
         (!this.password || this.password === this.confirmPassword)
-      )
+      ) {
+        return (
+          this.userInfo.username &&
+          this.userInfo.email &&
+          this.userInfo.firstName &&
+          this.userInfo.lastName &&
+          (!this.password || this.password === this.confirmPassword)
+        )
+      }
+      return false
     }
   },
   methods: {
@@ -58,11 +69,12 @@ export default {
 
     async handleProfileUpdateClick() {
       if (!this.isFormValid) {
-        alert('Please ensure all fields are valid.')
+        this.showPopupWithMessage('Please ensure all fields are valid.')
         return
       }
 
       this.isLoading = true
+      this.statusMessage = ''
       try {
         await this.updateUser(
           this.userInfo.username,
@@ -72,10 +84,10 @@ export default {
           this.password
         )
         console.log('Profile updated successfully with new data:', this.userInfo)
-        alert('Profile updated successfully!')
+        this.showPopupWithMessage('Profile updated successfully!')
       } catch (error) {
         console.error('Error updating profile:', error)
-        alert('Error updating profile. Please try again later.')
+        this.showPopupWithMessage('Error updating profile. Please try again later.')
       } finally {
         this.isLoading = false
       }
@@ -89,13 +101,21 @@ export default {
       try {
         const UserStore = userStore()
         await UserStore.delete()
-        alert('Account deleted successfully!')
         console.log('Account deleted successfully')
-        this.$router.push({ name: 'home' })
+        this.showPopupWithMessage('Account deleted successfully!')
+        this.$router.push({ name: '' })
       } catch (error) {
         console.error('Error deleting account:', error)
-        alert('Error deleting account. Please try again later.')
+        this.showPopupWithMessage('Error deleting account. Please try again later.')
       }
+    },
+    showPopupWithMessage(message: string) {
+      this.statusMessage = message
+      this.showPopup = true
+      setTimeout(() => {
+        this.showPopup = false
+        this.statusMessage = ''
+      }, 3000)
     }
   }
 }
@@ -204,20 +224,15 @@ export default {
           <button
             type="submit"
             class="button is-primary custom-button"
-            :disabled="!isFormValid || isLoading"
+            :disabled="!isFormValid"
             @click="handleProfileUpdateClick"
           >
-            <span v-if="isLoading">Updating...</span>
-            <span v-else>Update Profile</span>
+            Update Profile
           </button>
         </div>
       </div>
+
       <div class="columns is-centered mt-5">
-        <div class="column is-narrow">
-          <button @click="handleDeclineChangesClick" class="button is-primary custom-button">
-            Decline Changes
-          </button>
-        </div>
         <div class="column is-narrow">
           <button @click="handleDelete" class="button is-primary custom-button">
             Delete Account
@@ -230,10 +245,36 @@ export default {
         </div>
       </div>
     </TheContainer>
+
+    <div v-if="showPopup" class="popup">
+      <p>{{ statusMessage }}</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0.65rem 2rem;
+  background-color: #35578d;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeOut 3s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .custom-button {
   width: 250px;
   margin: 0 80px;
