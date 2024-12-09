@@ -26,7 +26,7 @@ export default {
         const UserStore = userStore()
         await UserStore.logout()
         console.log('Logout successful')
-        this.$router.push({ name: 'login' })
+        this.$router.push({ name: 'start' })
       } catch (error) {
         this.logoutError = 'An error occurred during logout. Please try again.'
         console.error('Logout failed:', error)

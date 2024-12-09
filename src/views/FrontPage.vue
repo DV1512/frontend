@@ -1,5 +1,18 @@
-<script setup lang="ts">
+<script lang="ts">
 import TheContainer from '@/components/TheContainer.vue'
+import { userStore } from './stores/userStore'
+
+export default {
+  components: {
+    TheContainer
+  },
+  computed: {
+    isLoggedIn() {
+      const store = userStore()
+      return store.isLoggedIn
+    }
+  }
+}
 </script>
 
 <template>
@@ -8,13 +21,16 @@ import TheContainer from '@/components/TheContainer.vue'
       <template #heading>ThreatMapper</template>
       <div class="text-snippet">
         <p>
-          Vue’s
-          <a href="https://vuejs.org/" target="_blank" rel="noopener">official documentation</a>
-          provides you with all information you need to get started.
+          Here we add som info about the app. Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </p>
       </div>
 
-      <div class="columns is-centered mt-5">
+      <div v-if="isLoggedIn" class="columns is-centered mt-5">
+        <RouterLink to="/profile">
+          <button class="button is-primary custom-button">Profile</button>
+        </RouterLink>
+      </div>
+      <div v-else class="columns is-centered mt-5">
         <div class="column is-narrow">
           <RouterLink to="/login">
             <button class="button is-primary custom-button">Login</button>
