@@ -21,7 +21,8 @@ export default {
       <template #heading>ThreatMapper</template>
       <div class="text-snippet">
         <p>
-          Here we add som info about the app. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Here we add som info about the app. Lorem ipsum dolor sit amet consectetur adipisicing
+          elit.
         </p>
       </div>
 
