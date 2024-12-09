@@ -83,6 +83,7 @@ export default {
         this.isLoading = false
       }
     },
+
     async handleDelete() {
       this.deleteError = ''
       if (!confirm('Are you sure you want to delete your account? This action is irreversible.')) {
@@ -100,6 +101,7 @@ export default {
         this.showPopupWithMessage('Error deleting account. Please try again later.')
       }
     },
+
     showPopupWithMessage(message: string) {
       this.statusMessage = message
       this.showPopup = true
