@@ -2,109 +2,41 @@
 import { userStore } from './stores/userStore'
 import { mapState, mapActions } from 'pinia'
 import TheContainer from '@/components/TheContainer.vue'
+import { userStore } from './stores/userStore'
 
-export default {
-  components: {
-    TheContainer
-  },
-  data() {
-    return {
-      password: '',
-      confirmPassword: '',
-      isLoading: false,
-      deleteError: ''
-    }
-  },
-  computed: {
-    isLoggedIn() {
-      const store = userStore()
-      return store.isLoggedIn
-    },
-    ...mapState(userStore, ['user', 'loading']),
-    userInfo: {
-      get() {
-        return {
-          firstName: this.user?.first_name || '',
-          lastName: this.user?.last_name || '',
-          username: this.user?.username || '',
-          email: this.user?.email || ''
-        }
-      },
-      set(updatedUserInfo: {
-        firstName: string
-        lastName: string
-        username: string
-        email: string
-      }) {
-        this.userInfo = updatedUserInfo
-      }
-    },
-    isFormValid() {
-      return (
-        this.userInfo.firstName &&
-        this.userInfo.lastName &&
-        this.userInfo.username &&
-        this.userInfo.email &&
-        (!this.password || this.password === this.confirmPassword)
-      )
-    }
-  },
-  methods: {
-    ...mapActions(userStore, ['delete']),
+const store = userStore()
+const router = useRouter()
+const confirmPassword = ref('')
+const password = ref('')
 
-    async handleProfileUpdateClick() {
-      if (!this.isFormValid) {
-        alert('Please ensure all fields are valid.')
-        return
-      }
+if (store.user == null) {
+  router.push({ name: 'error' })
+}
 
-      this.isLoading = true
+const handleProfileUpdateClick = () => {
+  if (password.value && password.value !== confirmPassword.value) {
+    alert('Passwords do not match')
+    return
+  }
+  // TODO: Implement the updated profile data and send to the backend server.
+  // Make sure to send the updated name, username, email, and optionally the new password.  })
+}
 
-      try {
-        const store = userStore()
-        await store.updateUserDetails({
-          first_name: this.userInfo.firstName,
-          last_name: this.userInfo.lastName,
-          username: this.userInfo.username,
-          email: this.userInfo.email,
-          password: this.password || ''
-        })
+const handleAccountDeleteClick = () => {
+  const confirmation = confirm(
+    'Are you sure you want to delete your account? This action is irreversible.'
+  )
+  if (confirmation) {
+    // TODO: Implement the logic to delete the user's account from the system.
+  }
+}
 
-        alert('Profile updated successfully!')
-      } catch (error) {
-        console.error('Error updating profile:', error)
-        alert('Error updating profile. Please try again later.')
-      } finally {
-        this.isLoading = false
-      }
-    },
-    async handleDelete() {
-      this.deleteError = ''
-      if (!confirm('Are you sure you want to delete your account? This action is irreversible.')) {
-        return
-      }
-
-      try {
-        const UserStore = userStore()
-        await UserStore.delete()
-        alert('Account deleted successfully!')
-        console.log('Account deleted successfully')
-        this.$router.push({ name: 'home' })
-      } catch (error) {
-        console.error('Error deleting account:', error)
-        alert('Error deleting account. Please try again later.')
-      }
-    },
-    handleDeclineChangesClick() {
-      if (confirm('Are you sure you want to cancel the changes? Unsaved changes will be lost.')) {
-        this.userInfo = {
-          firstName: this.user?.first_name || '',
-          lastName: this.user?.last_name || '',
-          username: this.user?.username || '',
-          email: this.user?.email || ''
-        }
-      }
-    }
+const handleDeclineChangesClick = () => {
+  const confirmation = confirm(
+    'Are you sure you want to cancel the changes? Unsaved changes will be lost.'
+  )
+  if (confirmation) {
+    // TODO: implement this later
   }
 }
 </script>
@@ -229,6 +161,11 @@ export default {
         <div class="column is-narrow">
           <button @click="handleDelete" class="button is-primary custom-button">
             Delete Account
+          </button>
+        </div>
+        <div class="column is-narrow">
+          <button @click="themeStore.toggleTheme" class="button is-primary custom-button">
+            <span>{{ themeStore.isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
           </button>
         </div>
       </div>

@@ -14,6 +14,7 @@ import ChatView from '../views/ChatView.vue'
 import welcomeView from '../views/WelcomeView.vue'
 import OauthRedirect from '@/views/OauthRedirect.vue'
 import ErrorPage from '@/views/ErrorPage.vue'
+import LimitChat from '@/views/LimitChat.vue'
 
 const routes = [
   {
@@ -90,13 +91,13 @@ const routes = [
     path: '/error',
     name: 'error',
     component: ErrorPage
-  }
-  /*,
-  {
-  path: '/chat',
-  name: 'chat',
-  component: ChatView
   },
+  {
+    path: '/limitchat',
+    name: 'limitchat',
+    component: LimitChat
+  }
+  /*
   {
   path: '/settings',
   name: 'settings',
