@@ -1,6 +1,6 @@
 <script lang="ts">
 import { userStore } from './stores/userStore'
-import { mapState, mapActions } from 'pinia'
+import { mapActions } from 'pinia'
 import TheContainer from '@/components/TheContainer.vue'
 import { useThemeStore } from './stores/themeStore'
 
@@ -78,10 +78,14 @@ export default {
       this[popupName] = !this[popupName]
     },
 
-    async confirmAction(actionName: 'delete' | 'updateUser', args: any[] = []) {
-      this[`${actionName}Loading`] = true
+    async confirmAction(actionName: 'Delete' | 'Update', args: any[] = []) {
+      if (actionName === 'Update') {
+        this.updateUserLoading = true
+      } else if (actionName === 'Delete') {
+        this.deleteLoading = true
+      }
       try {
-        if (actionName === 'updateUser') {
+        if (actionName === 'Update') {
           await this.updateUser(
             this.userInfo.username,
             this.userInfo.email,
@@ -89,23 +93,28 @@ export default {
             this.userInfo.lastName,
             this.password
           )
-        } else if (actionName === 'delete') {
+        } else if (actionName === 'Delete') {
           await this.delete()
         }
         this.showPopupWithMessage(`${actionName} completed successfully!`)
       } catch (error) {
         this.showPopupWithMessage(`Error during ${actionName}. Please try again later.`)
       } finally {
-        this[`${actionName}Loading`] = false
+        if (actionName === 'Update') {
+          this.updateUserLoading = false
+        } else if (actionName === 'Delete') {
+          this.deleteLoading = false
+        }
       }
     },
 
     handleProfileUpdateClick() {
       this.showUpdatePopup = true
     },
+
     async confirmUpdate() {
       this.togglePopup('showUpdatePopup')
-      await this.confirmAction('updateUser', [
+      await this.confirmAction('Update', [
         this.userInfo.username,
         this.userInfo.email,
         this.userInfo.firstName,
@@ -113,6 +122,7 @@ export default {
         this.password
       ])
     },
+
     cancelUpdate() {
       this.togglePopup('showUpdatePopup')
       this.userInfo = { ...this.originalUserInfo }
@@ -126,7 +136,17 @@ export default {
 
     async confirmDelete() {
       this.togglePopup('showDeletePopup')
-      await this.confirmAction('delete')
+      await this.confirmAction('Delete')
+      this.userInfo = {
+        username: '',
+        email: '',
+        firstName: '',
+        lastName: ''
+      }
+      this.password = ''
+      this.confirmPassword = ''
+      this.statusMessage = ''
+
       await new Promise((resolve) => setTimeout(resolve, 1000))
       this.$router.push({ name: 'start' })
     },
@@ -148,7 +168,7 @@ export default {
 
 <template>
   <div class="app-container">
-    <TheContainer>
+    <TheContainer v-if="isLoggedIn">
       <template #heading>{{ userInfo.firstName + ' ' + userInfo.lastName }}</template>
 
       <div class="columns is-centered">
@@ -256,6 +276,7 @@ export default {
           </button>
         </div>
       </div>
+
       <div v-if="showUpdatePopup" class="modal-overlay">
         <section class="section">
           <section class="box">
@@ -328,7 +349,7 @@ export default {
   color: white;
   border-radius: 10px;
   text-align: center;
-  animation: fadeOut 2s forwards;
+  animation: fadeOut 3s forwards;
 }
 
 @keyframes fadeOut {
