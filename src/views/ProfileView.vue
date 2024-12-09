@@ -9,7 +9,14 @@ export default {
     TheContainer
   },
   data() {
+    const store = userStore()
     return {
+      userInfo: {
+        username: store.user?.username || '',
+        email: store.user?.email || '',
+        firstName: store.user?.first_name || '',
+        lastName: store.user?.last_name || ''
+      },
       password: '',
       confirmPassword: '',
       isLoading: false,
@@ -17,41 +24,47 @@ export default {
       statusMessage: '',
       showPopup: false,
       showDeletePopup: false,
-      showUpdatePopup: false
+      showUpdatePopup: false,
+      updateUserLoading: false,
+      deleteLoading: false
     }
   },
   computed: {
+    user() {
+      return userStore().user
+    },
     isLoggedIn() {
-      const store = userStore()
-      return store.isLoggedIn
+      return userStore().isLoggedIn
     },
-    ...mapState(userStore, ['user', 'loading']),
-    userInfo: {
-      get() {
-        return {
-          username: this.user?.username || '',
-          email: this.user?.email || '',
-          firstName: this.user?.first_name || '',
-          lastName: this.user?.last_name || ''
-        }
-      },
-      set(updatedUserInfo: {
-        username: string
-        email: string
-        firstName: string
-        lastName: string
-      }) {
-        this.userInfo = updatedUserInfo
-      }
-    },
-    isFormValid() {
+    isFormModified() {
       return (
+        this.userInfo.username !== this.user?.username ||
+        this.userInfo.email !== this.user?.email ||
+        this.userInfo.firstName !== this.user?.first_name ||
+        this.userInfo.lastName !== this.user?.last_name ||
+        this.password !== '' ||
+        this.confirmPassword !== ''
+      )
+    },
+    isUpdateButtonDisabled() {
+      const isValid =
         this.userInfo.username &&
         this.userInfo.email &&
         this.userInfo.firstName &&
-        this.userInfo.lastName &&
-        (!this.password || this.password === this.confirmPassword)
+        this.userInfo.lastName
+      return !(
+        this.isFormModified &&
+        isValid &&
+        (this.password === this.confirmPassword || !this.password)
       )
+    },
+    originalUserInfo() {
+      return {
+        username: this.user?.username || '',
+        email: this.user?.email || '',
+        firstName: this.user?.first_name || '',
+        lastName: this.user?.last_name || ''
+      }
     }
   },
   methods: {
@@ -61,59 +74,64 @@ export default {
       return useThemeStore()
     },
 
+    togglePopup(popupName: 'showPopup' | 'showDeletePopup' | 'showUpdatePopup') {
+      this[popupName] = !this[popupName]
+    },
+
+    async confirmAction(actionName: 'delete' | 'updateUser', args: any[] = []) {
+      this[`${actionName}Loading`] = true
+      try {
+        if (actionName === 'updateUser') {
+          await this.updateUser(
+            this.userInfo.username,
+            this.userInfo.email,
+            this.userInfo.firstName,
+            this.userInfo.lastName,
+            this.password
+          )
+        } else if (actionName === 'delete') {
+          await this.delete()
+        }
+        this.showPopupWithMessage(`${actionName} completed successfully!`)
+      } catch (error) {
+        this.showPopupWithMessage(`Error during ${actionName}. Please try again later.`)
+      } finally {
+        this[`${actionName}Loading`] = false
+      }
+    },
+
     handleProfileUpdateClick() {
       this.showUpdatePopup = true
     },
-
     async confirmUpdate() {
-      this.showUpdatePopup = false
-      this.isLoading = true
-      this.statusMessage = ''
-      try {
-        await this.updateUser(
-          this.userInfo.username,
-          this.userInfo.email,
-          this.userInfo.firstName,
-          this.userInfo.lastName,
-          this.password
-        )
-        console.log('Profile updated successfully with new data:', this.userInfo)
-        this.showPopupWithMessage('Profile updated successfully!')
-      } catch (error) {
-        console.error('Error updating profile:', error)
-        this.showPopupWithMessage('Error updating profile. Please try again later.')
-      } finally {
-        this.isLoading = false
-      }
+      this.togglePopup('showUpdatePopup')
+      await this.confirmAction('updateUser', [
+        this.userInfo.username,
+        this.userInfo.email,
+        this.userInfo.firstName,
+        this.userInfo.lastName,
+        this.password
+      ])
     },
-
     cancelUpdate() {
-      this.showUpdatePopup = false
-    },
-
-    async confirmDelete() {
-      this.showDeletePopup = false
-
-      try {
-        await this.delete()
-        console.log('Account deleted successfully')
-        this.showPopupWithMessage('Account deleted successfully!')
-
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        this.$router.push({ name: 'start' })
-      } catch (error) {
-        console.error('Error deleting account:', error)
-        this.showPopupWithMessage('Error deleting account. Please try again later.')
-      }
-    },
-
-    cancelDelete() {
-      this.showDeletePopup = false
+      this.togglePopup('showUpdatePopup')
+      this.userInfo = { ...this.originalUserInfo }
+      this.password = ''
+      this.confirmPassword = ''
     },
 
     handleDelete() {
-      this.showDeletePopup = true
+      this.togglePopup('showDeletePopup')
+    },
+
+    async confirmDelete() {
+      this.togglePopup('showDeletePopup')
+      await this.confirmAction('delete')
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      this.$router.push({ name: 'start' })
+    },
+    cancelDelete() {
+      this.togglePopup('showDeletePopup')
     },
 
     showPopupWithMessage(message: string) {
@@ -231,7 +249,7 @@ export default {
           <button
             type="submit"
             class="button is-primary custom-button"
-            :disabled="!isFormValid || isLoading"
+            :disabled="isUpdateButtonDisabled"
             @click="handleProfileUpdateClick"
           >
             Update Profile
@@ -274,7 +292,6 @@ export default {
             </section>
           </section>
         </div>
-
         <div class="column is-narrow">
           <button @click="useThemeStore().toggleTheme" class="button is-primary custom-button">
             <span>{{ useThemeStore().isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
