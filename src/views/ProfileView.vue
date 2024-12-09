@@ -15,7 +15,8 @@ export default {
       isLoading: false,
       deleteError: '',
       statusMessage: '',
-      showPopup: false
+      showPopup: false,
+      showDeletePopup: false
     }
   },
   computed: {
@@ -54,16 +55,12 @@ export default {
   },
   methods: {
     ...mapActions(userStore, ['delete', 'updateUser']),
+
     useThemeStore() {
       return useThemeStore()
     },
 
     async handleProfileUpdateClick() {
-      if (!this.isFormValid) {
-        this.showPopupWithMessage('Please ensure all fields are valid.')
-        return
-      }
-
       this.isLoading = true
       this.statusMessage = ''
       try {
@@ -84,22 +81,29 @@ export default {
       }
     },
 
-    async handleDelete() {
-      this.deleteError = ''
-      if (!confirm('Are you sure you want to delete your account? This action is irreversible.')) {
-        return
-      }
+    async confirmDelete() {
+      this.showDeletePopup = false
 
       try {
-        const UserStore = userStore()
-        await UserStore.delete()
+        await this.delete()
         console.log('Account deleted successfully')
         this.showPopupWithMessage('Account deleted successfully!')
-        this.$router.push({ name: '' })
+
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+
+        this.$router.push({ name: 'start' })
       } catch (error) {
         console.error('Error deleting account:', error)
         this.showPopupWithMessage('Error deleting account. Please try again later.')
       }
+    },
+
+    cancelDelete() {
+      this.showDeletePopup = false
+    },
+
+    handleDelete() {
+      this.showDeletePopup = true
     },
 
     showPopupWithMessage(message: string) {
@@ -231,6 +235,22 @@ export default {
             Delete Account
           </button>
         </div>
+        <div v-if="showDeletePopup" class="modal-overlay">
+          <section class="section">
+            <section class="box">
+              <p>Confirm Delete</p>
+              <p>Are you sure you want to delete your account?</p>
+              <p>This action is irreversible.</p>
+              <div class="modal-actions">
+                <button @click="confirmDelete" class="button is-primary custom-button">
+                  Yes, Delete
+                </button>
+                <button @click="cancelDelete" class="button custom-button">Cancel</button>
+              </div>
+            </section>
+          </section>
+        </div>
+
         <div class="column is-narrow">
           <button @click="useThemeStore().toggleTheme" class="button is-primary custom-button">
             <span>{{ useThemeStore().isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
@@ -246,6 +266,17 @@ export default {
 </template>
 
 <style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .popup {
   position: fixed;
   top: 50%;
@@ -256,7 +287,7 @@ export default {
   color: white;
   border-radius: 10px;
   text-align: center;
-  animation: fadeOut 3s forwards;
+  animation: fadeOut 2s forwards;
 }
 
 @keyframes fadeOut {
@@ -271,6 +302,7 @@ export default {
 .custom-button {
   width: 250px;
   margin: 0 80px;
+  margin-top: 1rem;
 }
 
 .field {
