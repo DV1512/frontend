@@ -2,6 +2,7 @@
 import { userStore } from './stores/userStore'
 import { mapState, mapActions } from 'pinia'
 import TheContainer from '@/components/TheContainer.vue'
+import { useThemeStore } from './stores/themeStore'
 
 export default {
   components: {
@@ -51,6 +52,9 @@ export default {
   },
   methods: {
     ...mapActions(userStore, ['delete', 'updateUser']),
+    useThemeStore() {
+      return useThemeStore()
+    },
 
     async handleProfileUpdateClick() {
       if (!this.isFormValid) {
@@ -231,8 +235,8 @@ export default {
           </button>
         </div>
         <div class="column is-narrow">
-          <button @click="themeStore.toggleTheme" class="button is-primary custom-button">
-            <span>{{ themeStore.isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
+          <button @click="useThemeStore().toggleTheme" class="button is-primary custom-button">
+            <span>{{ useThemeStore().isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
           </button>
         </div>
       </div>
