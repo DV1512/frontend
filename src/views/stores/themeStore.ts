@@ -1,41 +1,65 @@
 import { defineStore } from 'pinia'
+
 export const useThemeStore = defineStore('themeStore', {
   state: () => ({
-    isDarkMode: false // default theme
+    theme: 'auto'
   }),
 
   getters: {
-    theme: (state) => (state.isDarkMode ? 'dark' : 'light')
+    currentTheme: (state) => state.theme
   },
 
   actions: {
     toggleTheme() {
-      this.isDarkMode = !this.isDarkMode
-      document.documentElement.setAttribute('data-theme', this.theme)
-
-      if (this.isDarkMode) {
-        document.documentElement.classList.add('is-dark')
-        document.documentElement.classList.remove('is-light')
+      if (this.theme === 'auto') {
+        this.theme = 'dark'
+      } else if (this.theme === 'dark') {
+        this.theme = 'light'
       } else {
-        document.documentElement.classList.add('is-light')
-        document.documentElement.classList.remove('is-dark')
+        this.theme = 'auto'
       }
 
-      // Persist theme preference
-      localStorage.setItem('theme', this.theme)
+      this.applyTheme()
     },
+
     initializeTheme() {
       const savedTheme = localStorage.getItem('theme')
-      if (savedTheme) {
-        this.isDarkMode = savedTheme === 'dark'
+      this.theme = savedTheme || 'auto'
+
+      this.applyTheme()
+    },
+
+    detectSystemTheme() {
+      if (this.theme === 'auto') {
+        const prefersAuto = window.matchMedia('(prefers-color-scheme: auto)').matches
+
+        document.documentElement.classList.remove('is-dark', 'is-light')
+        document.documentElement.setAttribute('data-theme', 'auto')
+
+        if (prefersAuto) {
+          console.log('System prefers dark mode.')
+          document.documentElement.classList.add('is-dark')
+        } else {
+          console.log('System prefers light mode.')
+          document.documentElement.classList.add('is-light')
+        }
+      }
+    },
+
+    applyTheme(forcedTheme = null) {
+      const themeToApply = forcedTheme || this.theme
+
+      document.documentElement.setAttribute('data-theme', themeToApply)
+
+      document.documentElement.classList.remove('is-dark', 'is-light')
+      if (themeToApply === 'dark') {
+        document.documentElement.classList.add('is-dark')
+      } else if (themeToApply === 'light') {
+        document.documentElement.classList.add('is-light')
       }
 
-      // Apply the initial theme on page load
-      document.documentElement.setAttribute('data-theme', this.theme)
-      if (this.isDarkMode) {
-        document.documentElement.classList.add('is-dark')
-      } else {
-        document.documentElement.classList.add('is-light')
+      if (!forcedTheme) {
+        localStorage.setItem('theme', this.theme)
       }
     }
   }
