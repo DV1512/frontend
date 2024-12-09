@@ -1,22 +1,29 @@
-<script setup lang="ts">
-import { RouterLink } from 'vue-router'
+<script lang="ts">
+import { mapState } from 'pinia'
 import TheContainer from '@/components/TheContainer.vue'
-import { computed } from 'vue'
 import { userStore } from './stores/userStore'
 
-const store = userStore()
-const welcomeMessage = computed(() => {
-  return store.isLoggedIn && store.user?.first_name
-    ? `Welcome, ${store.user.first_name} ! Press the button below to start chatting.`
-    : 'You are logged out'
-})
+export default {
+  components: {
+    TheContainer
+  },
+  computed: {
+    ...mapState(userStore, ['isLoggedIn', 'user']),
+    welcomeMessage() {
+      return 'Press the button below to start chatting.'
+    }
+  }
+}
 </script>
 
 <template>
   <div class="app-container">
     <TheContainer>
-      <div class="content">
+      <template #heading>Welcome {{ user?.username }}!</template>
+      <div class="columns is-centered">
         <h1>{{ welcomeMessage }}</h1>
+      </div>
+      <div class="columns is-centered mt-5">
         <RouterLink to="/chat">
           <button class="button is-primary custom-button">Start chat</button>
         </RouterLink>
@@ -29,6 +36,7 @@ const welcomeMessage = computed(() => {
 .custom-button {
   width: 250px;
   margin: 0 80px;
+  margin-bottom: 1rem;
 }
 
 .mt-5 {
