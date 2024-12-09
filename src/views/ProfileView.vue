@@ -43,22 +43,13 @@ export default {
       }
     },
     isFormValid() {
-      if (
+      return (
         this.userInfo.username &&
         this.userInfo.email &&
         this.userInfo.firstName &&
         this.userInfo.lastName &&
         (!this.password || this.password === this.confirmPassword)
-      ) {
-        return (
-          this.userInfo.username &&
-          this.userInfo.email &&
-          this.userInfo.firstName &&
-          this.userInfo.lastName &&
-          (!this.password || this.password === this.confirmPassword)
-        )
-      }
-      return false
+      )
     }
   },
   methods: {
@@ -224,7 +215,7 @@ export default {
           <button
             type="submit"
             class="button is-primary custom-button"
-            :disabled="!isFormValid"
+            :disabled="!isFormValid || isLoading"
             @click="handleProfileUpdateClick"
           >
             Update Profile
