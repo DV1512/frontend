@@ -16,7 +16,8 @@ export default {
       deleteError: '',
       statusMessage: '',
       showPopup: false,
-      showDeletePopup: false
+      showDeletePopup: false,
+      showUpdatePopup: false
     }
   },
   computed: {
@@ -60,7 +61,12 @@ export default {
       return useThemeStore()
     },
 
-    async handleProfileUpdateClick() {
+    handleProfileUpdateClick() {
+      this.showUpdatePopup = true
+    },
+
+    async confirmUpdate() {
+      this.showUpdatePopup = false
       this.isLoading = true
       this.statusMessage = ''
       try {
@@ -79,6 +85,10 @@ export default {
       } finally {
         this.isLoading = false
       }
+    },
+
+    cancelUpdate() {
+      this.showUpdatePopup = false
     },
 
     async confirmDelete() {
@@ -227,6 +237,20 @@ export default {
             Update Profile
           </button>
         </div>
+      </div>
+      <div v-if="showUpdatePopup" class="modal-overlay">
+        <section class="section">
+          <section class="box">
+            <p>Confirm Update</p>
+            <p>Are you sure you want to update your profile?</p>
+            <div class="modal-actions">
+              <button @click="confirmUpdate" class="button is-primary custom-button">
+                Yes, Update
+              </button>
+              <button @click="cancelUpdate" class="button custom-button">Cancel</button>
+            </div>
+          </section>
+        </section>
       </div>
 
       <div class="columns is-centered mt-5">
