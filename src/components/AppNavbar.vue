@@ -62,6 +62,9 @@ export default {
         <RouterLink to="/documentation" class="navbar-item">Documentation</RouterLink>
       </div>
       <div v-if="isLoggedIn" class="navbar-end">
+        <RouterLink to="/chat" class="navbar-item">
+          <Icon icon="mdi:chat" class="icon-size" />
+        </RouterLink>
         <RouterLink to="/profile" class="navbar-item">
           <Icon icon="mdi:account" class="icon-size" />
         </RouterLink>
