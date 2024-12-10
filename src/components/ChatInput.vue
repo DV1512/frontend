@@ -20,7 +20,7 @@ const sendMessage = () => {
         v-model="message"
         @keyup.enter="sendMessage"
         type="text"
-        placeholder="Type your message..."
+        placeholder="Type your message or attach files......"
         class="input"
       />
     </div>

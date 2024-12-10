@@ -9,25 +9,30 @@ export const chatStore = defineStore('chatStore', {
       data?: any
     }>,
     isAnalysisComplete: false,
-    loading: false
+    loading: false,
+    uploadedFiles: [] as Array<{ name: string; type: string }>
   }),
 
   actions: {
-    async sendMessage(prompt: string) {
+    async sendMessage(prompt: string, uploadedFiles: { name: string; type: string }[]) {
       if (this.isAnalysisComplete) {
         console.warn('Analysis is already complete. Reset to start a new one.')
         return
       }
-
-      this.messages.push({ sender: 'user', text: prompt })
+      const userMessage = {
+        sender: 'user',
+        text: prompt,
+        data: uploadedFiles.length ? { files: uploadedFiles } : null
+      }
+      this.messages.push(userMessage)
       this.loading = true
-
       try {
         chatService.setPrompt(prompt)
-
+        if (uploadedFiles.length) {
+          chatService.setFiles(uploadedFiles)
+        }
         const response = await chatService.sendMessage()
         console.log('Received response from API:', response)
-
         const botMessage = {
           sender: 'bot',
           text: `Analysis complete! Here are the details: \n\nID: ${response.id} \nName: ${response.name} \nDescription: ${response.description} \nAssociated Names: ${response.associated_names} \nURL: ${response.url}`,
@@ -39,7 +44,6 @@ export const chatStore = defineStore('chatStore', {
             url: response.url
           }
         }
-
         this.messages.push(botMessage)
         this.isAnalysisComplete = true
       } catch (error) {
@@ -52,10 +56,22 @@ export const chatStore = defineStore('chatStore', {
         this.loading = false
       }
     },
-
     resetChat() {
       this.messages = []
       this.isAnalysisComplete = false
+      this.uploadedFiles = []
+      console.log('Chat reset successfully.')
+    },
+    addUploadedFiles(files: Array<{ name: string; type: string }>) {
+      this.uploadedFiles.push(...files)
+      this.messages.push(
+        ...files.map((file) => ({
+          sender: 'user',
+          text: `Uploaded file: ${file.name}`,
+          data: file
+        }))
+      )
+      console.log('Files uploaded:', files)
     }
   }
 })

@@ -71,7 +71,7 @@ const sendFiles = () => {
         <span>{{ file.name }} ({{ file.type }})</span>
         <button class="button is-danger is-small" @click="removeFile(index)">Remove</button>
       </div>
-      <button class="button is-primary is-small" @click="sendFiles">Send Files</button>
+      <button class="button is-primary is-small" @click="sendFiles">Upload</button>
     </div>
   </div>
 </template>
