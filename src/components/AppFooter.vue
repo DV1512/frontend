@@ -1,6 +1,13 @@
-<script setup>
+<script>
 import { Icon } from '@iconify/vue'
 import { RouterLink } from 'vue-router'
+
+export default {
+  components: {
+    Icon,
+    RouterLink
+  }
+}
 </script>
 
 <template>

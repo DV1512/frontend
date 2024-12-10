@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { GetUserByFilter, User } from 'sdk'
 import authService from '../services/authService'
+import userService from '../services/userService'
 import { getUser } from 'sdk'
 
 export const userStore = defineStore('userStore', {
@@ -75,6 +76,37 @@ export const userStore = defineStore('userStore', {
       console.log('User info fetched successfully:', userInfo)
     },
 
+    async updateUser(
+      username: string,
+      email: string,
+      first_name: string,
+      last_name: string,
+      password: string
+    ) {
+      if (!this.user) {
+        console.error('No user available for update')
+        return false
+      }
+      this.loading = true
+      try {
+        await userService.updateUser(username, email, first_name, last_name, password)
+        const token = authService.getAccessToken()
+        if (!token) {
+          console.error('Failed to get access token')
+          return false
+        }
+        setTimeout(async () => {
+          await this.getUserInfo(token)
+        }, 0)
+        console.log('User info for update fetched successfully')
+        return true
+      } catch (error) {
+        console.error('User update failed', error)
+      } finally {
+        this.loading = false
+      }
+    },
+
     async logout(): Promise<void> {
       try {
         await authService.logout()
@@ -82,6 +114,25 @@ export const userStore = defineStore('userStore', {
         this.loading = false
       } catch (error) {
         console.error('Logout failed', error)
+      }
+    },
+
+    async delete() {
+      if (!this.user) {
+        console.error('No user available for deletion')
+        return
+      }
+
+      this.loading = true
+
+      try {
+        await userService.deleteUser()
+        this.user = null
+        console.log('User deleted successfully')
+      } catch (error) {
+        console.error('User deletion failed', error)
+      } finally {
+        this.loading = false
       }
     }
   }
