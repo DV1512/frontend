@@ -1,7 +1,3 @@
-<template>
-  <h1>Redirecting</h1>
-</template>
-
 <script lang="ts">
 import authService from './services/authService'
 import { mapActions } from 'pinia'
@@ -28,3 +24,7 @@ export default {
   }
 }
 </script>
+
+<template>
+  <h1>Redirecting</h1>
+</template>
