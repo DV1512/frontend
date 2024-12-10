@@ -1,5 +1,11 @@
-<script setup lang="ts">
+<script lang="ts">
 import TheContainer from '@/components/TheContainer.vue'
+
+export default {
+  components: {
+    TheContainer
+  }
+}
 </script>
 
 <template>
