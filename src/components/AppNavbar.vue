@@ -26,7 +26,7 @@ export default {
         const UserStore = userStore()
         await UserStore.logout()
         console.log('Logout successful')
-        this.$router.push({ name: 'login' })
+        this.$router.push({ name: 'start' })
       } catch (error) {
         this.logoutError = 'An error occurred during logout. Please try again.'
         console.error('Logout failed:', error)
@@ -62,6 +62,9 @@ export default {
         <RouterLink to="/documentation" class="navbar-item">Documentation</RouterLink>
       </div>
       <div v-if="isLoggedIn" class="navbar-end">
+        <RouterLink to="/chat" class="navbar-item">
+          <Icon icon="mdi:chat" class="icon-size" />
+        </RouterLink>
         <RouterLink to="/profile" class="navbar-item">
           <Icon icon="mdi:account" class="icon-size" />
         </RouterLink>

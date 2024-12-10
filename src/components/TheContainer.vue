@@ -11,8 +11,6 @@
   </section>
 </template>
 
-<script setup lang="ts"></script>
-
 <style scoped>
 h3 {
   font-size: 5rem;

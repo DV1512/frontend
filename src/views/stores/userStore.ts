@@ -76,52 +76,30 @@ export const userStore = defineStore('userStore', {
       console.log('User info fetched successfully:', userInfo)
     },
 
-    async updateUserDetails(updatedInfo: {
-      username: string
-      email: string
-      first_name: string
-      last_name: string
+    async updateUser(
+      username: string,
+      email: string,
+      first_name: string,
+      last_name: string,
       password: string
-    }) {
-      const updatedUser = await userService.updateUser(
-        updatedInfo.username,
-        updatedInfo.email,
-        updatedInfo.first_name,
-        updatedInfo.last_name,
-        updatedInfo.password
-      )
-
-      if (updatedUser) {
-        this.user = updatedUser
-        console.log('User store updated:', this.user)
-      } else {
-        console.error('Failed to update user details.')
-      }
-    },
-
-    async updateUser() {
+    ) {
       if (!this.user) {
         console.error('No user available for update')
-        return
+        return false
       }
-
       this.loading = true
-
       try {
-        const { username, email, first_name, last_name } = this.user
-        const password = ''
-        const updatedUser = await userService.updateUser(
-          username,
-          email,
-          first_name,
-          last_name,
-          password
-        )
-
-        if (updatedUser) {
-          this.user = { ...this.user, ...updatedUser }
-          console.log('User update successful')
+        await userService.updateUser(username, email, first_name, last_name, password)
+        const token = authService.getAccessToken()
+        if (!token) {
+          console.error('Failed to get access token')
+          return false
         }
+        setTimeout(async () => {
+          await this.getUserInfo(token)
+        }, 0)
+        console.log('User info for update fetched successfully')
+        return true
       } catch (error) {
         console.error('User update failed', error)
       } finally {

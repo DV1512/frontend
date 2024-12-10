@@ -80,6 +80,7 @@ class AuthService {
   public setAccessToken(token: string) {
     this.access_token = token
   }
+
   /**
    * logout
    */
@@ -89,7 +90,7 @@ class AuthService {
       return
     }
 
-    const url = import.meta.env.VITE_BACKEND_URL + '/api/v1/oauth/logout'
+    const url = import.meta.env.VITE_BACKEND_URL + '/api/v1/oauth/revoke'
     const options = {
       method: 'GET',
       headers: { Authorization: `Bearer ${this.access_token}` }
