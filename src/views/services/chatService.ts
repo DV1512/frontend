@@ -1,6 +1,6 @@
 class ChatService {
   private prompt: string = ''
-
+  private files: Array<{ name: string; type: string }> = []
   setPrompt(text: string) {
     if (!text || typeof text !== 'string' || text.trim() === '') {
       console.error('Invalid prompt: Ensure it is a non-empty string.')
@@ -9,9 +9,16 @@ class ChatService {
     this.prompt = text.trim()
     console.log('Prompt set successfully:', this.prompt)
   }
-
+  setFiles(files: Array<{ name: string; type: string }>) {
+    if (!Array.isArray(files)) {
+      console.error('Invalid files: Ensure it is an array of file objects.')
+      throw new Error('Invalid files')
+    }
+    this.files = files
+    console.log('Files set successfully:', this.files)
+  }
   async sendMessage() {
-    const payload = { text: this.prompt }
+    const payload = { text: this.prompt, files: this.files.length ? this.files : undefined }
 
     try {
       const response = await fetch('http://localhost:8000/chat/structured', {
