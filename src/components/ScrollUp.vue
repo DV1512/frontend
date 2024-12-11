@@ -1,27 +1,31 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+<script>
 import { Icon } from '@iconify/vue'
 
-const showBackToTop = ref(false)
-
-const handleScroll = () => {
-  showBackToTop.value = window.scrollY > 100 // Show if scrolled more than 100px
+export default {
+  components: { Icon },
+  data() {
+    return {
+      showBackToTop: false
+    }
+  },
+  methods: {
+    handleScroll() {
+      this.showBackToTop = window.scrollY > 100 // Show if scrolled more than 100px
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
 }
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  })
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
 </script>
 
 <template>
