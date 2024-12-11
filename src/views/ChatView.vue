@@ -88,15 +88,7 @@ export default {
         <section class="section">
           <div class="field is-grouped">
             <fileInput @upload="handleFileUpload" />
-            <input
-              v-model="message"
-              type="text"
-              placeholder="Type your message or attach files..."
-              class="input"
-            />
-            <button @click="sendMessage" class="button is-primary">
-              <Icon icon="mdi:send" class="icon-size" />
-            </button>
+            <ChatInput @send="sendMessage" />
           </div>
 
           <div v-if="uploadedFiles.length" class="uploaded-files mt-2">
