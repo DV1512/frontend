@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 import { userStore } from './stores/userStore'
 import TheContainer from '@/components/TheContainer.vue'
 import OAuthButton from '@/components/OAuthButton.vue'
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 export default {
   components: {
@@ -125,10 +126,10 @@ export default {
       }
     },
     handleOAuthClick(method: string) {
-      if (method === 'handleGoogleSignUpClick') {
-        window.location.href = 'http://localhost:9999/api/v1/oauth/google/signup'
-      } else if (method === 'handleGithubSignUpClick') {
-        window.location.href = 'http://localhost:9999/api/v1/oauth/github/signup'
+      if (method === 'handleGoogleLoginClick') {
+        window.location.href = VITE_BACKEND_URL + '/api/v1/oauth/google/login'
+      } else if (method === 'handleGithubLoginClick') {
+        window.location.href = VITE_BACKEND_URL + '/api/v1/oauth/github/signup'
       }
     }
   }
