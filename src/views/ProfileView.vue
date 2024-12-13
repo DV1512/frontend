@@ -171,98 +171,71 @@ export default {
     <TheContainer v-if="isLoggedIn">
       <template #heading>{{ userInfo.firstName + ' ' + userInfo.lastName }}</template>
 
-      <div class="columns is-centered">
+      <form @submit.prevent="handleProfileUpdateClick">
         <div class="field">
-          <label class="label">First Name</label>
+          <label class="label">Name</label>
           <div class="control">
             <input
               type="text"
-              v-model="userInfo.firstName"
+              v-model="store.user.first_name"
               class="input"
-              placeholder="First Name"
+              placeholder="Name"
               required
             />
           </div>
         </div>
-      </div>
 
-      <div class="columns is-centered">
-        <div class="field">
-          <label class="label">Last Name</label>
-          <div class="control">
-            <input
-              type="text"
-              v-model="userInfo.lastName"
-              class="input"
-              placeholder="Last Name"
-              required
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="columns is-centered">
-        <div class="field">
-          <label class="label">Email</label>
-          <div class="control">
-            <input
-              type="email"
-              v-model="userInfo.email"
-              class="input"
-              placeholder="Email"
-              required
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="columns is-centered">
         <div class="field">
           <label class="label">Username</label>
           <div class="control">
             <input
               type="text"
-              v-model="userInfo.username"
+              v-model="store.user.username"
               class="input"
               placeholder="Username"
               required
             />
           </div>
         </div>
-      </div>
 
-      <div class="columns is-centered">
         <div class="field">
-          <label class="label">Password</label>
+          <label class="label">Email</label>
+          <div class="control">
+            <input
+              type="email"
+              v-model="store.user.email"
+              class="input"
+              placeholder="Email"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">New Password (leave blank to keep current password)</label>
           <div class="control">
             <input
               type="password"
               v-model="password"
               class="input"
-              placeholder="Password"
+              placeholder="New Password"
               minlength="8"
             />
           </div>
         </div>
-      </div>
 
-      <div class="columns is-centered">
         <div class="field">
-          <label class="label">Confirm Password</label>
+          <label class="label">Confirm New Password</label>
           <div class="control">
             <input
               type="password"
               v-model="confirmPassword"
               class="input"
-              placeholder="Confirm Password"
+              placeholder="Confirm New Password"
               minlength="8"
             />
-            <p v-if="password !== confirmPassword" class="help is-danger">
-              Passwords do not match.
-            </p>
           </div>
         </div>
-      </div>
 
       <div class="columns is-centered mt-5">
         <div class="column is-narrow">

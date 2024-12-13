@@ -1,14 +1,22 @@
 <script lang="ts">
 import TheContainer from '@/components/TheContainer.vue'
 import ChatArea from '@/components/ChatArea.vue'
-import ChatInput from '@/components/ChatInput.vue'
+import fileInput from '@/components/fileInput.vue'
 import { chatStore } from './stores/chatStore'
+import ChatInput from '@/components/ChatInput.vue'
 
 export default {
   components: {
     TheContainer,
     ChatArea,
+    fileInput,
     ChatInput
+  },
+  data() {
+    return {
+      message: '',
+      uploadedFiles: [] as Array<{ name: string; type: string }>
+    }
   },
   computed: {
     chatStore() {
@@ -17,19 +25,38 @@ export default {
     messages() {
       return this.chatStore.messages
     },
-    isAnalysisComplete() {
-      return this.chatStore.isAnalysisComplete
-    },
-    loading() {
-      return this.chatStore.loading
+    fileNames() {
+      return this.uploadedFiles.map((file) => file.name).join(', ')
     }
   },
   methods: {
-    async sendMessage(text: string) {
-      await this.chatStore.sendMessage(text)
+    async sendMessage() {
+      if (!this.message.trim() && !this.uploadedFiles.length) {
+        return
+      }
+
+      const fileText = this.uploadedFiles.length ? `Uploaded file(s): ${this.fileNames}` : ''
+
+      const fullMessage = [this.message.trim(), fileText].filter(Boolean).join('\n')
+
+      this.chatStore.messages.push({
+        sender: 'user',
+        text: fullMessage,
+        data: this.uploadedFiles.length ? { files: this.uploadedFiles } : null
+      })
+
+      await this.chatStore.sendMessage(fullMessage, this.uploadedFiles)
+
+      this.message = ''
+      this.uploadedFiles = []
+    },
+    handleFileUpload(files: Array<{ name: string; type: string }>) {
+      this.uploadedFiles.push(...files)
     },
     resetChat() {
       this.chatStore.resetChat()
+      this.message = ''
+      this.uploadedFiles = []
     }
   }
 }
@@ -58,18 +85,17 @@ export default {
 
         <ChatArea :messages="messages" />
 
-        <section
-          v-if="!isAnalysisComplete"
-          class="section is-flex is-justify-content-center is-align-items-center"
-        >
-          <ChatInput @send="sendMessage" />
-        </section>
+        <section class="section">
+          <div class="field is-grouped">
+            <fileInput @upload="handleFileUpload" />
+            <ChatInput @send="sendMessage" />
+          </div>
 
-        <section v-else class="section is-flex is-justify-content-center is-align-items-center">
-          <p class="has-text-centered mb-4">
-            The analysis is complete. Please press the button to start a new one.
-          </p>
-          <button class="button is-primary" @click="resetChat">Start New Analysis</button>
+          <div v-if="uploadedFiles.length" class="uploaded-files mt-2">
+            <div v-for="(file, index) in uploadedFiles" :key="index" class="uploaded-file">
+              <span>{{ file.name }} ({{ file.type }})</span>
+            </div>
+          </div>
         </section>
       </div>
     </div>
