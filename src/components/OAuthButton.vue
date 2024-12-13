@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     handleClick() {
-      const method = `handle${this.capitalize(this.provider)}${this.capitalize(this.action)}Click`
+      const method = `handle${this.capitalize(this.provider)}${this.capitalize('login')}Click`
       this.$emit('click', method)
     },
     capitalize(word) {
