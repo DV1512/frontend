@@ -1,15 +1,22 @@
-<script setup>
-import { defineProps } from 'vue'
+<script>
 import ChatMessage from './ChatMessage.vue'
 
-const props = defineProps({
-  messages: Array
-})
+export default {
+  components: {
+    ChatMessage
+  },
+  props: {
+    messages: {
+      type: Array,
+      required: true
+    }
+  }
+}
 </script>
 
 <template>
   <div class="chat-area">
-    <ChatMessage v-for="(message, index) in props.messages" :key="index" :message="message" />
+    <ChatMessage v-for="(message, index) in messages" :key="index" :message="message" />
   </div>
 </template>
 

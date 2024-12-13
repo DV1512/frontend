@@ -1,9 +1,17 @@
-<script setup lang="ts"></script>
+<script lang="ts">
+import TheContainer from '@/components/TheContainer.vue'
+
+export default {
+  components: {
+    TheContainer
+  }
+}
+</script>
 
 <template>
-  <section class="section">
-    <div class="container">
+  <div class="content">
+    <TheContainer>
       <h1 class="title has-text-centered">ThreatMapperAI</h1>
-    </div>
-  </section>
+    </TheContainer>
+  </div>
 </template>

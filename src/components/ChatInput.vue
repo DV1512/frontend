@@ -1,14 +1,21 @@
-<script setup>
-import { ref, defineEmits } from 'vue'
+<script>
 import { Icon } from '@iconify/vue'
 
-const message = ref('')
-const emit = defineEmits(['send'])
-
-const sendMessage = () => {
-  if (message.value.trim()) {
-    emit('send', message.value)
-    message.value = ''
+export default {
+  components: { Icon },
+  emits: ['send'],
+  data() {
+    return {
+      message: ''
+    }
+  },
+  methods: {
+    sendMessage() {
+      if (this.message.trim()) {
+        this.$emit('send', this.message.trim())
+        this.message = ''
+      }
+    }
   }
 }
 </script>
@@ -22,10 +29,11 @@ const sendMessage = () => {
         type="text"
         placeholder="Type your message..."
         class="input"
+        aria-label="Message input"
       />
     </div>
     <div class="control">
-      <button @click="message.trim() && emit('send', message)" class="button is-primary">
+      <button @click="sendMessage" class="button is-primary" aria-label="Send message">
         <Icon icon="mdi:send" class="icon-size" />
       </button>
     </div>

@@ -1,7 +1,3 @@
-<template>
-  <h1>Redirecting</h1>
-</template>
-
 <script lang="ts">
 import authService from './services/authService'
 import { mapActions } from 'pinia'
@@ -21,10 +17,18 @@ export default {
   mounted() {
     const token = this.accessToken
     if (token != null) {
-      authService.setAccessToken(token)
-      this.getUserInfo(token)
+      if (typeof token === 'string') {
+        authService.setAccessToken(token)
+      }
+      if (typeof token === 'string') {
+        this.getUserInfo(token)
+      }
       this.$router.push({ name: 'home' })
     }
   }
 }
 </script>
+
+<template>
+  <h1>Redirecting</h1>
+</template>
